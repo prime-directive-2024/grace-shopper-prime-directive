@@ -2,7 +2,7 @@ const Sequelize = require('sequelize');
 const db = require('../db');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
-const axios = require('axios');
+const Order = require('./Order.js');
 
 const SALT_ROUNDS = 5;
 
@@ -35,6 +35,21 @@ User.prototype.correctPassword = function (candidatePwd) {
 
 User.prototype.generateToken = function () {
   return jwt.sign({ id: this.id }, process.env.JWT);
+};
+
+User.prototype.order = async function () {
+  const albums = await this.getAlbums();
+  let albumId = [];
+  let total = 0;
+  //adding albums to order history
+  for (let i = 0; i < albums.length; i++) {
+    albumId.push(albums[i].id);
+    total = total + parseInt(albums[i].price);
+  }
+  const order = await Order.create({ albums: albumId, price: total });
+  this.addOrder(order);
+  //removing albums from cart
+  await this.removeAlbums(albums);
 };
 
 /**

@@ -6,6 +6,7 @@ const User = require('./models/User');
 const Artist = require('./models/Artist');
 const Album = require('./models/Album');
 const Song = require('./models/Song');
+const Order = require('./models/Order');
 //associations could go here!
 
 //Song belongs to one album
@@ -28,6 +29,11 @@ User.belongsToMany(Album, { through: 'cart' });
 //album melongs to many users
 Album.belongsToMany(User, { through: 'cart' });
 
+//order belongs to user
+Order.belongsTo(User);
+//user has many orders
+User.hasMany(Order);
+
 module.exports = {
   db,
   models: {
@@ -35,5 +41,6 @@ module.exports = {
     Album,
     Artist,
     User,
+    Order,
   },
 };

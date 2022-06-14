@@ -1,31 +1,41 @@
-"use strict";
+'use strict';
 const names = [
-  "Liam",
-  "Noah",
-  "Oliver",
-  "Elijah",
-  "James",
-  "William",
-  "Benjamin",
-  "Lucas",
-  "Henry",
-  "Theodore",
-  "Olivia",
-  "Emma",
-  "Charlotte",
-  "Amelia",
-  "Ava",
-  "Sophia",
-  "Isabella",
-  "Mia",
-  "Evelyn",
-  "Harper",
+  'Liam',
+  'Noah',
+  'Oliver',
+  'Elijah',
+  'James',
+  'William',
+  'Benjamin',
+  'Lucas',
+  'Henry',
+  'Theodore',
+  'Olivia',
+  'Emma',
+  'Charlotte',
+  'Amelia',
+  'Ava',
+  'Sophia',
+  'Isabella',
+  'Mia',
+  'Evelyn',
+  'Harper',
+];
+const genre = [
+  'Rock',
+  'Jazz',
+  'EDM',
+  'Dubstep',
+  'Techno',
+  'R&B',
+  'Country',
+  'Pop',
 ];
 
 const {
   db,
-  models: { User, Artist, Album, Song },
-} = require("../server/db");
+  models: { User, Artist, Album, Song, Order },
+} = require('../server/db');
 
 /**
  * seed - this function clears the database, updates tables to
@@ -33,20 +43,24 @@ const {
  */
 async function seed() {
   await db.sync({ force: true }); // clears db and matches models to tables
-  console.log("db synced!");
+  console.log('db synced!');
 
   // Creating Users
   const users = await Promise.all([
-    User.create({ username: "cody", password: "123" }),
-    User.create({ username: "murphy", password: "123" }),
+    User.create({ username: 'cody', password: '123' }),
+    User.create({ username: 'murphy', password: '123' }),
   ]);
+
+
+  //testing function
 
   const seedArtists = async (names) => {
     for (let i = 0; i < 10; i++) {
       const artist = await Artist.create({ name: names[i] });
-      console.log(artist);
       const album = await Album.create({
         title: `${names[i]}'s Album`,
+        price: Math.ceil(Math.random() * 35),
+        genre: genre[Math.floor(Math.random() * 8)],
       });
       await artist.addAlbum(album);
       const numberOfSongs = Math.ceil(Math.random() * 10);
@@ -56,8 +70,25 @@ async function seed() {
       }
       await users[Math.floor(Math.random() * 2)].addAlbum(album);
     }
+    const addToCart = async (userid) => {
+      const albums = await users[userid].getAlbums();
+      let albumId = [];
+      let total = 0;
+      //adding albums to order history
+      for (let i = 0; i < albums.length; i++) {
+        albumId.push(albums[i].id);
+        total = total + parseInt(albums[i].price);
+      }
+      const order = await Order.create({ albums: albumId, price: total });
+      users[userid].addOrder(order);
+      //removing albums from cart
+      await users[userid].removeAlbums(albums);
+    };
+    //end testing funciton
+    addToCart(0);
     return;
   };
+
   await seedArtists(names);
   console.log(`seeded successfully`);
 }
@@ -68,16 +99,16 @@ async function seed() {
  The `seed` function is concerned only with modifying the database.
 */
 async function runSeed() {
-  console.log("seeding...");
+  console.log('seeding...');
   try {
     await seed();
   } catch (err) {
     console.error(err);
     process.exitCode = 1;
   } finally {
-    console.log("closing db connection");
+    console.log('closing db connection');
     await db.close();
-    console.log("db connection closed");
+    console.log('db connection closed');
   }
 }
 

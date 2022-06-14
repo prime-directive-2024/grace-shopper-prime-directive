@@ -23,6 +23,11 @@ Album.belongsTo(Artist);
 //Album has many songs
 Album.hasMany(Song);
 
+//user belongs to many albums
+User.belongsToMany(Album, { through: 'cart' });
+//album melongs to many users
+Album.belongsToMany(User, { through: 'cart' });
+
 module.exports = {
   db,
   models: {

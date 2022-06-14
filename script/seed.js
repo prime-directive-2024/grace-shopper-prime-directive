@@ -34,6 +34,9 @@ async function seed() {
     Song.create({ title: 'Bobs song', AlbumId: 2, ArtistId: 2 }),
   ]);
 
+  //assigning albums to user
+  users[0].addAlbums(albums);
+
   console.log(`seeded ${users.length} users`);
   console.log(`seeded successfully`);
   return {

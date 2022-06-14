@@ -1,5 +1,5 @@
 {
-  "name": "fs-app-template",
+  "name": "jamazon-prime",
   "version": "2.0.0",
   "description": "Some boilerplate code to get you started - get shakin'!",
   "main": "index.js",
@@ -19,7 +19,7 @@
     "windows-build": "cross-env NODE_ENV=shh",
     "windows-server": "cross-env JWT=shh node server"
   },
-  "author": "Fullstack Academy of Code",
+  "author": "team-prime",
   "license": "MIT",
   "dependencies": {
     "axios": "^0.21.1",

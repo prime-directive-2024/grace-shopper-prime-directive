@@ -34,7 +34,7 @@ const genre = [
 
 const {
   db,
-  models: { User, Artist, Album, Song, Order },
+  models: { User, Artist, Album, Song },
 } = require('../server/db');
 
 /**
@@ -50,7 +50,6 @@ async function seed() {
     User.create({ username: 'cody', password: '123' }),
     User.create({ username: 'murphy', password: '123' }),
   ]);
-
 
   //testing function
 
@@ -70,22 +69,9 @@ async function seed() {
       }
       await users[Math.floor(Math.random() * 2)].addAlbum(album);
     }
-    const addToCart = async (userid) => {
-      const albums = await users[userid].getAlbums();
-      let albumId = [];
-      let total = 0;
-      //adding albums to order history
-      for (let i = 0; i < albums.length; i++) {
-        albumId.push(albums[i].id);
-        total = total + parseInt(albums[i].price);
-      }
-      const order = await Order.create({ albums: albumId, price: total });
-      users[userid].addOrder(order);
-      //removing albums from cart
-      await users[userid].removeAlbums(albums);
-    };
-    //end testing funciton
-    addToCart(0);
+    //execute order
+    await users[1].order();
+
     return;
   };
 

@@ -8,15 +8,12 @@ module.exports = router;
 router.get("/:id", async (req, res, next) => {
   try {
     const song = await Song.findByPk(req.params.id, {
-      attributes: ["id", "title"],
       include: [
         {
           model: Artist,
-          attributes: ["id", "name", "img_url"],
         },
         {
           model: Album,
-          attributes: ["id", "title"],
         },
       ],
     });

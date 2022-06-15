@@ -24,7 +24,8 @@ class Routes extends Component {
           <div>
             <Switch>
               <Route path="/home" component={Home} />
-              <Redirect to="/home" />
+              <Redirect from={'/login' && '/signup'} to="/home" />
+              {/* <Redirect from="/signup" to="/home" /> */}
             </Switch>
             <Route exact path="/home" component={AlbumView} />
           </div>
@@ -32,7 +33,7 @@ class Routes extends Component {
           <Switch>
             <Route exact path="/login" component={Login} />
             <Route path="/signup" component={Signup} />
-            <Route path="/" component={AlbumView} />
+            <Route exact path="/" component={AlbumView} />
           </Switch>
         )}
         <Switch>

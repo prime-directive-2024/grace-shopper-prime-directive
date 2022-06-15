@@ -1,34 +1,40 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { getSingleAlbum } from '../store/albums';
+import { getSingleAlbum } from '../store/singleAlbum';
 
 class SingleAlbumView extends React.Component {
   componentDidMount() {
-    const id = this.req.match.params.id;
+    const id = this.props.match.params.id;
     this.props.getSingleAlbum(id);
   }
 
   //
   render() {
-    const album = this.props.albums || {};
-    return album.map((track) => (
-      <div key={track.title}>
-        {/* need to update key to id */}
-        <div>
-          <p>{track.title}</p>
-          {/* <p>by {track.Artist.name}</p> */}
-        </div>
+    const album = this.props.album || {};
+    const songs = album.Songs || [];
+    console.log(album);
+    return (
+      <div>
+        <h1>
+          {album.title} ${album.price}
+        </h1>
+        <img src={album.img_url} />
+        <ul>
+          {songs.map((song) => (
+            <li key={song.id}>{song.title}</li>
+          ))}
+        </ul>
       </div>
-    ));
+    );
   }
 }
 
 const mapStateToProps = (state) => ({
-  albums: state.singleAlbum,
+  album: state.singleAlbum,
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  getAllAlbums: (id) => {
+  getSingleAlbum: (id) => {
     dispatch(getSingleAlbum(id));
   },
 });

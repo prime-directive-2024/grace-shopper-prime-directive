@@ -1,6 +1,5 @@
 import React from 'react';
 
-import AlbumView from './components/AlbumView';
 import Navbar from './components/Navbar';
 import Routes from './Routes';
 
@@ -9,7 +8,6 @@ const App = () => {
     <div>
       <Navbar />
       <Routes />
-      <AlbumView />
     </div>
   );
 };

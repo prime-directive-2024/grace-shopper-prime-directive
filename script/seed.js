@@ -1,41 +1,41 @@
-'use strict';
+"use strict";
 const names = [
-  'Liam',
-  'Noah',
-  'Oliver',
-  'Elijah',
-  'James',
-  'William',
-  'Benjamin',
-  'Lucas',
-  'Henry',
-  'Theodore',
-  'Olivia',
-  'Emma',
-  'Charlotte',
-  'Amelia',
-  'Ava',
-  'Sophia',
-  'Isabella',
-  'Mia',
-  'Evelyn',
-  'Harper',
+  "Liam",
+  "Noah",
+  "Oliver",
+  "Elijah",
+  "James",
+  "William",
+  "Benjamin",
+  "Lucas",
+  "Henry",
+  "Theodore",
+  "Olivia",
+  "Emma",
+  "Charlotte",
+  "Amelia",
+  "Ava",
+  "Sophia",
+  "Isabella",
+  "Mia",
+  "Evelyn",
+  "Harper",
 ];
 const genre = [
-  'Rock',
-  'Jazz',
-  'EDM',
-  'Dubstep',
-  'Techno',
-  'R&B',
-  'Country',
-  'Pop',
+  "Rock",
+  "Jazz",
+  "EDM",
+  "Dubstep",
+  "Techno",
+  "R&B",
+  "Country",
+  "Pop",
 ];
 
 const {
   db,
   models: { User, Artist, Album, Song },
-} = require('../server/db');
+} = require("../server/db");
 
 /**
  * seed - this function clears the database, updates tables to
@@ -43,12 +43,12 @@ const {
  */
 async function seed() {
   await db.sync({ force: true }); // clears db and matches models to tables
-  console.log('db synced!');
+  console.log("db synced!");
 
   // Creating Users
   const users = await Promise.all([
-    User.create({ username: 'cody', password: '123' }),
-    User.create({ username: 'murphy', password: '123' }),
+    User.create({ username: "cody", password: "123" }),
+    User.create({ username: "murphy", password: "123" }),
   ]);
 
   //testing function
@@ -66,6 +66,7 @@ async function seed() {
       for (let j = 0; j < numberOfSongs; j++) {
         const song = await Song.create({ title: `${names[i]}'s song ${j}` });
         await album.addSong(song);
+        await artist.addSong(song);
       }
       await users[Math.floor(Math.random() * 2)].addAlbum(album);
     }
@@ -85,16 +86,16 @@ async function seed() {
  The `seed` function is concerned only with modifying the database.
 */
 async function runSeed() {
-  console.log('seeding...');
+  console.log("seeding...");
   try {
     await seed();
   } catch (err) {
     console.error(err);
     process.exitCode = 1;
   } finally {
-    console.log('closing db connection');
+    console.log("closing db connection");
     await db.close();
-    console.log('db connection closed');
+    console.log("db connection closed");
   }
 }
 

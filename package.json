@@ -17,7 +17,7 @@
     "test:dev:models": "npm run test:dev -- --grep=model",
     "test:dev:routes": "npm run test:dev -- --grep=route",
     "windows-build": "cross-env NODE_ENV=shh",
-    "windows-server": "cross-env JWT=shh node server"
+    "windows-server": "cross-env JWT=shh nodemon server"
   },
   "author": "team-prime",
   "license": "MIT",

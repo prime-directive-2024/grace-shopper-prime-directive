@@ -27,7 +27,6 @@ const intiialState = [];
 export default function albumsReducer(state = intiialState, action) {
   switch (action.type) {
     case GET_ALL_ALBUMS:
-      console.log(action.albums);
       return action.albums;
     default:
       return state;

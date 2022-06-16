@@ -11,12 +11,15 @@ router.get('/basket/:id', async (req, res, next) => {
   try {
     //receives cartId & sends back all albums inside cart
     const id = req.params.id;
-    const cart = await Cart.findByPk(id, {
+    const cart = await Cart.findAll({
+      where: {
+        userId: id,
+      },
       include: {
         model: Album,
       },
     });
-    res.json(cart.Albums);
+    res.json(cart[0].Albums);
   } catch (error) {
     next(error);
   }

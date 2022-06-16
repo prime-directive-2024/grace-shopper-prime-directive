@@ -61,15 +61,15 @@ async function seed() {
     const cart = await Cart.create();
     await users[1].addCart(cart.id);
 
-    for (let i = 0; i < 8; i++) {
+    for (let i = 0; i < 10; i++) {
       const artist = await Artist.create({ name: names[i] });
       const album = await Album.create({
         title: `${names[i]}'s Album`,
-        price: Math.ceil((i + 1) * 2),
-        genre: genre[i],
+        price: Math.ceil(Math.random() * 35),
+        genre: genre[Math.floor(Math.random() * 8)],
       });
       await artist.addAlbum(album);
-      const numberOfSongs = 10;
+      const numberOfSongs = Math.ceil(Math.random() * 10);
       for (let j = 0; j < numberOfSongs; j++) {
         const song = await Song.create({ title: `${names[i]}'s song ${j}` });
         await album.addSong(song);
@@ -77,16 +77,15 @@ async function seed() {
       }
 
       //order.addUser(user.id)
-      const temp = await cart.addAlbum(i + 1);
+      const temp = await cart.addAlbum(i);
       //const cartItem = album.addOrder(order)
       if (temp) {
-        await temp[0].update({ price: album.price, quantity: i + 1 });
+        await temp[0].update({ price: i, quantity: i });
       }
 
       //cartItem.price += 10
       // cartItem.quantity += 1
     }
-    await users[1].checkout(1);
     // const order = await AlbumOrder.findAll({ where: { OrderId: 2 } });
     return;
   };

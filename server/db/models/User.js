@@ -1,8 +1,12 @@
+/** @format */
+
 const Sequelize = require('sequelize');
 const db = require('../db');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const Order = require('./Order.js');
+const Cart = require('./Cart');
+const Album = require('./Album');
 
 const SALT_ROUNDS = 5;
 
@@ -41,21 +45,49 @@ User.prototype.correctPassword = function (candidatePwd) {
 User.prototype.generateToken = function () {
   return jwt.sign({ id: this.id }, process.env.JWT);
 };
+User.prototype.checkout = async function (cartId) {
+  const cart = await Cart.findByPk(cartId, {
+    include: [
+      {
+        model: Album,
+      },
+    ],
+  });
 
-User.prototype.order = async function () {
-  const albums = await this.getAlbums();
-  let albumId = [];
-  let total = 0;
-  //adding albums to order history
-  for (let i = 0; i < albums.length; i++) {
-    albumId.push(albums[i].id);
-    total = total + parseInt(albums[i].price);
+  let totalPrice = 0;
+  for (let i = 0; i < cart.Albums.length; i++) {
+    totalPrice +=
+      parseInt(cart.Albums[i].dataValues.albumCart.dataValues.price) *
+      parseInt(cart.Albums[i].dataValues.albumCart.dataValues.quantity);
   }
-  const order = await Order.create({ albums: albumId, price: total });
+  const order = await Order.create({ totalPrice: parseInt(totalPrice) });
   this.addOrder(order);
-  //removing albums from cart
-  await this.removeAlbums(albums);
+  for (let i = 0; i < cart.Albums.length; i++) {
+    const temp = await order.addAlbum(parseInt(cart.Albums[i].dataValues.id));
+
+    await temp[0].update({
+      quantity: cart.Albums[i].dataValues.albumCart.dataValues.quantity,
+    });
+  }
+  await Cart.destroy({
+    where: { userId: this.id },
+  });
 };
+
+// User.prototype.order = async function () {
+//   const albums = await this.getAlbums();
+//   let albumId = [];
+//   let total = 0;
+//   //adding albums to order history
+//   for (let i = 0; i < albums.length; i++) {
+//     albumId.push(albums[i].id);
+//     total = total + parseInt(albums[i].price);
+//   }
+//   const order = await Order.create({ albums: albumId, price: total });
+//   this.addOrder(order);
+//   //removing albums from cart
+//   await this.removeAlbums(albums);
+// };
 
 /**
  * classMethods
@@ -94,24 +126,7 @@ const hashPassword = async (user) => {
     user.password = await bcrypt.hash(user.password, SALT_ROUNDS);
   }
 };
-// const checkEmail = async (user) => {
-//   try {
-//     const existingUser = User.findAll({
-//       where: {
-//         email: user.email,
-//       },
-//     });
-//     if (existingUser) {
-//       const error = Error("This email is already in use!");
-//       error.status = 401;
-//       throw error;
-//     }
-//   } catch (error) {
-//     throw error;
-//   }
-// };
-// User.beforeCreate(checkEmail);
-// User.beforeUpdate(checkEmail);
+
 User.beforeCreate(hashPassword);
 User.beforeUpdate(hashPassword);
 User.beforeBulkCreate((users) => Promise.all(users.map(hashPassword)));

@@ -4,6 +4,7 @@ const router = require('express').Router();
 const {
   models: { User, Album, Cart },
 } = require('../db');
+const AlbumCart = require('../db/models/Album-Cart');
 module.exports = router;
 
 router.get('/basket/:id', async (req, res, next) => {
@@ -23,11 +24,36 @@ router.get('/basket/:id', async (req, res, next) => {
 
 router.post('/add', async (req, res, next) => {
   try {
-    //receives cartId & albumId and adds item from cart
+    //receives price, quantity, cartId & albumId and adds item from cart
+    const price = req.body.price;
+    const qty = req.body.quantity;
     const albumId = req.body.albumId;
     const cartId = req.body.cartId;
     const cart = await Cart.findByPk(cartId);
-    await cart.addAlbum(albumId);
+    const item = await cart.addAlbum(albumId);
+    await item.update({ price: price, quantity: qty });
+  } catch (error) {
+    next(error);
+  }
+});
+router.put('/update', async (req, res, next) => {
+  try {
+    //receives quantity, cartId & albumId and updates quantity of item in cart
+    const qty = req.body.quantity;
+    const AlbumId = req.body.AlbumId;
+    const cartId = req.body.cartId;
+    const cartItem = await AlbumCart.findAll({
+      where: {
+        cartId: cartId,
+        AlbumId: AlbumId,
+      },
+    });
+    if (cartItem) {
+      await cartItem[0].update({ quantity: qty });
+      res.sendStatus(200);
+    } else {
+      throw Error;
+    }
   } catch (error) {
     next(error);
   }
@@ -54,9 +80,15 @@ router.delete('/delete-all', async (req, res, next) => {
   try {
     //Receives cartId and deletes entire cart
     const cartId = req.body.cartId;
-    const cart = await Cart.findByPk(cartId);
+    const cart = await Cart.findByPk(cartId, {
+      include: [
+        {
+          model: Album,
+        },
+      ],
+    });
     if (cart) {
-      await cart.destroy();
+      await cart.removeAlbums(cart.Albums);
       res.sendStatus(200);
     } else {
       throw Error;

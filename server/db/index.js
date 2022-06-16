@@ -52,5 +52,7 @@ module.exports = {
     User,
     Order,
     Cart,
+    AlbumCart,
+    AlbumOrder,
   },
 };

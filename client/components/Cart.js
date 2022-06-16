@@ -1,15 +1,19 @@
-import React from "react";
-import { connect } from "react-redux";
+/** @format */
+
+import React from 'react';
+import { connect } from 'react-redux';
 
 class Cart extends React.Component {
   render() {
-
-    const albums = [{id: 1, title: "album_1", price: 100 }, { id: 2, title: "album_2", price: 120 }]
-    const user = { id: 1, name: "Robert" };
+    const albums = [
+      { id: 1, title: 'album_1', price: 100 },
+      { id: 2, title: 'album_2', price: 120 },
+    ];
+    const user = { id: 1, name: 'Robert' };
     const totalPrice = albums.reduce((pv, cv) => pv.price + cv.price);
 
     const handleClick = () => {
-      alert("button works");
+      alert('button works');
       // this function should:
       // changed the "order complete" boolean to True in the db
       // initiate payment
@@ -43,4 +47,4 @@ const mapDispatchToProps = (dispatch) => ({
   //
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Cart);
+export default connect()(Cart);

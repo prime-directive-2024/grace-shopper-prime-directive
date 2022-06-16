@@ -10,7 +10,6 @@ class Cart extends React.Component {
   }
 
   render() {
-    console.log(this.props.basket);
     const albums = this.props.basket;
 
     const user = this.props.auth;
@@ -23,7 +22,6 @@ class Cart extends React.Component {
       // initiate payment
       // redirect to thanks for purchase page with order number
     };
-    console.log(this.props);
     return (
       <>
         {albums[0] ? (

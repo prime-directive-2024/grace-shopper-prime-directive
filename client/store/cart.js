@@ -12,6 +12,7 @@ const setCartItems = (items) => ({ type: GET_ALL_CART_ITEMS, items });
 export const getAllCartItems = (cartId) => {
   return async (dispatch) => {
     try {
+      //await axios.post(`/api/cart/add`, {userId:2, ect..})
       const { data } = await axios.get(`/api/cart/basket/${cartId}`);
       dispatch(setCartItems(data));
     } catch (error) {

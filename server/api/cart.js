@@ -9,7 +9,7 @@ module.exports = router;
 
 router.get('/basket/:id', async (req, res, next) => {
   try {
-    //receives cartId & sends back all albums inside cart
+    //receives userId & sends back all albums inside cart
     const id = req.params.id;
     const cart = await Cart.findAll({
       where: {
@@ -27,21 +27,22 @@ router.get('/basket/:id', async (req, res, next) => {
 
 router.post('/add', async (req, res, next) => {
   try {
-    //receives price, quantity, cartId & albumId and adds item from cart
+    //receives price, quantity, userId & albumId and adds item from cart
     const price = req.body.price;
     const qty = req.body.quantity;
     const albumId = req.body.albumId;
-    const cartId = req.body.cartId;
-    const cart = await Cart.findByPk(cartId);
-    const item = await cart.addAlbum(albumId);
-    await item.update({ price: price, quantity: qty });
+    const userId = req.body.userId;
+    const cart = await Cart.findAll({ where: { userId: userId } });
+    const item = await cart[0].addAlbum(albumId);
+    await item[0].update({ price: price, quantity: qty });
+    res.sendStatus(200);
   } catch (error) {
     next(error);
   }
 });
 router.put('/update', async (req, res, next) => {
   try {
-    //receives quantity, cartId & albumId and updates quantity of item in cart
+    //receives quantity, userId & albumId and updates quantity of item in cart
     const qty = req.body.quantity;
     const AlbumId = req.body.AlbumId;
     const cartId = req.body.cartId;

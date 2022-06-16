@@ -51,5 +51,6 @@ module.exports = {
     Artist,
     User,
     Order,
+    Cart,
   },
 };

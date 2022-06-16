@@ -86,7 +86,7 @@ async function seed() {
       //cartItem.price += 10
       // cartItem.quantity += 1
     }
-    await users[1].checkout(1);
+    // await users[1].checkout(1);
     // const order = await AlbumOrder.findAll({ where: { OrderId: 2 } });
     return;
   };

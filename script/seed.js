@@ -38,6 +38,7 @@ const {
   db,
   models: { User, Artist, Album, Song, Order },
 } = require('../server/db');
+const AlbumOrder = require('../server/db/models/Album-Order');
 
 /**
  * seed - this function clears the database, updates tables to
@@ -76,11 +77,14 @@ async function seed() {
       //order.addUser(user.id)
       const temp = await order.addAlbum(i);
       //const cartItem = album.addOrder(order)
-      console.log(await temp);
+      if (temp) {
+        await temp[0].update({ price: i, quantity: i });
+      }
+
       //cartItem.price += 10
       // cartItem.quantity += 1
     }
-
+    const order = await AlbumOrder.findAll({ where: { OrderId: 2 } });
     return;
   };
 

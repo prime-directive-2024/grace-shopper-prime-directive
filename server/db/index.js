@@ -1,3 +1,5 @@
+/** @format */
+
 //this is the access point for all things database related!
 
 const db = require('./db');
@@ -7,6 +9,7 @@ const Artist = require('./models/Artist');
 const Album = require('./models/Album');
 const Song = require('./models/Song');
 const Order = require('./models/Order');
+const AlbumOrder = require('./models/Album-Order');
 //associations could go here!
 
 //Song belongs to one album
@@ -24,10 +27,8 @@ Album.belongsTo(Artist);
 //Album has many songs
 Album.hasMany(Song);
 
-//user belongs to many albums
-User.belongsToMany(Album, { through: 'cart' });
-//album melongs to many users
-Album.belongsToMany(User, { through: 'cart' });
+Order.belongsToMany(Album, { through: AlbumOrder });
+Album.belongsToMany(Order, { through: AlbumOrder });
 
 //order belongs to user
 Order.belongsTo(User);

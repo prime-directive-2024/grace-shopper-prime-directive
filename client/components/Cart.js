@@ -2,15 +2,19 @@
 
 import React from 'react';
 import { connect } from 'react-redux';
+import { getAllCartItems } from '../store/cart';
 
 class Cart extends React.Component {
+  async componentDidMount() {
+    await this.props.getCartItems(this.props.auth.id);
+  }
+
   render() {
-    const albums = [
-      { id: 1, title: 'album_1', price: 100 },
-      { id: 2, title: 'album_2', price: 120 },
-    ];
-    const user = { id: 1, name: 'Robert' };
-    const totalPrice = albums.reduce((pv, cv) => pv.price + cv.price);
+    console.log(this.props.basket);
+    const albums = this.props.basket;
+
+    const user = this.props.auth;
+    let totalPrice = 0;
 
     const handleClick = () => {
       alert('button works');
@@ -19,32 +23,43 @@ class Cart extends React.Component {
       // initiate payment
       // redirect to thanks for purchase page with order number
     };
-
+    console.log(this.props);
     return (
       <>
-        <h1>{user.name}'s cart</h1>
-        <ol>
-          {albums.map((album) => {
-            return (
-              <li key={album.id}>
-                Album {album.title} Price {album.price}
-              </li>
-            );
-          })}
-        </ol>
-        <div>Total Price {totalPrice}</div>
-        <button onClick={() => handleClick()}> Checkout Now</button>
+        {albums[0] ? (
+          <>
+            <h1>{user.username}'s cart</h1>
+            {albums.map((album) => {
+              totalPrice += album.price;
+              return (
+                <ul key={album.id}>
+                  <li>Album {album.title}</li>
+                  <li>Price {album.price}</li>
+                  <li>Quantity {album.quantity}</li>
+                </ul>
+              );
+            })}
+
+            <div>Total Price {totalPrice}</div>
+            <button onClick={() => handleClick()}> Checkout Now</button>
+          </>
+        ) : (
+          <>Add an item to your cart!</>
+        )}
       </>
     );
   }
 }
 
-const mapStateToProps = (state) => ({
-  //
-});
+const mapStateToProps = (state) => {
+  return state;
+};
 
 const mapDispatchToProps = (dispatch) => ({
   //
+  getCartItems: (id) => {
+    dispatch(getAllCartItems(id));
+  },
 });
 
-export default connect()(Cart);
+export default connect(mapStateToProps, mapDispatchToProps)(Cart);

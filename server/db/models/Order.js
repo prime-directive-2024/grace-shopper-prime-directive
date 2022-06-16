@@ -4,9 +4,9 @@ const Sequelize = require('sequelize');
 const db = require('../db');
 
 const Order = db.define('Order', {
-  completed: {
-    type: Sequelize.BOOLEAN,
-    defaultValue: false,
+  totalPrice: {
+    type: Sequelize.INTEGER,
+    defaultValue: 0,
   },
 });
 

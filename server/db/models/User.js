@@ -61,6 +61,7 @@ User.prototype.checkout = async function (cartId) {
       parseInt(cart.Albums[i].dataValues.albumCart.dataValues.quantity);
   }
   const order = await Order.create({ totalPrice: parseInt(totalPrice) });
+  this.addOrder(order);
   for (let i = 0; i < cart.Albums.length; i++) {
     const temp = await order.addAlbum(parseInt(cart.Albums[i].dataValues.id));
 
@@ -68,7 +69,9 @@ User.prototype.checkout = async function (cartId) {
       quantity: cart.Albums[i].dataValues.albumCart.dataValues.quantity,
     });
   }
-  await this.removeCart(cartId);
+  await Cart.destroy({
+    where: { userId: this.id },
+  });
 };
 
 // User.prototype.order = async function () {

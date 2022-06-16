@@ -58,8 +58,11 @@ async function seed() {
   //testing function
 
   const seedArtists = async (names) => {
-    const cart = await Cart.create();
-    await users[1].addCart(cart.id);
+    //assigns carts to users, should be down on creation
+    // const cart = await Cart.create();
+    // await users[1].addCart(cart.id);
+    // const cart2 = await Cart.create();
+    // await users[0].addCart(cart2.id);
 
     for (let i = 0; i < 8; i++) {
       const artist = await Artist.create({ name: names[i] });
@@ -77,7 +80,14 @@ async function seed() {
       }
 
       //order.addUser(user.id)
-      const temp = await cart.addAlbum(i + 1);
+
+      const cart = await Cart.findAll({
+        where: {
+          userId: users[1].id,
+        },
+      });
+
+      const temp = await cart[0].addAlbum(i + 1);
       //const cartItem = album.addOrder(order)
       if (temp) {
         await temp[0].update({ price: album.price, quantity: i + 1 });

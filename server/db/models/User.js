@@ -69,9 +69,10 @@ User.prototype.checkout = async function (cartId) {
       quantity: cart.Albums[i].dataValues.albumCart.dataValues.quantity,
     });
   }
-  await Cart.destroy({
-    where: { userId: this.id },
-  });
+  await cart.removeAlbums(cart.Albums);
+  // await Cart.destroy({
+  //   where: { userId: this.id },
+  // });
 };
 
 // User.prototype.order = async function () {
@@ -126,7 +127,11 @@ const hashPassword = async (user) => {
     user.password = await bcrypt.hash(user.password, SALT_ROUNDS);
   }
 };
-
+const addCart = async (user) => {
+  const cart = await Cart.create();
+  await user.addCart(cart);
+};
+User.afterCreate(addCart);
 User.beforeCreate(hashPassword);
 User.beforeUpdate(hashPassword);
 User.beforeBulkCreate((users) => Promise.all(users.map(hashPassword)));

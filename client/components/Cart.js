@@ -24,16 +24,16 @@ class Cart extends React.Component {
     };
     return (
       <>
-        {albums[0] ? (
+        {typeof albums === 'object' && albums[0] ? (
           <>
             <h1>{user.username}'s cart</h1>
             {albums.map((album) => {
               totalPrice += album.price;
               return (
                 <ul key={album.id}>
-                  <li>Album {album.title}</li>
-                  <li>Price {album.price}</li>
-                  <li>Quantity {album.quantity}</li>
+                  <li>Album: {album.title}</li>
+                  <li>Price: {album.price}</li>
+                  <li>Quantity: {album.albumCart.quantity}</li>
                 </ul>
               );
             })}

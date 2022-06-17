@@ -12,12 +12,14 @@ router.get('/basket/:id', async (req, res, next) => {
     //receives userId & sends back all albums inside cart
     const cartId = req.params.id;
     console.log(cartId);
+
     const cart = await Cart.findByPk(cartId, {
       include: {
         model: Album,
       },
     });
-    res.json(cart);
+    console.log('HREREREREREE', cart.Albums);
+    res.json(cart.Albums);
   } catch (error) {
     next(error);
   }
@@ -32,8 +34,8 @@ router.post('/add', async (req, res, next) => {
     const userId = req.body.userId;
     const cart = await Cart.findAll({ where: { userId: userId } });
     const item = await cart[0].addAlbum(albumId);
-    console.log('ITEM', item);
     await item[0].update({ price: price, quantity: qty });
+    console.log(item[0]);
     res.sendStatus(200);
   } catch (error) {
     next(error);
@@ -43,7 +45,7 @@ router.put('/update', async (req, res, next) => {
   try {
     //receives quantity, userId & albumId and updates quantity of item in cart
     const qty = req.body.quantity;
-    const AlbumId = req.body.AlbumId;
+    const AlbumId = req.body.albumId;
     const cartId = req.body.cartId;
 
     const cartItem = await AlbumCart.findAll({
@@ -83,7 +85,7 @@ router.delete('/delete', async (req, res, next) => {
 router.delete('/delete-all', async (req, res, next) => {
   try {
     //Receives userId and deletes entire cart
-    const cartId = req.body.cardId;
+    const cartId = req.body.cartId;
     const cart = await Cart.findByPk(cartId, {
       include: [
         {

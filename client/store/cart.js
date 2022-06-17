@@ -22,11 +22,11 @@ export const getAllCartItems = (cartId) => {
   };
 };
 
-export const addItemToCart = (album) => {
+export const addItemToCart = (album, reduxAlbum) => {
   return async (dispatch) => {
     try {
-      const { data } = await axios.post(`/api/cart/add`, album);
-      dispatch(addToCart(data));
+      await axios.post(`/api/cart/add`, album);
+      dispatch(addToCart(reduxAlbum));
     } catch (error) {
       console.log(error);
     }
@@ -42,7 +42,7 @@ const cartReducer = (state = intialState, action) => {
     case GET_ALL_CART_ITEMS:
       return action.items;
     case ADD_TO_CART:
-      return action.item;
+      return [...state, action.item];
     default:
       return state;
   }

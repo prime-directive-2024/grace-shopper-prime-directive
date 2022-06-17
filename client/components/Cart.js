@@ -12,7 +12,7 @@ class Cart extends React.Component {
   }
 
   render() {
-    const albums = this.props.basket.Albums || [];
+    const albums = this.props.basket || [];
     const user = this.props.auth;
     let totalPrice = 0;
 
@@ -25,7 +25,7 @@ class Cart extends React.Component {
     };
     return (
       <>
-        {typeof albums === 'object' && albums[0] ? (
+        {albums[0] ? (
           <>
             <h1>{user.username}'s cart</h1>
             {albums.map((album) => {

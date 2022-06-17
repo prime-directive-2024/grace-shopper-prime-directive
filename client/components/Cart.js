@@ -14,6 +14,7 @@ class Cart extends React.Component {
 
     const user = this.props.auth;
     let totalPrice = 0;
+    console.log('Testing for albums', this.props);
 
     const handleClick = () => {
       alert('button works');
@@ -24,7 +25,7 @@ class Cart extends React.Component {
     };
     return (
       <>
-        {albums[0] ? (
+        {typeof albums === 'object' && albums[0] ? (
           <>
             <h1>{user.username}'s cart</h1>
             {albums.map((album) => {

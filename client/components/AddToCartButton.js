@@ -5,18 +5,22 @@ import /* Insert add to cart function */ '../store';
 import { getAllCartItems, addItemToCart } from '../store/cart';
 
 class AddToCart extends React.Component {
-  async componentDidMount() {
+  async componentDidMount() {}
+  async handleSubmit(albumData) {
     await this.props.getCartItems(this.props.auth.id);
-  }
-  handleSubmit(albumData) {
-    console.log('ALL DATA:', albumData);
+    if (albumData.basket.length > 0) {
+      console.log('IT"S HERE');
+    } else {
+      console.log('Not here');
+    }
+    console.log('ALL DATA:looking for authID', albumData);
     const extractedAlbum = this.props.basket.filter(
       (album) => album.id === albumData.album.id
     );
 
     if (!extractedAlbum.length > 0) {
       const album = {
-        id: albumData.album.id,
+        albumId: albumData.album.id,
         price: albumData.album.price,
         userId: albumData.auth.id || 'Guest',
         qty: 1,
@@ -40,7 +44,6 @@ class AddToCart extends React.Component {
   //
 
   render() {
-    console.log('BASKET:', this.props);
     return (
       <button onClick={() => this.handleSubmit(this.props)}>Add to cart</button>
     );
@@ -57,7 +60,6 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(getAllCartItems(id));
   },
   addToCart: (album) => dispatch(addItemToCart(album)),
-  //addToCart: ()=> dispatch(addToCart())
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(AddToCart);

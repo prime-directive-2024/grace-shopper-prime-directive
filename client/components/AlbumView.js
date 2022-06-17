@@ -24,7 +24,7 @@ class AlbumView extends React.Component {
             <img className="album-icon" src={albums.img_url} />
           </Link>
           <p>${albums.price}</p>
-          <AddToCartButton album={albums} />
+          <AddToCartButton album={albums} userId={this.state} />
         </div>
       </div>
     ));

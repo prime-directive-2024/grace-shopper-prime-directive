@@ -1,18 +1,20 @@
 import React from 'react';
-import { connect } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { removeFromCart } from '../store/cart';
 
-class RemoveFromCartButton extends React.Component {
-  handleDelete(propsData) {
+export default function RemoveFromCartButton(props) {
+  const dispatch = useDispatch();
+  const handleDelete = () => {
     // Here is where we add our mapped dispactch from props
-  }
-  render() {
-    return <button onClick={this.handleDelete(this.props)}>X</button>;
-  }
+    dispatch(removeFromCart(props));
+  };
+  return (
+    <button
+      onClick={() => {
+        handleDelete();
+      }}
+    >
+      X
+    </button>
+  );
 }
-const mapStateToProps = () => ({});
-const mapDispatchToProps = () => ({});
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(RemoveFromCartButton);

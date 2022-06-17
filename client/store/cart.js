@@ -5,9 +5,11 @@ import history from '../history';
 //action types
 const GET_ALL_CART_ITEMS = 'GET_ALL_CART_ITEMS';
 const ADD_TO_CART = 'ADD_TO_CART';
+const REMOVE_FROM_CART = 'REMOVE_FROM_CART';
 //action creators
 const setCartItems = (items) => ({ type: GET_ALL_CART_ITEMS, items });
 const addToCart = (item) => ({ type: ADD_TO_CART, item });
+const removedFromCart = (albumId) => ({ type: REMOVE_FROM_CART, albumId });
 
 //thunks
 export const getAllCartItems = (cartId) => {
@@ -32,6 +34,19 @@ export const addItemToCart = (album, reduxAlbum) => {
   };
 };
 
+export const removeFromCart = (cart) => {
+  return async (dispatch) => {
+    try {
+      await axios.delete('/api/cart/delete', {
+        data: cart,
+      });
+      dispatch(removedFromCart(cart.albumId));
+    } catch (error) {
+      console.error(error);
+    }
+  };
+};
+
 //state
 const intialState = [];
 
@@ -42,6 +57,8 @@ const cartReducer = (state = intialState, action) => {
       return action.items;
     case ADD_TO_CART:
       return [...state, action.item];
+    case REMOVE_FROM_CART:
+      return state.filter((album) => album.id !== action.albumId);
     default:
       return state;
   }

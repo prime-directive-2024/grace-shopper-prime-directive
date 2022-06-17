@@ -3,6 +3,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { getAllCartItems } from '../store/cart';
+import RemoveFromCartButton from './RemoveFromCart';
 
 class Cart extends React.Component {
   async componentDidMount() {
@@ -35,6 +36,10 @@ class Cart extends React.Component {
                   <li>Album: {album.title}</li>
                   <li>Price: {album.price}</li>
                   <li>Quantity: {album.albumCart.quantity}</li>
+                  <RemoveFromCartButton
+                    albumId={album.id}
+                    cartId={album.albumCart.cartId}
+                  />
                 </ul>
               );
             })}

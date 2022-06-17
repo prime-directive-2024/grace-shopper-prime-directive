@@ -11,14 +11,11 @@ router.get('/basket/:id', async (req, res, next) => {
   try {
     //receives userId & sends back all albums inside cart
     const cartId = req.params.id;
-    console.log(cartId);
-
     const cart = await Cart.findByPk(cartId, {
       include: {
         model: Album,
       },
     });
-    console.log('HREREREREREE', cart.Albums);
     res.json(cart.Albums);
   } catch (error) {
     next(error);
@@ -35,7 +32,6 @@ router.post('/add', async (req, res, next) => {
     const cart = await Cart.findAll({ where: { userId: userId } });
     const item = await cart[0].addAlbum(albumId);
     await item[0].update({ price: price, quantity: qty });
-    console.log(item[0]);
     res.sendStatus(200);
   } catch (error) {
     next(error);

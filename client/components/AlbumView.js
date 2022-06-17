@@ -13,7 +13,6 @@ class AlbumView extends React.Component {
 
   //
   render() {
-    console.log();
     const albums = this.props.albums || [];
     return albums.map((albums) => (
       <div key={albums.id}>

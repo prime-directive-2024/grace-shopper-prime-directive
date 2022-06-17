@@ -1,3 +1,5 @@
+/** @format */
+
 import React from 'react';
 import { connect } from 'react-redux';
 import { getAllAlbums } from '../store/albums.js';
@@ -21,7 +23,7 @@ class AlbumView extends React.Component {
           </p>
           <p>by {albums.Artist.name}</p>
           <Link to={`/albums/${albums.id}`}>
-            <img className="album-icon" src={albums.img_url} />
+            <img className='album-icon' src={albums.img_url} />
           </Link>
           <p>${albums.price}</p>
           <AddToCartButton album={albums} userId={this.state} />

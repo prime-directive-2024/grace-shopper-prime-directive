@@ -15,7 +15,6 @@ const removedFromCart = (albumId) => ({ type: REMOVE_FROM_CART, albumId });
 export const getAllCartItems = (cartId) => {
   return async (dispatch) => {
     try {
-      //await axios.post(`/api/cart/add`, {userId:2, ect..})
       const { data } = await axios.get(`/api/cart/basket/${cartId}`);
       dispatch(setCartItems(data));
     } catch (error) {
@@ -24,11 +23,11 @@ export const getAllCartItems = (cartId) => {
   };
 };
 
-export const addItemToCart = (album) => {
+export const addItemToCart = (album, reduxAlbum) => {
   return async (dispatch) => {
     try {
-      const { data } = await axios.post(`/api/cart/add`, album);
-      dispatch(addToCart(data));
+      await axios.post(`/api/cart/add`, album);
+      dispatch(addToCart(reduxAlbum));
     } catch (error) {
       console.log(error);
     }
@@ -57,7 +56,7 @@ const cartReducer = (state = intialState, action) => {
     case GET_ALL_CART_ITEMS:
       return action.items;
     case ADD_TO_CART:
-      return action.item;
+      return [...state, action.item];
     case REMOVE_FROM_CART:
       return state.filter((album) => album.id !== action.albumId);
     default:

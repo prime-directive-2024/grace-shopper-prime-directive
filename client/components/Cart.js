@@ -7,12 +7,13 @@ import RemoveFromCartButton from './RemoveFromCart';
 
 class Cart extends React.Component {
   async componentDidMount() {
-    await this.props.getCartItems(this.props.auth.id);
+    if (this.props.auth) {
+      await this.props.getCartItems(this.props.auth.carts[0].id);
+    }
   }
 
   render() {
-    const albums = this.props.basket;
-
+    const albums = this.props.basket || [];
     const user = this.props.auth;
     let totalPrice = 0;
 
@@ -25,7 +26,7 @@ class Cart extends React.Component {
     };
     return (
       <>
-        {typeof albums === 'object' && albums[0] ? (
+        {albums[0] ? (
           <>
             <h1>{user.username}'s cart</h1>
             {albums.map((album) => {

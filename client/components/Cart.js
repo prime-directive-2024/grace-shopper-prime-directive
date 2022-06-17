@@ -14,7 +14,6 @@ class Cart extends React.Component {
 
     const user = this.props.auth;
     let totalPrice = 0;
-    console.log('Testing for albums', this.props);
 
     const handleClick = () => {
       alert('button works');

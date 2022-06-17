@@ -23,7 +23,7 @@ class AddToCart extends React.Component {
         albumId: albumData.album.id,
         price: albumData.album.price,
         userId: albumData.auth.id || 'Guest',
-        qty: 1,
+        quantity: 1,
       };
       this.props.addToCart(album);
       console.log('AlbumDataForRedux', album);

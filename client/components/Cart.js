@@ -31,9 +31,9 @@ class Cart extends React.Component {
               totalPrice += album.price;
               return (
                 <ul key={album.id}>
-                  <li>Album {album.title}</li>
-                  <li>Price {album.price}</li>
-                  <li>Quantity {album.quantity}</li>
+                  <li>Album: {album.title}</li>
+                  <li>Price: {album.price}</li>
+                  <li>Quantity: {album.albumCart.quantity}</li>
                 </ul>
               );
             })}

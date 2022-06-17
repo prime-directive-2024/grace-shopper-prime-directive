@@ -5,6 +5,7 @@ const {
   models: { User },
 } = require('../db');
 const Cart = require('../db/models/Cart');
+const { requireToken } = require('./gateKeepingMiddleware');
 module.exports = router;
 
 router.get('/:id', async (req, res, next) => {
@@ -21,7 +22,7 @@ router.get('/:id', async (req, res, next) => {
   }
 });
 
-router.get('/', async (req, res, next) => {
+router.get('/', requireToken, async (req, res, next) => {
   try {
     const users = await User.findAll({
       attributes: ['id', 'username'],

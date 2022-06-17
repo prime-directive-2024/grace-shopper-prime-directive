@@ -10,16 +10,13 @@ module.exports = router;
 router.get('/basket/:id', async (req, res, next) => {
   try {
     //receives userId & sends back all albums inside cart
-    const id = req.params.id;
-    const cart = await Cart.findAll({
-      where: {
-        userId: id,
-      },
+    const cartId = req.params.id;
+    const cart = await Cart.findByPk(cartId, {
       include: {
         model: Album,
       },
     });
-    res.json(cart[0].Albums);
+    res.json(cart.Albums);
   } catch (error) {
     next(error);
   }
@@ -44,8 +41,9 @@ router.put('/update', async (req, res, next) => {
   try {
     //receives quantity, userId & albumId and updates quantity of item in cart
     const qty = req.body.quantity;
-    const AlbumId = req.body.AlbumId;
+    const AlbumId = req.body.albumId;
     const cartId = req.body.cartId;
+
     const cartItem = await AlbumCart.findAll({
       where: {
         cartId: cartId,
@@ -82,7 +80,7 @@ router.delete('/delete', async (req, res, next) => {
 
 router.delete('/delete-all', async (req, res, next) => {
   try {
-    //Receives cartId and deletes entire cart
+    //Receives userId and deletes entire cart
     const cartId = req.body.cartId;
     const cart = await Cart.findByPk(cartId, {
       include: [
@@ -104,12 +102,17 @@ router.delete('/delete-all', async (req, res, next) => {
 
 router.post('/checkout', async (req, res, next) => {
   try {
-    //Receives cartId & userId and moves items from cart to orders then deletes all from cart.
+    //Receives userId and moves items from cart to orders then deletes all from cart.
     const userId = req.body.userId;
-    const cartId = req.body.cartId;
-    const user = await User.findByPk(userId);
+    const user = await User.findByPk(userId, {
+      include: {
+        model: Cart,
+      },
+    });
+    const cartId = user.carts[0].id;
     if (user) {
       //Maybe add payment logic here aswell
+
       await user.checkout(cartId);
       res.sendStatus(200);
     } else {

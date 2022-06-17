@@ -13,7 +13,6 @@ const addToCart = (item) => ({ type: ADD_TO_CART, item });
 export const getAllCartItems = (cartId) => {
   return async (dispatch) => {
     try {
-      //await axios.get(`/api/cart/basket/${cartId}, {userId:id}`
       const { data } = await axios.get(`/api/cart/basket/${cartId}`);
       dispatch(setCartItems(data));
     } catch (error) {

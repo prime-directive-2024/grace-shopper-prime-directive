@@ -20,7 +20,14 @@ const requireToken = async (req, res, next) => {
     next(error);
   }
 };
-
+const isAdmin = (req, res, next) => {
+  if (!req.user.isAdmin) {
+    return res.status(403).send('Nice try');
+  } else {
+    next();
+  }
+};
 module.exports = {
   requireToken,
+  isAdmin,
 };

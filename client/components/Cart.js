@@ -6,12 +6,13 @@ import { getAllCartItems } from '../store/cart';
 
 class Cart extends React.Component {
   async componentDidMount() {
-    await this.props.getCartItems(this.props.auth.id);
+    if (this.props.auth) {
+      await this.props.getCartItems(this.props.auth.carts[0].id);
+    }
   }
 
   render() {
-    const albums = this.props.basket;
-
+    const albums = this.props.basket.Albums || [];
     const user = this.props.auth;
     let totalPrice = 0;
 

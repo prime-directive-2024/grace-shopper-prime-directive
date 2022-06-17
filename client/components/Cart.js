@@ -4,6 +4,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { getAllCartItems } from '../store/cart';
 import RemoveFromCartButton from './RemoveFromCart';
+import ClearCartButton from './ClearCartButton';
 
 class Cart extends React.Component {
   async componentDidMount() {
@@ -31,6 +32,7 @@ class Cart extends React.Component {
             <h1>{user.username}'s cart</h1>
             {albums.map((album) => {
               totalPrice += album.price;
+              console.log('INSIDE MAP: ', album.albumCart.cartId);
               return (
                 <ul key={album.id}>
                   <li>Album: {album.title}</li>
@@ -45,7 +47,11 @@ class Cart extends React.Component {
             })}
 
             <div>Total Price {totalPrice}</div>
-            <button onClick={() => handleClick()}> Checkout Now</button>
+            <button className="checkoutButton" onClick={() => handleClick()}>
+              {' '}
+              Checkout Now
+            </button>
+            <ClearCartButton cartId={this.props.basket[0].albumCart.cartId} />
           </>
         ) : (
           <>Add an item to your cart!</>

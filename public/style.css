@@ -45,3 +45,11 @@ form div {
 .navBar__link {
   color: antiquewhite;
 }
+/*  */
+.mainPage {
+  margin-top: 10px;
+  margin-left: 20px;
+}
+.checkoutButton {
+  margin-right: 25%;
+}

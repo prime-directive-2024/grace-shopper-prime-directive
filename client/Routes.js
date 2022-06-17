@@ -20,7 +20,7 @@ class Routes extends Component {
     const { isLoggedIn } = this.props;
 
     return (
-      <div>
+      <div className="mainPage">
         {isLoggedIn ? (
           <div>
             <Switch>

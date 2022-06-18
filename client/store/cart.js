@@ -31,8 +31,12 @@ export const getAllCartItems = (cartId) => {
 export const addItemToCart = (album, reduxAlbum) => {
   return async (dispatch) => {
     try {
-      await axios.post(`/api/cart/add`, album);
-      dispatch(addToCart(reduxAlbum));
+      if (reduxAlbum) {
+        await axios.post(`/api/cart/add`, album);
+        dispatch(addToCart(reduxAlbum));
+      } else {
+        dispatch(addToCart(album));
+      }
     } catch (error) {
       console.error(error);
     }
@@ -42,9 +46,11 @@ export const addItemToCart = (album, reduxAlbum) => {
 export const removeFromCart = (cart) => {
   return async (dispatch) => {
     try {
-      await axios.delete('/api/cart/delete', {
-        data: cart,
-      });
+      if (cart.cartId) {
+        await axios.delete('/api/cart/delete', {
+          data: cart,
+        });
+      }
       dispatch(removedFromCart(cart.albumId));
     } catch (error) {
       console.error(error);
@@ -55,10 +61,12 @@ export const removeFromCart = (cart) => {
 export const deleteAllFromCart = (cartId) => {
   return async (dispatch) => {
     try {
-      console.log(cartId);
-      await axios.delete('/api/cart/delete-all', {
-        data: cartId,
-      });
+      if (cartId.cartId) {
+        await axios.delete('/api/cart/delete-all', {
+          data: cartId,
+        });
+      }
+
       dispatch(deleteCart(cartId));
     } catch (error) {
       console.error(error);
@@ -66,11 +74,15 @@ export const deleteAllFromCart = (cartId) => {
   };
 };
 
-export const checkoutCart = (userId) => {
+export const checkoutCart = (userId, order) => {
   return async (dispatch) => {
     try {
-      console.log(userId);
-      await axios.post('/api/cart/checkout', userId);
+      if (userId) {
+        await axios.post('/api/cart/checkout', userId);
+      } else {
+        await axios.post('/api/cart/checkout', { userId: 1, order });
+      }
+
       dispatch(checkout());
     } catch (error) {
       console.error(error);

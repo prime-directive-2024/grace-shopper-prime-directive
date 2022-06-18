@@ -70,25 +70,27 @@ User.prototype.checkout = async function (cartId) {
     });
   }
   await cart.removeAlbums(cart.Albums);
-  // await Cart.destroy({
-  //   where: { userId: this.id },
-  // });
 };
 
-// User.prototype.order = async function () {
-//   const albums = await this.getAlbums();
-//   let albumId = [];
-//   let total = 0;
-//   //adding albums to order history
-//   for (let i = 0; i < albums.length; i++) {
-//     albumId.push(albums[i].id);
-//     total = total + parseInt(albums[i].price);
-//   }
-//   const order = await Order.create({ albums: albumId, price: total });
-//   this.addOrder(order);
-//   //removing albums from cart
-//   await this.removeAlbums(albums);
-// };
+User.prototype.guestCheckout = async function (cart) {
+  console.log("WE'RE HERE NOW");
+  let totalPrice = 0;
+  console.log(cart);
+  for (let i = 0; i < cart.length; i++) {
+    totalPrice +=
+      parseInt(cart[i].price) * parseInt(cart[i].albumCart.quantity);
+  }
+  const order = await Order.create({ totalPrice: parseInt(totalPrice) });
+  console.log('ORDER ----', order);
+  this.addOrder(order);
+  for (let i = 0; i < cart.length; i++) {
+    const temp = await order.addAlbum(parseInt(cart[i].id));
+    console.log('TEMP--------', temp);
+    await temp[0].update({
+      quantity: cart[i].albumCart.quantity,
+    });
+  }
+};
 
 /**
  * classMethods

@@ -3,18 +3,20 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { getAllCartItems } from '../store/cart';
-import RemoveFromCartButton from './RemoveFromCart';
-import ClearCartButton from './ClearCartButton';
-import CheckOutButton from './CheckOutButton';
+import RemoveFromCartButton from './buttons/RemoveFromCartButton';
+import ClearCartButton from './buttons/ClearCartButton';
+import CheckOutButton from './buttons/CheckOutButton';
 
 class Cart extends React.Component {
   async componentDidMount() {
-    if (this.props.auth) {
+    if (this.props.auth.id) {
       await this.props.getCartItems(this.props.auth.carts[0].id);
     }
+    console.log(this.props);
   }
 
   render() {
+    console.log(this.props);
     const albums = this.props.basket || [];
     const user = this.props.auth;
     let totalPrice = 0;
@@ -30,26 +32,33 @@ class Cart extends React.Component {
       <>
         {albums[0] ? (
           <>
-            <h1>{user.username}'s cart</h1>
+            <h1>{user.username ? user.username : "Guest's Cart"}'s cart</h1>
             {albums.map((album) => {
               totalPrice += album.price;
-              console.log('INSIDE MAP: ', album.albumCart.cartId);
               return (
                 <ul key={album.id}>
                   <li>Album: {album.title}</li>
                   <li>Price: {album.price}</li>
                   <li>Quantity: {album.albumCart.quantity}</li>
-                  <RemoveFromCartButton
-                    albumId={album.id}
-                    cartId={album.albumCart.cartId}
-                  />
+                  {this.props.auth.id ? (
+                    <RemoveFromCartButton
+                      albumId={album.id}
+                      cartId={album.albumCart.cartId}
+                    />
+                  ) : (
+                    <RemoveFromCartButton albumId={album.id} />
+                  )}
                 </ul>
               );
             })}
 
             <div>Total Price {totalPrice}</div>
             <CheckOutButton userId={user.id} />
-            <ClearCartButton cartId={this.props.basket[0].albumCart.cartId} />
+            {this.props.auth.id ? (
+              <ClearCartButton cartId={this.props.basket[0].albumCart.cartId} />
+            ) : (
+              <ClearCartButton />
+            )}
           </>
         ) : (
           <>Add an item to your cart!</>

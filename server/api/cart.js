@@ -103,20 +103,28 @@ router.delete('/delete-all', async (req, res, next) => {
 router.post('/checkout', async (req, res, next) => {
   try {
     //Receives userId and moves items from cart to orders then deletes all from cart.
-    const userId = req.body.userId;
-    const user = await User.findByPk(userId, {
-      include: {
-        model: Cart,
-      },
-    });
-    const cartId = user.carts[0].id;
-    if (user) {
-      //Maybe add payment logic here aswell
+    if (req.body.userId && req.body.userId !== 1) {
+      const userId = req.body.userId;
+      const user = await User.findByPk(userId, {
+        include: {
+          model: Cart,
+        },
+      });
+      const cartId = user.carts[0].id;
+      if (user) {
+        //Maybe add payment logic here aswell
 
-      await user.checkout(cartId);
+        await user.checkout(cartId);
+        res.sendStatus(200);
+      } else {
+        throw Error;
+      }
+    } else if (req.body.userId === 1) {
+      const user = await User.findByPk(1);
+      user.guestCheckout(req.body.order);
       res.sendStatus(200);
     } else {
-      throw Error;
+      throw new Error();
     }
   } catch (error) {
     next();

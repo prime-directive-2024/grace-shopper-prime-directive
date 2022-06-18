@@ -33,7 +33,7 @@ class AllOrders extends React.Component {
                     <li>{album.title}</li>
                     <li>${album.price}</li>
                     <li>
-                      <img className='album-icon' src={album.img_url} />
+                      <img className="album-icon" src={album.img_url} />
                     </li>
                   </ul>
                 </li>

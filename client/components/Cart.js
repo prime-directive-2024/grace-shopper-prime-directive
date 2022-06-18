@@ -3,9 +3,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { getAllCartItems } from '../store/cart';
-import RemoveFromCartButton from './RemoveFromCart';
-import ClearCartButton from './ClearCartButton';
-import CheckOutButton from './CheckOutButton';
+import RemoveFromCartButton from './buttons/RemoveFromCartButton';
+import ClearCartButton from './buttons/ClearCartButton';
+import CheckOutButton from './buttons/CheckOutButton';
 
 class Cart extends React.Component {
   async componentDidMount() {

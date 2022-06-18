@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import { removeFromCart } from '../store/cart';
+import { removeFromCart } from '../../store/cart';
 
 export default function RemoveFromCartButton(props) {
   const dispatch = useDispatch();

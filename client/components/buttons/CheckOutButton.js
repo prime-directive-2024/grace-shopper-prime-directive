@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import { checkoutCart } from '../store/cart';
+import { checkoutCart } from '../../store/cart';
 import { connect } from 'react-redux';
 //import function from store
 
@@ -12,7 +12,7 @@ const CheckOutButton = (props) => {
     dispatch(checkoutCart(props.userId, props.basket));
   };
   return (
-    <button className='checkoutButton' onClick={() => handleClick()}>
+    <button className="checkoutButton" onClick={() => handleClick()}>
       Checkout Now
     </button>
   );

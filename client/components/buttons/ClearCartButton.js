@@ -1,6 +1,6 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import { deleteAllFromCart } from '../store/cart';
+import { deleteAllFromCart } from '../../store/cart';
 
 export default function DeleteCart(props) {
   const dispatch = useDispatch();

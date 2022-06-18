@@ -2,9 +2,9 @@
 
 import React from 'react';
 import { connect } from 'react-redux';
-import /* Insert add to cart function */ '../store';
+import /* Insert add to cart function */ '../../store';
 // import { Link } from 'react-router-dom';
-import { getAllCartItems, addItemToCart } from '../store/cart';
+import { getAllCartItems, addItemToCart } from '../../store/cart';
 
 class AddToCart extends React.Component {
   async componentDidMount() {}

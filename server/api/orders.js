@@ -37,7 +37,7 @@ router.get('/:id', requireToken, async (req, res, next) => {
       },
     });
     if (order) {
-      res.json(order);
+      res.json(order[0]);
     } else {
       res.sendStatus(404);
     }

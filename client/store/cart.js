@@ -20,7 +20,7 @@ export const getAllCartItems = (cartId) => {
       const { data } = await axios.get(`/api/cart/basket/${cartId}`);
       dispatch(setCartItems(data));
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
 };
@@ -31,7 +31,7 @@ export const addItemToCart = (album, reduxAlbum) => {
       await axios.post(`/api/cart/add`, album);
       dispatch(addToCart(reduxAlbum));
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
 };

@@ -8,12 +8,14 @@ import auth from './auth';
 import albumsReducer from './albums';
 import singleAlbum from './singleAlbum';
 import cartReducer from './cart';
+import ordersReducer from './orders';
 
 const reducer = combineReducers({
   auth,
   albums: albumsReducer,
   singleAlbum,
   basket: cartReducer,
+  orders: ordersReducer,
 });
 const middleware = composeWithDevTools(
   applyMiddleware(thunkMiddleware, createLogger({ collapsed: true }))

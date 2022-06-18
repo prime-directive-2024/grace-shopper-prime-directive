@@ -18,7 +18,7 @@ const AlbumList = (props) => {
             <img className='album-icon' src={albums.img_url} />
           </Link>
           <p>${albums.price}</p>
-          <AddToCartButton album={props.albums} userId={props.state} />
+          <AddToCartButton album={albums} userId={props.state} />
         </div>
       </div>
     ));

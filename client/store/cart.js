@@ -35,6 +35,7 @@ export const addItemToCart = (album, reduxAlbum) => {
         await axios.post(`/api/cart/add`, album);
         dispatch(addToCart(reduxAlbum));
       } else {
+        console.log(album);
         dispatch(addToCart(album));
       }
     } catch (error) {

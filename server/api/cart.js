@@ -29,6 +29,7 @@ router.post('/add', async (req, res, next) => {
     const qty = req.body.quantity;
     const albumId = req.body.albumId;
     const userId = req.body.userId;
+    console.log(req.body);
     const cart = await Cart.findAll({ where: { userId: userId } });
     const item = await cart[0].addAlbum(albumId);
     await item[0].update({ price: price, quantity: qty });

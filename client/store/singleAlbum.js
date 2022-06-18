@@ -1,3 +1,5 @@
+/** @format */
+
 import axios from 'axios';
 import history from '../history';
 
@@ -20,8 +22,8 @@ export const getSingleAlbum = (id) => {
 };
 
 //initial state
-const intiialState = {};
-export default function singleAlbum(state = intiialState, action) {
+const initialState = {};
+export default function singleAlbum(state = initialState, action) {
   switch (action.type) {
     case GET_SINGLE_ALBUM:
       return action.album;

@@ -23,7 +23,7 @@ export const getAllCartItems = (cartId) => {
       const { data } = await axios.get(`/api/cart/basket/${cartId}`);
       dispatch(setCartItems(data));
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
 };
@@ -34,7 +34,7 @@ export const addItemToCart = (album, reduxAlbum) => {
       await axios.post(`/api/cart/add`, album);
       dispatch(addToCart(reduxAlbum));
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
 };
@@ -79,10 +79,10 @@ export const checkoutCart = (userId) => {
 };
 
 //state
-const intialState = [];
+const initialState = [];
 
 //reducer
-const cartReducer = (state = intialState, action) => {
+const cartReducer = (state = initialState, action) => {
   switch (action.type) {
     case GET_ALL_CART_ITEMS:
       return action.items;

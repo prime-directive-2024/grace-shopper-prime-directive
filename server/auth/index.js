@@ -8,9 +8,9 @@ module.exports = router;
 
 router.post('/login', async (req, res, next) => {
   try {
+    console.log(req.body);
     res.send({
       token: await User.authenticate({
-        //ADD EMAIL WHEN FRONT END IS READY
         username: req.body.username,
         password: req.body.password,
       }),
@@ -23,7 +23,6 @@ router.post('/login', async (req, res, next) => {
 router.post('/signup', async (req, res, next) => {
   try {
     const user = await User.create({
-      //ADD EMAIL WHEN FRONT END IS READY
       email: req.body.email,
       username: req.body.username,
       password: req.body.password,

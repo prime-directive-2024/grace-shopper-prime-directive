@@ -7,18 +7,18 @@ import AddToCartButton from './buttons/AddToCartButton.js';
 
 const AlbumList = (props) => {
   if (props.currentAlbums) {
-    return props.currentAlbums.map((albums) => (
-      <div key={albums.id}>
+    return props.currentAlbums.map((album) => (
+      <div key={album.id}>
         <div>
           <p>
-            <Link to={`/albums/${albums.id}`}>{albums.title}</Link>
+            <Link to={`/albums/${album.id}`}>{album.title}</Link>
           </p>
-          <p>by {albums.Artist.name}</p>
-          <Link to={`/albums/${albums.id}`}>
-            <img className='album-icon' src={albums.img_url} />
+          <p>by {album.Artist.name}</p>
+          <Link to={`/albums/${album.id}`}>
+            <img className="album-icon" src={album.img_url} />
           </Link>
-          <p>${albums.price}</p>
-          <AddToCartButton album={albums} userId={props.state} />
+          <p>${album.price}</p>
+          <AddToCartButton album={album} userId={props.state} />
         </div>
       </div>
     ));

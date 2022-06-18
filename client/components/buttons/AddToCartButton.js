@@ -12,14 +12,9 @@ class AddToCart extends React.Component {
   async handleSubmit(albumData) {
     if (this.props.auth.id) {
       await this.props.getCartItems(this.props.auth.id);
+      console.log(`${this.props.auth.username} is logged in!!!`);
     } else {
       console.log('No user logged in');
-    }
-
-    if (albumData.basket.length > 0) {
-      console.log('IT"S HERE');
-    } else {
-      console.log('Not here');
     }
     console.log('ALL DATA:looking for authID', albumData);
     const extractedAlbum = this.props.basket.filter(
@@ -40,6 +35,7 @@ class AddToCart extends React.Component {
           quantity: 1,
           cartId: this.props.auth.carts[0].id,
         };
+        console.log(`album data for API:`, reduxAlbum);
         this.props.addToCart(album, reduxAlbum);
       }
     } else {
@@ -53,17 +49,9 @@ class AddToCart extends React.Component {
 
       //create new cart and add the item
     }
-    // else {
-    //   const quantity = extractedAlbum[0].albumCart.quantity;
-    //   const album = {
-    //     id: albumData.album.id,
-    //     price: albumData.album.price,
-    //     userId: albumData.auth.id || 'Guest',
-    //     qty: quantity,
-    //   };
-
-    //update functionality
-    // return null;
+    //else}(
+    //functionality for updating the cart
+    // )
   }
   //
 

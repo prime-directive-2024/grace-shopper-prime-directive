@@ -41,8 +41,9 @@ router.get('/:id', requireToken, async (req, res, next) => {
         model: Album,
       },
     });
+    console.log(order);
     if (order) {
-      res.json(order[0]);
+      res.json(order);
     } else {
       res.sendStatus(404);
     }

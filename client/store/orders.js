@@ -19,6 +19,7 @@ export const getAllOrders = () => {
             authorization: token,
           },
         });
+        console.log('ORDERS STORE', data);
         dispatch(setOrders(data));
       }
     } catch (error) {
@@ -33,7 +34,7 @@ const initialState = [];
 const ordersReducer = (state = initialState, action) => {
   switch (action.type) {
     case SET_ORDERS:
-      return [...state, action.orders];
+      return action.orders;
     default:
       return state;
   }

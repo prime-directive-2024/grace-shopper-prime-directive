@@ -16,14 +16,19 @@ router.get('/', requireToken, async (req, res, next) => {
         model: Order,
       },
     });
-    if (orders.Orders[0]) {
-      orders = await Order.findByPk(orders.Orders[0].id, {
-        include: {
-          model: Album,
-        },
-      });
+    let allOrders = [];
+    for (let i = 0; i < orders.Orders.length; i++) {
+      if (orders.Orders[i]) {
+        const order = await Order.findByPk(orders.Orders[i].id, {
+          include: {
+            model: Album,
+          },
+        });
+        allOrders.push(order);
+      }
     }
-    res.json(orders);
+
+    res.json(allOrders);
   } catch (err) {
     next(err);
   }

@@ -5,6 +5,7 @@ const {
   models: { User, Album, Cart },
 } = require('../db');
 const AlbumCart = require('../db/models/Album-Cart');
+const { requireToken } = require('./gateKeepingMiddleware');
 module.exports = router;
 router.get('/basket/:id', async (req, res, next) => {
   try {
@@ -99,10 +100,10 @@ router.delete('/delete-all', async (req, res, next) => {
   }
 });
 
-router.post('/checkout', async (req, res, next) => {
+router.post('/checkout', requireToken, async (req, res, next) => {
   try {
     //Receives userId and moves items from cart to orders then deletes all from cart.
-    const userId = req.body.userId;
+    const userId = req.user.id;
     const user = await User.findByPk(userId, {
       include: {
         model: Cart,

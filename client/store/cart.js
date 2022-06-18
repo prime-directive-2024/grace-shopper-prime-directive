@@ -77,8 +77,9 @@ export const deleteAllFromCart = (cartId) => {
 export const checkoutCart = (userId, order) => {
   return async (dispatch) => {
     try {
+      console.log(userId);
       if (userId) {
-        await axios.post('/api/cart/checkout', userId);
+        await axios.post('/api/cart/checkout', { userId });
       } else {
         await axios.post('/api/cart/checkout', { userId: 1, order });
       }

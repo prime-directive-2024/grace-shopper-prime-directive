@@ -9,6 +9,7 @@ import albumsReducer from './albums';
 import singleAlbum from './singleAlbum';
 import cartReducer from './cart';
 import ordersReducer from './orders';
+import singleOrder from './singleOrder';
 
 const reducer = combineReducers({
   auth,
@@ -16,6 +17,7 @@ const reducer = combineReducers({
   singleAlbum,
   basket: cartReducer,
   orders: ordersReducer,
+  singleOrder: singleOrder,
 });
 const middleware = composeWithDevTools(
   applyMiddleware(thunkMiddleware, createLogger({ collapsed: true }))

@@ -10,6 +10,7 @@ import SingleAlbumView from './components/SingleAlbumView';
 import Cart from './components/Cart';
 import { me } from './store';
 import AllOrders from './components/AllOrders';
+import SingleOrder from './components/SingleOrder';
 
 /**
  * COMPONENT
@@ -45,6 +46,7 @@ class Routes extends Component {
         )}
         <Switch>
           <Route path='/albums/:id' component={SingleAlbumView} />
+          <Route exact path='/order/:id' component={SingleOrder} />
         </Switch>
       </div>
     );

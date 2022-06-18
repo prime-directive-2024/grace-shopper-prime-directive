@@ -1,3 +1,5 @@
+/** @format */
+
 import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import { withRouter, Route, Switch, Redirect } from 'react-router-dom';
@@ -5,7 +7,11 @@ import { Login, Signup } from './components/AuthForm';
 import Home from './components/Home';
 import AlbumView from './components/AlbumView';
 import SingleAlbumView from './components/SingleAlbumView';
+import Cart from './components/Cart';
+import UserData from './components/UserData';
 import { me } from './store';
+import AllOrders from './components/AllOrders';
+import SingleOrder from './components/SingleOrder';
 
 /**
  * COMPONENT
@@ -19,25 +25,30 @@ class Routes extends Component {
     const { isLoggedIn } = this.props;
 
     return (
-      <div>
+      <div className='mainPage'>
         {isLoggedIn ? (
           <div>
             <Switch>
-              <Route path="/home" component={Home} />
-              <Redirect from={'/login' && '/signup'} to="/home" />
-              {/* <Redirect from="/signup" to="/home" /> */}
+              <Route path='/home' component={Home} />
+              <Redirect from='/login' to='/home' />
             </Switch>
-            <Route exact path="/home" component={AlbumView} />
+            <Route exact path='/home' component={AlbumView} />
+            <Route exact path='/cart' component={Cart} />
+            <Route exact path='/orders' component={AllOrders} />
+            <Route path='/users' component={UserData} />
           </div>
         ) : (
           <Switch>
-            <Route exact path="/login" component={Login} />
-            <Route path="/signup" component={Signup} />
-            <Route exact path="/" component={AlbumView} />
+            <Route exact path='/login' component={Login} />
+            <Route path='/signup' component={Signup} />
+            <Redirect from='/signup' to='/home' />
+            <Route exact path='/cart' component={Cart} />
+            <Route exact path='/' component={AlbumView} />
           </Switch>
         )}
         <Switch>
-          <Route path="/albums/:id" component={SingleAlbumView} />
+          <Route path='/albums/:id' component={SingleAlbumView} />
+          <Route exact path='/order/:id' component={SingleOrder} />
         </Switch>
       </div>
     );

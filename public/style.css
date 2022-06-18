@@ -1,3 +1,7 @@
+* {
+  margin: 0;
+}
+
 body {
   font-family: sans-serif;
 }
@@ -22,4 +26,37 @@ form div {
 
 .album-icon {
   width: 200px;
+}
+
+/* nav bar */
+.navBar {
+  height: 60px;
+  width: 100%;
+  background-color: #181a1b;
+  display: flex;
+  align-items: center;
+  position: sticky;
+  top: 0;
+}
+.nav__logo {
+  width: 150px;
+  margin: 0 5px;
+}
+.navBar__link {
+  color: antiquewhite;
+}
+/*  */
+.mainPage {
+  margin-top: 10px;
+  margin-left: 20px;
+}
+
+/* forbidden access img */
+.forbiddenImg {
+  width: 100%;
+  height: auto;
+
+.checkoutButton {
+  margin-right: 25%;
+
 }

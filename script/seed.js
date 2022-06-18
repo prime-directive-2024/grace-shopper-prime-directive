@@ -49,12 +49,14 @@ async function seed() {
   await db.sync({ force: true }); // clears db and matches models to tables
   console.log('db synced!');
 
+
   const userNames = ['GUEST', 'cody', 'murphy'];
   const users = [];
   for (let i = 0; i < userNames.length; i++) {
     const user = await User.create({ username: userNames[i], password: '123' });
     users.push(user);
   }
+
 
   // Creating Users
   //testing function
@@ -88,17 +90,26 @@ async function seed() {
           userId: users[1].id,
         },
       });
+      const cart2 = await Cart.findAll({
+        where: {
+          userId: users[0].id,
+        },
+      });
 
       const temp = await cart[0].addAlbum(i + 1);
       //const cartItem = album.addOrder(order)
+      const temp2 = await cart2[0].addAlbum(i + 1);
       if (temp) {
         await temp[0].update({ price: album.price, quantity: i + 1 });
+      }
+      if (temp2) {
+        await temp2[0].update({ price: album.price, quantity: i + 1 });
       }
 
       //cartItem.price += 10
       // cartItem.quantity += 1
     }
-    // await users[1].checkout(1);
+    await users[1].checkout(1);
     // const order = await AlbumOrder.findAll({ where: { OrderId: 2 } });
     return;
   };

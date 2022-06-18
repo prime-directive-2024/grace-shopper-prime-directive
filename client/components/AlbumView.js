@@ -1,7 +1,10 @@
+/** @format */
+
 import React from 'react';
 import { connect } from 'react-redux';
 import { getAllAlbums } from '../store/albums.js';
 import { Link } from 'react-router-dom';
+import AddToCartButton from './buttons/AddToCartButton.js';
 
 class AlbumView extends React.Component {
   componentDidMount() {
@@ -22,6 +25,7 @@ class AlbumView extends React.Component {
             <img className="album-icon" src={albums.img_url} />
           </Link>
           <p>${albums.price}</p>
+          <AddToCartButton album={albums} userId={this.state} />
         </div>
       </div>
     ));

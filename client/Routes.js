@@ -6,6 +6,7 @@ import Home from './components/Home';
 import AlbumView from './components/AlbumView';
 import SingleAlbumView from './components/SingleAlbumView';
 import Cart from './components/Cart';
+import UserData from './components/UserData';
 import { me } from './store';
 
 /**
@@ -29,6 +30,7 @@ class Routes extends Component {
             </Switch>
             <Route exact path="/home" component={AlbumView} />
             <Route exact path="/cart" component={Cart} />
+            <Route path="/users" component={UserData} />
           </div>
         ) : (
           <Switch>

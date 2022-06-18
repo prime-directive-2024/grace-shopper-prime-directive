@@ -50,6 +50,13 @@ form div {
   margin-top: 10px;
   margin-left: 20px;
 }
+
+/* forbidden access img */
+.forbiddenImg {
+  width: 100%;
+  height: auto;
+
 .checkoutButton {
   margin-right: 25%;
+
 }

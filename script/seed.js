@@ -49,12 +49,14 @@ async function seed() {
   await db.sync({ force: true }); // clears db and matches models to tables
   console.log('db synced!');
 
-  // Creating Users
-  const users = await Promise.all([
-    User.create({ username: 'cody', password: '123' }),
-    User.create({ username: 'murphy', password: '123' }),
-  ]);
+  const userNames = ['GUEST', 'cody', 'murphy'];
+  const users = [];
+  for (let i = 0; i < userNames.length; i++) {
+    const user = await User.create({ username: userNames[i], password: '123' });
+    users.push(user);
+  }
 
+  // Creating Users
   //testing function
 
   const seedArtists = async (names) => {

@@ -45,7 +45,7 @@ form div {
 .navBar__link {
   color: antiquewhite;
 }
-
+/*  */
 .mainPage {
   margin-top: 10px;
   margin-left: 20px;
@@ -55,4 +55,8 @@ form div {
 .forbiddenImg {
   width: 100%;
   height: auto;
+
+.checkoutButton {
+  margin-right: 25%;
+
 }

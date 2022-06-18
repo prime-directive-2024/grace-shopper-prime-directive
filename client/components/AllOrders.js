@@ -6,13 +6,14 @@ import { Link } from 'react-router-dom';
 import { getAllOrders } from '../store/orders.js';
 
 class AllOrders extends React.Component {
-  componentDidMount() {
+  async componentDidMount() {
     this.props.getAllOrders();
   }
 
   //
   render() {
-    const orders = this.props.orders || [];
+    const orders = this.props.state.orders || [];
+    console.log(orders[0]);
     return (
       <div>
         {orders[0] ? (
@@ -24,7 +25,7 @@ class AllOrders extends React.Component {
                     Order Number: {order.id}
                   </Link>
                 </p>
-                <p>Total Price: ${order.price}</p>
+                <p>Total Price: ${order.totalPrice}</p>
                 <div>Items Bought</div>
                 <ol>
                   {order.Albums.map((album) => (
@@ -32,9 +33,6 @@ class AllOrders extends React.Component {
                       <ul>
                         <li>{album.title}</li>
                         <li>${album.cost}</li>
-                        <li>
-                          <img className='album-icon' src={album.img_url} />
-                        </li>
                       </ul>
                     </li>
                   ))}

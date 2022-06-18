@@ -1,3 +1,5 @@
+/** @format */
+
 import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import { withRouter, Route, Switch, Redirect } from 'react-router-dom';
@@ -7,6 +9,7 @@ import AlbumView from './components/AlbumView';
 import SingleAlbumView from './components/SingleAlbumView';
 import Cart from './components/Cart';
 import { me } from './store';
+import AllOrders from './components/AllOrders';
 
 /**
  * COMPONENT
@@ -20,27 +23,28 @@ class Routes extends Component {
     const { isLoggedIn } = this.props;
 
     return (
-      <div className="mainPage">
+      <div className='mainPage'>
         {isLoggedIn ? (
           <div>
             <Switch>
-              <Route path="/home" component={Home} />
-              <Redirect from="/login" to="/home" />
+              <Route path='/home' component={Home} />
+              <Redirect from='/login' to='/home' />
             </Switch>
-            <Route exact path="/home" component={AlbumView} />
-            <Route exact path="/cart" component={Cart} />
+            <Route exact path='/home' component={AlbumView} />
+            <Route exact path='/cart' component={Cart} />
+            <Route exact path='/orders' component={AllOrders} />
           </div>
         ) : (
           <Switch>
-            <Route exact path="/login" component={Login} />
-            <Route path="/signup" component={Signup} />
-            <Redirect from="/signup" to="/home" />
+            <Route exact path='/login' component={Login} />
+            <Route path='/signup' component={Signup} />
+            <Redirect from='/signup' to='/home' />
 
-            <Route exact path="/" component={AlbumView} />
+            <Route exact path='/' component={AlbumView} />
           </Switch>
         )}
         <Switch>
-          <Route path="/albums/:id" component={SingleAlbumView} />
+          <Route path='/albums/:id' component={SingleAlbumView} />
         </Switch>
       </div>
     );

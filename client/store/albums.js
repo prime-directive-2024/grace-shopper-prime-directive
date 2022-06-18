@@ -1,3 +1,5 @@
+/** @format */
+
 import axios from 'axios';
 import history from '../history';
 
@@ -21,10 +23,10 @@ export const getAllAlbums = () => {
   };
 };
 
-const intiialState = [];
+const initialState = [];
 
 //reducer
-export default function albumsReducer(state = intiialState, action) {
+export default function albumsReducer(state = initialState, action) {
   switch (action.type) {
     case GET_ALL_ALBUMS:
       return action.albums;

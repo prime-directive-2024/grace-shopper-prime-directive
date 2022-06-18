@@ -63,10 +63,10 @@ export const deleteAllFromCart = (cartId) => {
 };
 
 //state
-const intialState = [];
+const initialState = [];
 
 //reducer
-const cartReducer = (state = intialState, action) => {
+const cartReducer = (state = initialState, action) => {
   switch (action.type) {
     case GET_ALL_CART_ITEMS:
       return action.items;

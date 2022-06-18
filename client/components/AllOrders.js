@@ -14,25 +14,29 @@ class AllOrders extends React.Component {
   render() {
     const orders = this.props.state.orders || [];
     console.log(orders[0]);
+    let date;
     return (
       <div>
         {orders[0] ? (
           orders.map((order) => (
             <div key={order.id}>
               <div>
-                <p>
+                <div>
                   <Link to={`/order/${order.id}`}>
                     Order Number: {order.id}
                   </Link>
-                </p>
-                <p>Total Price: ${order.totalPrice}</p>
+                </div>
+                <div>Total Price: ${order.totalPrice}</div>
                 <div>Items Bought</div>
+                <div>
+                  Ordered: {new Date(order.createdAt + '').toDateString()}
+                </div>
                 <ol>
                   {order.Albums.map((album) => (
-                    <li>
+                    <li key={album.id}>
                       <ul>
                         <li>{album.title}</li>
-                        <li>${album.cost}</li>
+                        <li>${album.price}</li>
                       </ul>
                     </li>
                   ))}

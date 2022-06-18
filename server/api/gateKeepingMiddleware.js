@@ -3,6 +3,7 @@
 const {
   models: { User },
 } = require('../db');
+const Order = require('../db/models/Order');
 
 const requireToken = async (req, res, next) => {
   try {

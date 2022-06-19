@@ -27,3 +27,14 @@ router.get('/', requireToken, isAdmin, async (req, res, next) => {
     next(err);
   }
 });
+router.put('/my-profile/edit', requireToken, async (req, res, next) => {
+  try {
+    const updated = await req.user.update({
+      username: req.body.username,
+      email: req.body.email,
+    });
+    res.send(updated);
+  } catch (error) {
+    next(error);
+  }
+});

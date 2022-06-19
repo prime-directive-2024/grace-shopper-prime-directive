@@ -5,50 +5,59 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { logout } from '../store';
 
-const Navbar = ({ handleClick, isLoggedIn }) => (
-  <div className='navBar'>
-    <img
-      src='https://i.ibb.co/ns1zQht/logo.png'
-      className='nav__logo'
-      alt='jamazon logo'
-    />
-    <nav>
-      {isLoggedIn ? (
-        <div>
-          {/* The navbar will show these links after you log in */}
-          <Link to='/home' className='navBar__link'>
-            Home
-          </Link>
-          <a href='#' className='navBar__link' onClick={handleClick}>
-            Logout
-          </a>
-          <Link to='/orders' className='navBar__link'>
-            Orders
-          </Link>
-          <Link to='/cart' className='navBar__link'>
-            Cart
-          </Link>
-        </div>
-      ) : (
-        <div>
-          {/* The navbar will show these links before you log in */}
-          <Link to='/home' className='navBar__link'>
-            Home
-          </Link>
-          <Link to='/login' className='navBar__link'>
-            Login
-          </Link>
-          <Link to='/signup' className='navBar__link'>
-            Sign Up
-          </Link>
-          <Link to='/cart' className='navBar__link'>
-            Cart
-          </Link>
-        </div>
-      )}
-    </nav>
-  </div>
-);
+const Navbar = ({ handleClick, isLoggedIn, userName }) => {
+  return (
+    <div className="navBar">
+      <img
+        src="https://i.ibb.co/ns1zQht/logo.png"
+        className="nav__logo"
+        alt="jamazon logo"
+      />
+      <nav>
+        {isLoggedIn ? (
+          <div>
+            {/* The navbar will show these links after you log in */}
+            <Link to="/home" className="navBar__link">
+              Home
+            </Link>
+            <a href="#" className="navBar__link" onClick={handleClick}>
+              Logout
+            </a>
+            <Link to="/orders" className="navBar__link">
+              Orders
+            </Link>
+            <Link to="/cart" className="navBar__link">
+              Cart
+            </Link>
+            <Link to="/users" className="navBar__link">
+              Users
+            </Link>
+            <Link
+              to="/profile"
+              className="navBar__link"
+            >{`${userName}'s profile`}</Link>
+          </div>
+        ) : (
+          <div>
+            {/* The navbar will show these links before you log in */}
+            <Link to="/home" className="navBar__link">
+              Home
+            </Link>
+            <Link to="/login" className="navBar__link">
+              Login
+            </Link>
+            <Link to="/signup" className="navBar__link">
+              Sign Up
+            </Link>
+            <Link to="/cart" className="navBar__link">
+              Cart
+            </Link>
+          </div>
+        )}
+      </nav>
+    </div>
+  );
+};
 
 /**
  * CONTAINER
@@ -56,6 +65,7 @@ const Navbar = ({ handleClick, isLoggedIn }) => (
 const mapState = (state) => {
   return {
     isLoggedIn: !!state.auth.id,
+    userName: state.auth.username,
   };
 };
 

@@ -2,59 +2,56 @@
 
 import React from 'react';
 import { connect } from 'react-redux';
-import /* Insert add to cart function */ '../../store';
-// import { Link } from 'react-router-dom';
+
 import { getAllCartItems, addItemToCart } from '../../store/cart';
 
 class AddToCart extends React.Component {
   async componentDidMount() {}
 
-  async handleSubmit(albumData) {
-    if (this.props.auth.id) {
-      await this.props.getCartItems(this.props.auth.id);
-      console.log(`${this.props.auth.username} is logged in!!!`);
-    } else {
-      console.log('No user logged in');
-    }
-    console.log('ALL DATA:looking for authID', albumData);
+  async handleSubmit(propsData) {
+    console.log('DATA FOR THE BUTTON', propsData);
+    //This checks if the album is already in the cart
     const extractedAlbum = this.props.basket.filter(
-      (album) => album.id === albumData.album.id
+      (album) => album.id === propsData.album.id
     );
-    if (this.props.auth.id) {
-      const reduxAlbum = {
-        albumId: albumData.album.id,
-        albumCart: { quantity: 1 },
-        price: albumData.album.price,
-        title: albumData.album.title,
-      };
-      if (!extractedAlbum.length > 0) {
+    const AlbumAlreadyInCart = extractedAlbum.length > 0;
+    //Boolean that defines if Logged In
+    const UserLoggedIn = this.props.auth.id;
+    if (UserLoggedIn) {
+      // const album = propsData.album;
+      if (!AlbumAlreadyInCart) {
+        const reduxAlbum = {
+          albumId: propsData.album.id,
+          price: propsData.album.price,
+          title: propsData.album.title,
+          albumCart: { quantity: 1 },
+        };
         const album = {
-          albumId: albumData.album.id,
-          price: albumData.album.price,
-          userId: albumData.auth.id || 'Guest',
+          albumId: propsData.album.id,
+          price: propsData.album.price,
+          userId: propsData.auth.id || 'Guest',
           quantity: 1,
           cartId: this.props.auth.carts[0].id,
         };
         console.log(`album data for API:`, reduxAlbum);
         this.props.addToCart(album, reduxAlbum);
+      } else if (AlbumAlreadyInCart) {
+        console.log('Album Already In Cart');
       }
-    } else {
-      //Add to local cart
+    } else if (!UserLoggedIn) {
       let album = this.props.album;
-      if (!extractedAlbum.length > 0) {
+      //Add to local cart
+      if (!AlbumAlreadyInCart) {
         album.albumCart = {};
         album.albumCart.quantity = 1;
         this.props.addToCart(this.props.album);
       }
-
       //create new cart and add the item
     }
     //else}(
     //functionality for updating the cart
     // )
   }
-  //
-
   render() {
     return (
       <button onClick={() => this.handleSubmit(this.props)}>Add to cart</button>

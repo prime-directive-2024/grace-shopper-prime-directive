@@ -4,40 +4,51 @@ import React from 'react';
 import { useDispatch } from 'react-redux';
 import { checkoutCart } from '../../store/cart';
 import { connect } from 'react-redux';
-//import function from store
+import StripeCheckout from 'react-stripe-checkout';
+import axios from 'axios';
+// import { toast } from 'react-toastify';
 
-// const stripeCheckout = () => {
-//   fetch('/create-checkout-session', {
-//     method: 'POST',
-//     headers: {
-//       'Content-Type': 'application/json',
-//     },
-//     body: JSON.stringify({
-//       items: [
-//         { id: 1, quantity: 2 },
-//         { id: 2, quantity: 3 },
-//       ],
-//     }),
-//   })
-//     .then((res) => {
-//       if (res.ok) return res.json();
-//       return res.json().then((json) => Promise.reject(json));
-//     })
-//     .then(({ url }) => (window.location = url));
-// };
+// toast.configure();
 
 const CheckOutButton = (props) => {
   const dispatch = useDispatch();
-  const handleClick = () => {
-    // stripeCheckout();
-    dispatch(checkoutCart(props.userId, props.basket));
+  console.log('PROPERTIES:', props);
+  const product = {
+    name: 'Jamazon purchase',
+    price: props.total,
   };
+  console.log('TOTAl in pennies:', product.price);
+  async function handleToken(token) {
+    // console.log({ token, addresses });
+    const response = await axios.post(
+      'https://vdw2id.sse.codesandbox.io/checkout',
+      { token, product }
+    );
+    const { status } = response.data;
+    if (status === 'success') {
+      // toast('Success! Check email for more details', { type: 'success' });
+      dispatch(checkoutCart(props.auth.id, props.basket));
+      alert('Thank you for your purchase!');
+    } else {
+      // toast('Somethign went wrong'), { type: 'error' };
+      alert('something went wrong');
+    }
+  }
+
+  // const handleClick = () => {};
   return (
-    <button className="checkoutButton" onClick={() => handleClick()}>
-      Checkout Now
-    </button>
+    <StripeCheckout
+      stripeKey="pk_test_51LCD7cIP1PyDvJD7Q5f5q9yvGzqFcBzoWJX4Zmsi63rMQvhYxZrYqYSyppHOcsOSoRfpP5zGb8c68HDRBeSg8WzP004HdLEQkR"
+      token={handleToken}
+      billingAddress
+      shippingAddress
+      amount={props.total * 100}
+      className="checkoutButton"
+      // onClick={() => handleClick()}
+    />
   );
 };
+
 const mapStateToProps = (state) => {
   return state;
 };

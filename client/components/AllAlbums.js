@@ -4,6 +4,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import AddToCartButton from './buttons/AddToCartButton.js';
+//stripe
+import StripeCheckout from 'react-stripe-checkout';
 
 const AlbumList = (props) => {
   if (props.currentAlbums) {

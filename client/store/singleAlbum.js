@@ -5,10 +5,11 @@ import history from '../history';
 
 //action type
 const GET_SINGLE_ALBUM = 'GET_SINGLE_ALBUM';
+const DELETE_SINGLE_ALBUM = 'DELETE_SINGLE_ALBUM';
 
 //action creator
 const gotSingleAlbum = (album) => ({ type: GET_SINGLE_ALBUM, album });
-
+const removeSingleAlbum = () => ({ type: GET_SINGLE_ALBUM });
 //thunk
 export const getSingleAlbum = (id) => {
   return async (dispacth) => {
@@ -21,12 +22,39 @@ export const getSingleAlbum = (id) => {
   };
 };
 
+export const deleteSingleAlbum = (id) => {
+  return async (dispatch) => {
+    try {
+      await axios.delete(`/api/albums/${id}`);
+      history.push('/home');
+      dispatch(removeSingleAlbum());
+    } catch (error) {
+      console.error(error);
+    }
+  };
+};
+
+export const updateSingleAlbum = (obj) => {
+  return async (dispatch) => {
+    try {
+      console.log(obj);
+      const { data } = await axios.put(`/api/albums/${obj.id}`, obj);
+      console.log(data);
+      dispatch(gotSingleAlbum(data));
+    } catch (error) {
+      console.error(error);
+    }
+  };
+};
+
 //initial state
 const initialState = {};
 export default function singleAlbum(state = initialState, action) {
   switch (action.type) {
     case GET_SINGLE_ALBUM:
       return action.album;
+    case DELETE_SINGLE_ALBUM:
+      return {};
     default:
       return state;
   }

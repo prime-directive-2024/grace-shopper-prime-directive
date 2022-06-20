@@ -10,20 +10,14 @@ export default function SingleUser() {
   const user = useSelector((state) => state.singleUser || {});
   //setting the profile form to have the data from user
   const [profileForm, setProfileForm] = useState({
-    // email: user.email,
-    // username: user.username,
-    // editingUsername: false,
-    // editingEmail: false,
+    email: user.email,
+    username: user.username,
+    editingUsername: false,
+    editingEmail: false,
   });
 
   useEffect(() => {
     dispatch(getUser());
-    // if (!profileForm.username) {
-    //   setProfileForm({
-    //     email: user.email,
-    //     username: user.username,
-    //   });
-    // }
   }, []);
 
   const handleChange = (event) => {

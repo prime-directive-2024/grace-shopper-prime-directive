@@ -25,7 +25,10 @@ export const getSingleAlbum = (id) => {
 export const deleteSingleAlbum = (id) => {
   return async (dispatch) => {
     try {
-      await axios.delete(`/api/albums/${id}`);
+      const token = localStorage.getItem('token');
+      await axios.delete(`/api/albums/${id}`, {
+        headers: { authorization: token },
+      });
       history.push('/home');
       dispatch(removeSingleAlbum());
     } catch (error) {
@@ -37,8 +40,10 @@ export const deleteSingleAlbum = (id) => {
 export const updateSingleAlbum = (obj) => {
   return async (dispatch) => {
     try {
-      console.log(obj);
-      const { data } = await axios.put(`/api/albums/${obj.id}`, obj);
+      const token = localStorage.getItem('token');
+      const { data } = await axios.put(`/api/albums/${obj.id}`, obj, {
+        headers: { authorization: token },
+      });
       console.log(data);
       dispatch(gotSingleAlbum(data));
     } catch (error) {

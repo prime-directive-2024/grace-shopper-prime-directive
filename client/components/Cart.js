@@ -6,6 +6,7 @@ import { getAllCartItems } from '../store/cart';
 import RemoveFromCartButton from './buttons/RemoveFromCartButton';
 import ClearCartButton from './buttons/ClearCartButton';
 import CheckOutButton from './buttons/CheckOutButton';
+import StripeCheckout from 'react-stripe-checkout';
 
 class Cart extends React.Component {
   async componentDidMount() {
@@ -54,6 +55,7 @@ class Cart extends React.Component {
 
             <div>Total Price {totalPrice}</div>
             <CheckOutButton userId={user.id} />
+            <StripeCheckout />
             {this.props.auth.id ? (
               <ClearCartButton cartId={this.props.basket[0].albumCart.cartId} />
             ) : (

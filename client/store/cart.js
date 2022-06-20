@@ -64,6 +64,11 @@ export const removeFromCart = (cartId) => {
     try {
       const token = localStorage.getItem('token');
       if (token) {
+        let cart = JSON.parse(localStorage.getItem('cart'));
+        if (cart[0]) {
+          cart = cart.filter((album) => album.id !== cartId.albumId);
+          localStorage.setItem('cart', JSON.stringify(cart));
+        }
         await axios.delete('/api/cart/delete', {
           headers: { authorization: token },
           data: cartId,
@@ -86,6 +91,7 @@ export const deleteAllFromCart = (cartId) => {
     try {
       const token = localStorage.getItem('token');
       if (cartId.cartId) {
+        localStorage.setItem('cart', JSON.stringify([]));
         await axios.delete('/api/cart/delete-all', {
           headers: { authorization: token },
           data: cartId,
@@ -117,7 +123,7 @@ export const checkoutCart = (userId, order) => {
         await axios.post('/api/cart/guestCheckout', { userId: 1, order });
         localStorage.setItem('cart', JSON.stringify([]));
       }
-
+      localStorage.setItem('cart', JSON.stringify([]));
       dispatch(checkout());
     } catch (error) {
       console.error(error);

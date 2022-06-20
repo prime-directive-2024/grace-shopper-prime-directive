@@ -25,7 +25,6 @@ router.get('/basket/:id', requireToken, async (req, res, next) => {
 
 router.post('/add', requireToken, async (req, res, next) => {
   try {
-    console.log('this ran?');
     //receives price, quantity, userId & albumId and adds item from cart
     const price = req.body.price;
     const qty = req.body.quantity;
@@ -126,7 +125,6 @@ router.post('/checkout', requireToken, async (req, res, next) => {
       }
     } else if (req.body.userId === 1) {
       const user = await User.findByPk(1);
-      console.log(req.body.order);
       user.guestCheckout(req.body.order);
       res.sendStatus(200);
     } else {
@@ -141,7 +139,6 @@ router.post('/guestCheckout', async (req, res, next) => {
     //Receives userId and moves items from cart to orders then deletes all from cart.
     if (req.body.userId === 1) {
       const user = await User.findByPk(1);
-      console.log(req.body.order);
       user.guestCheckout(req.body.order);
       res.sendStatus(200);
     } else {

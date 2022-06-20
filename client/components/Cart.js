@@ -11,23 +11,16 @@ class Cart extends React.Component {
   async componentDidMount() {
     if (this.props.auth.id) {
       await this.props.getCartItems(this.props.auth.carts[0].id);
+    } else {
+      this.props.getCartItems(this.props.auth);
     }
-    console.log(this.props);
   }
 
   render() {
-    console.log(this.props);
     const albums = this.props.basket || [];
     const user = this.props.auth;
     let totalPrice = 0;
 
-    const handleClick = () => {
-      alert('button works');
-      // this function should:
-      // changed the "order complete" boolean to True in the db
-      // initiate payment
-      // redirect to thanks for purchase page with order number
-    };
     return (
       <>
         {albums[0] ? (

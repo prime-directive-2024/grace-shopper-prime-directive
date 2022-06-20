@@ -10,11 +10,12 @@ class AddToCart extends React.Component {
 
   async handleSubmit(propsData) {
     console.log('DATA FOR THE BUTTON', propsData);
+    // console.log('STATE DATA:', this.props.state);
     //This checks if the album is already in the cart
     const extractedAlbum = this.props.basket.filter(
       (album) => album.id === propsData.album.id
     );
-    const AlbumAlreadyInCart = extractedAlbum.length > 0;
+    let AlbumAlreadyInCart = AlbumAlreadyInCart || extractedAlbum.length > 0;
     //Boolean that defines if Logged In
     const UserLoggedIn = this.props.auth.id;
     if (UserLoggedIn) {
@@ -35,6 +36,9 @@ class AddToCart extends React.Component {
         };
         console.log(`album data for API:`, reduxAlbum);
         this.props.addToCart(album, reduxAlbum);
+        AlbumAlreadyInCart = true;
+        // this.propsData.basket.push(album);
+        console.log('ALBUM ADDED TO CART');
       } else if (AlbumAlreadyInCart) {
         console.log('Album Already In Cart');
       }

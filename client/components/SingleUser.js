@@ -3,8 +3,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getUser, updateUser } from '../store/singleUser';
 
 export default function SingleUser() {
-  const user = useSelector((state) => state.singleUser || {});
+  //getting the single user info and setting it on state
+  const dispatch = useDispatch();
 
+  //getting user from state
+  const user = useSelector((state) => state.singleUser || {});
+  //setting the profile form to have the data from user
   const [profileForm, setProfileForm] = useState({
     email: user.email,
     username: user.username,
@@ -12,13 +16,8 @@ export default function SingleUser() {
     editingEmail: false,
   });
 
-  const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getUser());
-    // setProfileForm({
-    //   email: user.email,
-    //   username: user.username,
-    // });
   }, []);
 
   const handleChange = (event) => {
@@ -57,6 +56,7 @@ export default function SingleUser() {
         onClick={() =>
           setProfileForm({
             ...profileForm,
+            username: user.username,
             editingUsername: !profileForm.editingUsername,
           })
         }
@@ -82,6 +82,7 @@ export default function SingleUser() {
         onClick={() =>
           setProfileForm({
             ...profileForm,
+            email: user.email,
             editingEmail: !profileForm.editingEmail,
           })
         }

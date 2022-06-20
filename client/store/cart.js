@@ -20,7 +20,10 @@ const checkout = () => ({ type: CHECKOUT });
 export const getAllCartItems = (cartId) => {
   return async (dispatch) => {
     try {
-      const { data } = await axios.get(`/api/cart/basket/${cartId}`);
+      const token = localStorage.getItem('token');
+      const { data } = await axios.get(`/api/cart/basket/${cartId}`, {
+        headers: { authorization: token },
+      });
       dispatch(setCartItems(data));
     } catch (error) {
       console.error(error);
@@ -32,7 +35,10 @@ export const addItemToCart = (album, reduxAlbum) => {
   return async (dispatch) => {
     try {
       if (reduxAlbum) {
-        await axios.post(`/api/cart/add`, album);
+        const token = localStorage.getItem('token');
+        await axios.post(`/api/cart/add`, album, {
+          headers: { authorization: token },
+        });
         dispatch(addToCart(reduxAlbum));
       } else {
         console.log(album);
@@ -47,8 +53,10 @@ export const addItemToCart = (album, reduxAlbum) => {
 export const removeFromCart = (cart) => {
   return async (dispatch) => {
     try {
+      const token = localStorage.getItem('token');
       if (cart.cartId) {
         await axios.delete('/api/cart/delete', {
+          headers: { authorization: token },
           data: cart,
         });
       }
@@ -62,8 +70,10 @@ export const removeFromCart = (cart) => {
 export const deleteAllFromCart = (cartId) => {
   return async (dispatch) => {
     try {
+      const token = localStorage.getItem('token');
       if (cartId.cartId) {
         await axios.delete('/api/cart/delete-all', {
+          headers: { authorization: token },
           data: cartId,
         });
       }
@@ -78,11 +88,17 @@ export const deleteAllFromCart = (cartId) => {
 export const checkoutCart = (userId, order) => {
   return async (dispatch) => {
     try {
-      console.log(userId);
+      const token = localStorage.getItem('token');
       if (userId) {
-        await axios.post('/api/cart/checkout', { userId });
+        await axios.post(
+          '/api/cart/checkout',
+          {},
+          {
+            headers: { authorization: token },
+          }
+        );
       } else {
-        await axios.post('/api/cart/checkout', { userId: 1, order });
+        await axios.post('/api/cart/guestCheckout', { userId: 1, order });
       }
 
       dispatch(checkout());

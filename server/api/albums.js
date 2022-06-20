@@ -25,7 +25,7 @@ router.get('/:id', async (req, res, next) => {
   }
 });
 
-router.delete('/:id', async (req, res, next) => {
+router.delete('/:id', requireToken, isAdmin, async (req, res, next) => {
   try {
     const album = await Album.findByPk(req.params.id);
     if (album) {
@@ -40,7 +40,7 @@ router.delete('/:id', async (req, res, next) => {
   }
 });
 
-router.put('/:id', async (req, res, next) => {
+router.put('/:id', requireToken, isAdmin, async (req, res, next) => {
   try {
     const { title, price, genre, img_url } = req.body;
     const album = await Album.findByPk(req.params.id);

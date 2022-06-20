@@ -5,9 +5,10 @@ const {
   models: { User, Album, Cart },
 } = require('../db');
 const AlbumCart = require('../db/models/Album-Cart');
+const { requireToken, isAdmin } = require('./gateKeepingMiddleware');
 module.exports = router;
 
-router.get('/basket/:id', async (req, res, next) => {
+router.get('/basket/:id', requireToken, async (req, res, next) => {
   try {
     //receives userId & sends back all albums inside cart
     const cartId = req.params.id;
@@ -22,14 +23,14 @@ router.get('/basket/:id', async (req, res, next) => {
   }
 });
 
-router.post('/add', async (req, res, next) => {
+router.post('/add', requireToken, async (req, res, next) => {
   try {
+    console.log('this ran?');
     //receives price, quantity, userId & albumId and adds item from cart
     const price = req.body.price;
     const qty = req.body.quantity;
     const albumId = req.body.albumId;
-    const userId = req.body.userId;
-    console.log(req.body);
+    const userId = req.user.id;
     const cart = await Cart.findAll({ where: { userId: userId } });
     const item = await cart[0].addAlbum(albumId);
     await item[0].update({ price: price, quantity: qty });
@@ -38,9 +39,10 @@ router.post('/add', async (req, res, next) => {
     next(error);
   }
 });
-router.put('/update', async (req, res, next) => {
+router.put('/update', requireToken, async (req, res, next) => {
   try {
     //receives quantity, userId & albumId and updates quantity of item in cart
+    console.log('this ran?');
     const qty = req.body.quantity;
     const AlbumId = req.body.albumId;
     const cartId = req.body.cartId;
@@ -62,12 +64,14 @@ router.put('/update', async (req, res, next) => {
   }
 });
 
-router.delete('/delete', async (req, res, next) => {
+router.delete('/delete', requireToken, async (req, res, next) => {
   try {
     //receives cartId & albumId and deletes item from cart
+    console.log(req.body);
     const albumId = req.body.albumId;
     const cartId = req.body.cartId;
     const cart = await Cart.findByPk(cartId);
+
     if (cart) {
       await cart.removeAlbum(albumId);
       res.sendStatus(200);
@@ -79,7 +83,7 @@ router.delete('/delete', async (req, res, next) => {
   }
 });
 
-router.delete('/delete-all', async (req, res, next) => {
+router.delete('/delete-all', requireToken, async (req, res, next) => {
   try {
     //Receives userId and deletes entire cart
     const cartId = req.body.cartId;
@@ -101,11 +105,11 @@ router.delete('/delete-all', async (req, res, next) => {
   }
 });
 
-router.post('/checkout', async (req, res, next) => {
+router.post('/checkout', requireToken, async (req, res, next) => {
   try {
     //Receives userId and moves items from cart to orders then deletes all from cart.
-    if (req.body.userId && req.body.userId !== 1) {
-      const userId = req.body.userId;
+    if (req.body.userId !== 1) {
+      const userId = req.user.id;
       const user = await User.findByPk(userId, {
         include: {
           model: Cart,
@@ -122,6 +126,22 @@ router.post('/checkout', async (req, res, next) => {
       }
     } else if (req.body.userId === 1) {
       const user = await User.findByPk(1);
+      console.log(req.body.order);
+      user.guestCheckout(req.body.order);
+      res.sendStatus(200);
+    } else {
+      throw new Error();
+    }
+  } catch (error) {
+    next();
+  }
+});
+router.post('/guestCheckout', async (req, res, next) => {
+  try {
+    //Receives userId and moves items from cart to orders then deletes all from cart.
+    if (req.body.userId === 1) {
+      const user = await User.findByPk(1);
+      console.log(req.body.order);
       user.guestCheckout(req.body.order);
       res.sendStatus(200);
     } else {

@@ -94,3 +94,15 @@ form div {
   margin-right: 10px;
   margin-top: 10px;
 }
+
+/* loading stuff */
+.loading {
+  margin: 0;
+  position: fixed;
+  top: 60px;
+  left: 0px;
+  width: 100%;
+
+  z-index: 10000;
+  height: 100%;
+}

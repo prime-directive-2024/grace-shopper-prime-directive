@@ -8,7 +8,6 @@ export default function RemoveFromCartButton(props) {
   const dispatch = useDispatch();
   const handleDelete = () => {
     // Here is where we add our mapped dispactch from props
-    console.log(props);
     dispatch(removeFromCart(props));
   };
   return (

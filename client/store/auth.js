@@ -2,6 +2,7 @@
 
 import axios from 'axios';
 import history from '../history';
+import { addItemToCart } from './cart';
 
 const TOKEN = 'token';
 
@@ -18,7 +19,7 @@ const setAuth = (auth) => ({ type: SET_AUTH, auth });
 /**
  * THUNK CREATORS
  */
-export const me = () => async (dispatch) => {
+export const me = (cart) => async (dispatch) => {
   const token = window.localStorage.getItem(TOKEN);
   if (token) {
     const res = await axios.get('/auth/me', {
@@ -26,12 +27,13 @@ export const me = () => async (dispatch) => {
         authorization: token,
       },
     });
+
     return dispatch(setAuth(res.data));
   }
 };
 
 export const authenticate =
-  (username, password, method, email) => async (dispatch) => {
+  (username, password, method, email, cart) => async (dispatch) => {
     try {
       const res = await axios.post(`/auth/${method}`, {
         username,
@@ -39,7 +41,7 @@ export const authenticate =
         email,
       });
       window.localStorage.setItem(TOKEN, res.data.token);
-      dispatch(me());
+      dispatch(me(cart));
       history.push('/home');
     } catch (authError) {
       return dispatch(setAuth({ error: authError }));
@@ -48,6 +50,8 @@ export const authenticate =
 
 export const logout = () => {
   window.localStorage.removeItem(TOKEN);
+  window.localStorage.removeItem('cart');
+  window.localStorage.setItem('cart', JSON.stringify([]));
   history.push('/login');
   return {
     type: SET_AUTH,

@@ -59,10 +59,14 @@ router.delete('/:id', requireToken, async (req, res, next) => {
         model: Album,
       },
     });
+    if (order.userId !== req.user.id) {
+      res.sendStatus(401);
+    }
     if (order) {
       order.destroy();
+      res.sendStatus(200);
     } else {
-      res.sendStatus(404);
+      res.sendStatus(401);
     }
   } catch (err) {
     next(err);

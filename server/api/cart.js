@@ -5,18 +5,29 @@ const {
   models: { User, Album, Cart },
 } = require('../db');
 const AlbumCart = require('../db/models/Album-Cart');
+const Artist = require('../db/models/Artist');
+const Song = require('../db/models/Song');
 const { requireToken, isAdmin } = require('./gateKeepingMiddleware');
 module.exports = router;
 
 router.get('/basket/:id', requireToken, async (req, res, next) => {
   try {
     //receives userId & sends back all albums inside cart
-    const cartId = req.params.id;
+    const cartId = req.user.id;
     const cart = await Cart.findByPk(cartId, {
       include: {
         model: Album,
+        include: [
+          {
+            model: Song,
+          },
+          {
+            model: Artist,
+          },
+        ],
       },
     });
+
     res.json(cart.Albums);
   } catch (error) {
     next(error);
@@ -25,11 +36,10 @@ router.get('/basket/:id', requireToken, async (req, res, next) => {
 
 router.post('/add', requireToken, async (req, res, next) => {
   try {
-    console.log('this ran?');
     //receives price, quantity, userId & albumId and adds item from cart
     const price = req.body.price;
-    const qty = req.body.quantity;
-    const albumId = req.body.albumId;
+    const qty = req.body.albumCart.quantity;
+    const albumId = req.body.id;
     const userId = req.user.id;
     const cart = await Cart.findAll({ where: { userId: userId } });
     const item = await cart[0].addAlbum(albumId);
@@ -42,10 +52,10 @@ router.post('/add', requireToken, async (req, res, next) => {
 router.put('/update', requireToken, async (req, res, next) => {
   try {
     //receives quantity, userId & albumId and updates quantity of item in cart
-    console.log('this ran?');
     const qty = req.body.quantity;
     const AlbumId = req.body.albumId;
-    const cartId = req.body.cartId;
+    // vvvv This is a tempory security measure. It currently works because every user only has 1 cart, in the future when we implement a buy now feature this will have to change.
+    const cartId = req.user.cartId;
 
     const cartItem = await AlbumCart.findAll({
       where: {
@@ -67,9 +77,9 @@ router.put('/update', requireToken, async (req, res, next) => {
 router.delete('/delete', requireToken, async (req, res, next) => {
   try {
     //receives cartId & albumId and deletes item from cart
-    console.log(req.body);
     const albumId = req.body.albumId;
-    const cartId = req.body.cartId;
+    // vvvv This is a tempory security measure. It currently works because every user only has 1 cart, in the future when we implement a buy now feature this will have to change.
+    const cartId = req.user.id;
     const cart = await Cart.findByPk(cartId);
 
     if (cart) {
@@ -86,7 +96,8 @@ router.delete('/delete', requireToken, async (req, res, next) => {
 router.delete('/delete-all', requireToken, async (req, res, next) => {
   try {
     //Receives userId and deletes entire cart
-    const cartId = req.body.cartId;
+    // vvvv This is a tempory security measure. It currently works because every user only has 1 cart, in the future when we implement a buy now feature this will have to change.
+    const cartId = req.user.id;
     const cart = await Cart.findByPk(cartId, {
       include: [
         {
@@ -126,7 +137,6 @@ router.post('/checkout', requireToken, async (req, res, next) => {
       }
     } else if (req.body.userId === 1) {
       const user = await User.findByPk(1);
-      console.log(req.body.order);
       user.guestCheckout(req.body.order);
       res.sendStatus(200);
     } else {
@@ -141,7 +151,6 @@ router.post('/guestCheckout', async (req, res, next) => {
     //Receives userId and moves items from cart to orders then deletes all from cart.
     if (req.body.userId === 1) {
       const user = await User.findByPk(1);
-      console.log(req.body.order);
       user.guestCheckout(req.body.order);
       res.sendStatus(200);
     } else {

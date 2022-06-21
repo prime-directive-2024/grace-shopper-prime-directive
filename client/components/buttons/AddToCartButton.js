@@ -10,35 +10,41 @@ import {
 } from '../../store/cart';
 
 class AddToCart extends React.Component {
+  constructor(props) {
+    super(props);
+  }
   async componentDidMount() {}
 
   async handleSubmit(propsData) {
     console.log('DATA FOR THE BUTTON', propsData);
+
     //This checks if the album is already in the cart
     const extractedAlbum = this.props.basket.filter(
-      (album) => album.id === propsData.album.id
+      (album) => album.id === this.props.album.id
     );
     const AlbumAlreadyInCart = extractedAlbum.length > 0;
-    //Boolean that defines if Logged In
-    const UserLoggedIn = this.props.auth.id;
-    if (UserLoggedIn) {
-      if (!AlbumAlreadyInCart) {
-        const reduxAlbum = {
-          albumId: propsData.album.id,
-          price: propsData.album.price,
-          title: propsData.album.title,
-          albumCart: { quantity: 1 },
-        };
-        const album = {
-          albumId: propsData.album.id,
-          price: propsData.album.price,
-          userId: propsData.auth.id,
-          quantity: 1,
-          cartId: this.props.auth.carts[0].id,
-        };
-        console.log(`album data for API:`, reduxAlbum);
-        this.props.addToCart(album, reduxAlbum);
-      } else if (AlbumAlreadyInCart) {
+
+    let cart = JSON.parse(localStorage.getItem('cart'));
+    const extractedCartAlbum = cart.filter(
+      (album) => album.id === this.props.album.id
+    );
+    const temp = extractedCartAlbum > 0;
+    // const album = this.props.album;
+
+    if (!AlbumAlreadyInCart && !temp) {
+      let cartId;
+      if (this.props.auth.carts) {
+        cartId = this.props.auth.carts[0].id;
+      }
+
+      const album = {
+        ...this.props.album,
+        userId: this.props.auth.id || 1,
+        albumCart: { quantity: 1 },
+        cartId,
+      };
+      this.props.addToCart(album);
+           } else if (AlbumAlreadyInCart) {
         const album = {
           userId: propsData.auth.id,
           albumId: propsData.album.id,
@@ -70,10 +76,9 @@ class AddToCart extends React.Component {
       }
     }
   }
+
   render() {
-    return (
-      <button onClick={() => this.handleSubmit(this.props)}>Add to cart</button>
-    );
+    return <button onClick={() => this.handleSubmit()}>Add to cart</button>;
   }
 }
 const mapStateToProps = (state) => ({
@@ -86,8 +91,10 @@ const mapDispatchToProps = (dispatch) => ({
   getCartItems: (id) => {
     dispatch(getAllCartItems(id));
   },
-  addToCart: (album, reduxAlbum) => dispatch(addItemToCart(album, reduxAlbum)),
+
+  addToCart: (album) => dispatch(addItemToCart(album)),
   updateCart: (album) => dispatch(updateCartItem(album)),
+
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(AddToCart);

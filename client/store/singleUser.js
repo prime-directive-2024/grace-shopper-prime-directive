@@ -33,7 +33,6 @@ export const updateUser = (user) => {
         }
       );
       dispatch(gotUser(data));
-      console.log(data);
     } catch (error) {
       console.error(error);
     }

@@ -8,6 +8,7 @@ const ADD_TO_CART = 'ADD_TO_CART';
 const REMOVE_FROM_CART = 'REMOVE_FROM_CART';
 const DELETE_CART = 'DELETE_CART';
 const CHECKOUT = 'CHECKOUT';
+const UPDATE_CART = 'UPDATE_CART';
 
 //action creators
 const setCartItems = (items) => ({ type: GET_ALL_CART_ITEMS, items });
@@ -15,8 +16,10 @@ const addToCart = (item) => ({ type: ADD_TO_CART, item });
 const removedFromCart = (albumId) => ({ type: REMOVE_FROM_CART, albumId });
 const deleteCart = (cartId) => ({ type: DELETE_CART, cartId });
 const checkout = () => ({ type: CHECKOUT });
+const updateCart = (item) => ({ type: UPDATE_CART, item });
 
 //thunks
+
 export const getAllCartItems = (cartId) => {
   return async (dispatch) => {
     try {
@@ -137,6 +140,19 @@ export const checkoutCart = (userId, order) => {
   };
 };
 
+export const updateCartItem = (album) => {
+  return async (dispatch) => {
+    try {
+      if (album.userId) {
+        await axios.put('/api/cart/update', album);
+      }
+      dispatch(updateCart(album));
+    } catch (error) {
+      console.error(error);
+    }
+  };
+};
+
 //state
 const initialState = [];
 
@@ -153,6 +169,10 @@ const cartReducer = (state = initialState, action) => {
       return [];
     case CHECKOUT:
       return [];
+    case UPDATE_CART: {
+      const removed = state.filter((album) => album.id !== action.albumId);
+      return [...removed, action.item];
+    }
     default:
       return state;
   }

@@ -19,7 +19,6 @@ export const getSingleOrder = (id) => {
           authorization: token,
         },
       });
-      console.log(data);
       dispacth(setSingleOrder(data));
     } catch (error) {
       console.error(error);

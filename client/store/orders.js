@@ -19,7 +19,6 @@ export const getAllOrders = () => {
             authorization: token,
           },
         });
-        console.log('ORDERS STORE', data);
         dispatch(setOrders(data));
       }
     } catch (error) {

@@ -9,6 +9,7 @@ class AddToCart extends React.Component {
   async componentDidMount() {}
 
   async handleSubmit(propsData) {
+    console.log('Looking for auth ID:', this.props.auth.id);
     console.log('DATA FOR THE BUTTON', propsData);
     //This checks if the album is already in the cart
     const extractedAlbum = this.props.basket.filter(
@@ -46,11 +47,11 @@ class AddToCart extends React.Component {
         album.albumCart.quantity = 1;
         this.props.addToCart(this.props.album);
       }
-      //create new cart and add the item
+      // else {
+      //   update album quantity
+      // }
     }
-    //else}(
-    //functionality for updating the cart
-    // )
+    await this.props.getCartItems(this.props.auth.id);
   }
   render() {
     return (

@@ -1,13 +1,13 @@
 /** @format */
 
-import React from "react";
-import { connect } from "react-redux";
+import React from 'react';
+import { connect } from 'react-redux';
 
 import {
   getAllCartItems,
   addItemToCart,
   updateCartItem,
-} from "../../store/cart";
+} from '../../store/cart';
 
 class AddToCart extends React.Component {
   constructor(props) {
@@ -22,41 +22,30 @@ class AddToCart extends React.Component {
     );
     const AlbumAlreadyInCart = extractedAlbum.length > 0;
 
-    let cart = JSON.parse(localStorage.getItem("cart"));
+    let cart = JSON.parse(localStorage.getItem('cart'));
     const extractedCartAlbum = cart.filter(
       (album) => album.id === this.props.album.id
     );
     const itemInLocalCart = extractedCartAlbum > 0;
 
     if (!AlbumAlreadyInCart && !itemInLocalCart) {
-      let cartId;
-      if (this.props.auth.carts) {
-        cartId = this.props.auth.carts[0].id;
-      }
-
       const album = {
         ...this.props.album,
         userId: this.props.auth.id || 1,
         albumCart: { quantity: 1 },
-        cartId,
       };
       this.props.addToCart(album);
       await this.props.getCartItems(this.props.auth.id);
     } else if (AlbumAlreadyInCart) {
-      let cartId;
-      if (this.props.auth.carts) {
-        cartId = this.props.auth.carts[0].id;
-      }
-
       const album = {
         ...this.props.album,
-        userId: this.props.auth.id || 1,
+        userId: this.props.auth.id,
         albumCart: { quantity: extractedAlbum[0].albumCart.quantity + 1 },
-        cartId,
       };
 
       this.props.updateCart(album);
-      console.log("Album Already In Cart");
+
+      console.log('Album Already In Cart');
     }
   }
 

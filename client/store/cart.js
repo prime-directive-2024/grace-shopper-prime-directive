@@ -143,13 +143,20 @@ export const updateCartItem = (album) => {
   return async (dispatch) => {
     try {
       const token = localStorage.getItem('token');
-      console.log('THIS RAN', album);
-      if (album.userId) {
+      if (token) {
         await axios.put('/api/cart/update', album, {
           headers: { authorization: token },
         });
+        dispatch(updateCart(album));
+      } else {
+        let cart = JSON.parse(localStorage.getItem('cart'));
+        console.log('state 1', cart);
+        cart = cart.filter((item) => item.id !== album.id);
+        cart.push(album);
+        console.log('state 2', cart);
+        localStorage.setItem('cart', JSON.stringify(cart));
+        dispatch(updateCart(album));
       }
-      dispatch(updateCart(album));
     } catch (error) {
       console.error(error);
     }

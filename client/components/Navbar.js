@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { logout } from '../store';
 
-const Navbar = ({ handleClick, isLoggedIn, userName }) => {
+const Navbar = ({ handleClick, isLoggedIn, userName, adminStatus }) => {
   return (
     <div className="navBar">
       <img
@@ -29,9 +29,13 @@ const Navbar = ({ handleClick, isLoggedIn, userName }) => {
             <Link to="/cart" className="navBar__link">
               Cart
             </Link>
-            <Link to="/users" className="navBar__link">
-              Users
-            </Link>
+            {adminStatus ? (
+              <Link to="/users" className="navBar__link">
+                Users
+              </Link>
+            ) : (
+              <></>
+            )}
             <Link
               to="/profile"
               className="navBar__link"
@@ -66,6 +70,7 @@ const mapState = (state) => {
   return {
     isLoggedIn: !!state.auth.id,
     userName: state.auth.username,
+    adminStatus: state.auth.isAdmin,
   };
 };
 

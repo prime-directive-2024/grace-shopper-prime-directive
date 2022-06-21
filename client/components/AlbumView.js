@@ -29,17 +29,22 @@ class AlbumView extends React.Component {
     const currentAlbums = albums.slice(indexOfFirstPost, indexOfLastPost);
     return (
       <div>
-        <AlbumList
-          currentAlbums={currentAlbums}
-          albums={albums}
-          state={this.state}
-        />
-        <Pagination
-          postPerPage={this.state.albumsPerPage}
-          totalPosts={albums.length}
-          paginate={paginate}
-          location={'/home'}
-        />
+        <div className="allAlbums">
+          <AlbumList
+            currentAlbums={currentAlbums}
+            albums={albums}
+            state={this.state}
+          />
+        </div>
+        <div className="pagination">
+          <p>Album Pages:</p>
+          <Pagination
+            postPerPage={this.state.albumsPerPage}
+            totalPosts={albums.length}
+            paginate={paginate}
+            location={'/home'}
+          />
+        </div>
       </div>
     );
   }

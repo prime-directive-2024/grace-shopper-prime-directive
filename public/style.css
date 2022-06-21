@@ -4,6 +4,7 @@
 
 body {
   font-family: sans-serif;
+  background-color: #f2f2f2;
 }
 
 a {
@@ -59,4 +60,37 @@ form div {
 
 .checkoutButton {
   margin-right: 25%;
+}
+
+/* single albums in all view */
+.singleAlbumList {
+  background-color: rgb(201, 219, 237);
+  border-radius: 10px;
+  margin: 20px;
+  text-align: center;
+  padding: 1%;
+  /* width: 500px;
+
+  border-style: solid;
+  border-width: 20px;
+  border: #181a1b; */
+}
+
+/* all albums view */
+.allAlbums {
+  display: flex;
+  flex-flow: row wrap;
+}
+
+/* pagination */
+.pagination {
+  display: flex;
+  flex-flow: row wrap;
+  list-style-type: none;
+}
+
+/* button stuff */
+.buttonSpacing {
+  margin-right: 10px;
+  margin-top: 10px;
 }

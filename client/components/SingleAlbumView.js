@@ -52,8 +52,8 @@ const SingleAlbumView = (props) => {
         Title:
         {albumForm.editing ? (
           <input
-            type='text'
-            name='title'
+            type="text"
+            name="title"
             value={albumForm.title}
             onChange={handleChange}
             placeholder={albumForm.title}
@@ -67,8 +67,8 @@ const SingleAlbumView = (props) => {
         $
         {albumForm.editing ? (
           <input
-            type='text'
-            name='price'
+            type="text"
+            name="price"
             value={albumForm.price}
             onChange={handleChange}
             placeholder={albumForm.price}
@@ -81,8 +81,8 @@ const SingleAlbumView = (props) => {
         Genre:{' '}
         {albumForm.editing ? (
           <input
-            type='text'
-            name='genre'
+            type="text"
+            name="genre"
             value={albumForm.genre}
             onChange={handleChange}
             placeholder={albumForm.genre}
@@ -95,8 +95,8 @@ const SingleAlbumView = (props) => {
         <>
           <label>Enter image url here: </label>
           <input
-            type='text'
-            name='img'
+            type="text"
+            name="img"
             value={albumForm.img}
             onChange={handleChange}
             placeholder={albumForm.img}
@@ -114,30 +114,31 @@ const SingleAlbumView = (props) => {
         ))}
         {albumForm.editing ? <button>Add song</button> : <></>}
       </div>
-      <button
-        onClick={() => dispatch(deleteSingleAlbum(props.match.params.id))}
-      >
-        Delete
-      </button>
-      {albumForm.editing ? (
-        <button onClick={() => handleSubmit()}>Save Changes</button>
-      ) : (
-        <button
-          onClick={() =>
-            setAlbumForm({
-              id: album.id,
-              title: album.title,
-              price: album.price,
-              img: album.img_url,
-              genre: album.genre,
-              editing: !albumForm.editing,
-            })
-          }
+        <button className="buttonSpacing"
+          onClick={() => dispatch(deleteSingleAlbum(props.match.params.id))}
         >
-          Edit Album
+          Delete
         </button>
-      )}
-    </div>
+        {albumForm.editing ? (
+          <button onClick={() => handleSubmit()}>Save Changes</button>
+        ) : (
+          <button
+          className="buttonSpacing"
+            onClick={() =>
+              setAlbumForm({
+                id: album.id,
+                title: album.title,
+                price: album.price,
+                img: album.img_url,
+                genre: album.genre,
+                editing: !albumForm.editing,
+              })
+            }
+          >
+            Edit Album
+          </button>
+        )}
+      </div>
   );
 };
 

@@ -28,7 +28,7 @@ class Cart extends React.Component {
           <>
             <h1>{user.username ? user.username : "Guest's Cart"}'s cart</h1>
             {albums.map((album) => {
-              totalPrice += album.price;
+              totalPrice += album.price * album.albumCart.quantity;
               return (
                 <ul key={album.id}>
                   <li>Album: {album.title}</li>

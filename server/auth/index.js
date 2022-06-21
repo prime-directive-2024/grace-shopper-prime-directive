@@ -40,7 +40,7 @@ router.get('/me', async (req, res, next) => {
   try {
     let user = await User.findByToken(req.headers.authorization);
     user = await User.findByPk(user.id, {
-      attributes: ['username', 'id'],
+      attributes: ['username', 'id', 'isAdmin'],
       include: {
         model: Cart,
       },

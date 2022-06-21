@@ -1,18 +1,17 @@
 /** @format */
 
-const router = require("express").Router();
+const router = require('express').Router();
 const {
   models: { User, Album, Cart },
-} = require("../db");
-const AlbumCart = require("../db/models/Album-Cart");
-const Artist = require("../db/models/Artist");
-const Song = require("../db/models/Song");
-const { requireToken, isAdmin } = require("./gateKeepingMiddleware");
+} = require('../db');
+const AlbumCart = require('../db/models/Album-Cart');
+const Artist = require('../db/models/Artist');
+const Song = require('../db/models/Song');
+const { requireToken } = require('./gateKeepingMiddleware');
 module.exports = router;
 
-router.get("/basket/:id", requireToken, async (req, res, next) => {
+router.get('/basket/:id', requireToken, async (req, res, next) => {
   try {
-    //receives userId & sends back all albums inside cart
     const cartId = req.user.id;
     const cart = await Cart.findByPk(cartId, {
       include: {
@@ -34,9 +33,8 @@ router.get("/basket/:id", requireToken, async (req, res, next) => {
   }
 });
 
-router.post("/add", requireToken, async (req, res, next) => {
+router.post('/add', requireToken, async (req, res, next) => {
   try {
-    //receives price, quantity, userId & albumId and adds item from cart
     const price = req.body.price;
     const qty = req.body.albumCart.quantity;
     const albumId = req.body.id;
@@ -49,9 +47,8 @@ router.post("/add", requireToken, async (req, res, next) => {
     next(error);
   }
 });
-router.put("/update", requireToken, async (req, res, next) => {
+router.put('/update', requireToken, async (req, res, next) => {
   try {
-    //receives quantity, userId & albumId and updates quantity of item in cart
     const qty = req.body.albumCart.quantity;
     const AlbumId = req.body.id;
     // vvvv This is a tempory security measure. It currently works because every user only has 1 cart, in the future when we implement a buy now feature this will have to change.
@@ -76,9 +73,8 @@ router.put("/update", requireToken, async (req, res, next) => {
   }
 });
 
-router.delete("/delete", requireToken, async (req, res, next) => {
+router.delete('/delete', requireToken, async (req, res, next) => {
   try {
-    //receives cartId & albumId and deletes item from cart
     const albumId = req.body.albumId;
     // vvvv This is a tempory security measure. It currently works because every user only has 1 cart, in the future when we implement a buy now feature this will have to change.
     const cartId = req.user.id;
@@ -95,9 +91,8 @@ router.delete("/delete", requireToken, async (req, res, next) => {
   }
 });
 
-router.delete("/delete-all", requireToken, async (req, res, next) => {
+router.delete('/delete-all', requireToken, async (req, res, next) => {
   try {
-    //Receives userId and deletes entire cart
     // vvvv This is a tempory security measure. It currently works because every user only has 1 cart, in the future when we implement a buy now feature this will have to change.
     const cartId = req.user.id;
     const cart = await Cart.findByPk(cartId, {
@@ -118,9 +113,8 @@ router.delete("/delete-all", requireToken, async (req, res, next) => {
   }
 });
 
-router.post("/checkout", requireToken, async (req, res, next) => {
+router.post('/checkout', requireToken, async (req, res, next) => {
   try {
-    //Receives userId and moves items from cart to orders then deletes all from cart.
     if (req.body.userId !== 1) {
       const userId = req.user.id;
       const user = await User.findByPk(userId, {
@@ -130,8 +124,6 @@ router.post("/checkout", requireToken, async (req, res, next) => {
       });
       const cartId = user.carts[0].id;
       if (user) {
-        //Maybe add payment logic here aswell
-
         await user.checkout(cartId);
         res.sendStatus(200);
       } else {
@@ -148,9 +140,8 @@ router.post("/checkout", requireToken, async (req, res, next) => {
     next();
   }
 });
-router.post("/guestCheckout", async (req, res, next) => {
+router.post('/guestCheckout', async (req, res, next) => {
   try {
-    //Receives userId and moves items from cart to orders then deletes all from cart.
     if (req.body.userId === 1) {
       const user = await User.findByPk(1);
       user.guestCheckout(req.body.order);

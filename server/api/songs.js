@@ -1,11 +1,13 @@
-const router = require("express").Router();
+/** @format */
+
+const router = require('express').Router();
 const {
   models: { Album, Song },
-} = require("../db");
-const Artist = require("../db/models/Artist");
+} = require('../db');
+const Artist = require('../db/models/Artist');
 module.exports = router;
 
-router.get("/:id", async (req, res, next) => {
+router.get('/:id', async (req, res, next) => {
   try {
     const song = await Song.findByPk(req.params.id, {
       include: [
@@ -23,9 +25,9 @@ router.get("/:id", async (req, res, next) => {
   }
 });
 
-router.get("/", async (req, res, next) => {
+router.get('/', async (req, res, next) => {
   try {
-    const songs = await Song.findAll({ attributes: ["id", "title"] });
+    const songs = await Song.findAll({ attributes: ['id', 'title'] });
     res.json(songs);
   } catch (err) {
     next(err);

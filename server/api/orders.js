@@ -4,7 +4,6 @@ const router = require('express').Router();
 const {
   models: { Album, Order, User },
 } = require('../db');
-const AlbumOrder = require('../db/models/Album-Order');
 
 const { requireToken } = require('./gateKeepingMiddleware');
 module.exports = router;
@@ -41,7 +40,6 @@ router.get('/:id', requireToken, async (req, res, next) => {
         model: Album,
       },
     });
-    console.log(order);
     if (order) {
       res.json(order);
     } else {

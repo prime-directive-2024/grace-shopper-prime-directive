@@ -333,15 +333,10 @@ const userNames = [
 
 const {
   db,
-  models: { User, Artist, Album, Song, Order },
+  models: { User, Artist, Album, Song },
 } = require('../server/db');
-const AlbumOrder = require('../server/db/models/Album-Order');
 const Cart = require('../server/db/models/Cart');
 
-/**
- * seed - this function clears the database, updates tables to
- *      match the models, and populates the database.
- */
 async function seed() {
   await db.sync({ force: true }); // clears db and matches models to tables
   console.log('db synced!');
@@ -351,9 +346,6 @@ async function seed() {
     const user = await User.create({ username: userNames[i], password: '123' });
     users.push(user);
   }
-
-  // Creating Users
-  //testing function
 
   const seedArtists = async (names) => {
     for (let i = 0; i < names.length; i++) {
@@ -376,23 +368,6 @@ async function seed() {
         await artist.addSong(song);
       }
     }
-    //Adding to cart here
-
-    //   const cart2 = await Cart.findAll({
-    //     where: {
-    //       userId: users[0].id,
-    //     },
-    //   });
-
-    //   const temp = await cart[0].addAlbum(i + 1);
-    //   //const cartItem = album.addOrder(order)
-    //   const temp2 = await cart2[0].addAlbum(i + 1);
-    //   if (temp) {
-    //     await temp[0].update({ price: album.price, quantity: i + 1 });
-    //   }
-
-    //   //cartItem.price += 10
-    //   // cartItem.quantity += 1
   };
   await seedArtists(names);
 

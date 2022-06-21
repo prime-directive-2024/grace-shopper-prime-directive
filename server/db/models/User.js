@@ -73,20 +73,16 @@ User.prototype.checkout = async function (cartId) {
 };
 
 User.prototype.guestCheckout = async function (cart) {
-  console.log("WE'RE HERE NOW");
   let totalPrice = 0;
-  console.log(cart);
   for (let i = 0; i < cart.length; i++) {
     totalPrice +=
       parseInt(cart[i].price) * parseInt(cart[i].albumCart.quantity);
   }
   const order = await Order.create({ totalPrice: parseInt(totalPrice) });
-  console.log('ORDER ----', order);
   this.addOrder(order);
   for (let i = 0; i < cart.length; i++) {
-    const temp = await order.addAlbum(parseInt(cart[i].id));
-    console.log('TEMP--------', temp);
-    await temp[0].update({
+    const newOrderItem = await order.addAlbum(parseInt(cart[i].id));
+    await newOrderItem[0].update({
       quantity: cart[i].albumCart.quantity,
     });
   }

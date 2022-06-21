@@ -8,6 +8,7 @@ import ClearCartButton from './buttons/ClearCartButton';
 import CheckOutButton from './buttons/CheckOutButton';
 import StripeCheckout from 'react-stripe-checkout';
 import AddOne from './buttons/AddOne';
+import SubtractOne from './buttons/SubtractOne';
 
 class Cart extends React.Component {
   async componentDidMount() {
@@ -36,6 +37,7 @@ class Cart extends React.Component {
                   <li>Price: {album.price}</li>
                   <li>Quantity: {album.albumCart.quantity}</li>
                   <AddOne basket={this.props.basket} album={album} />
+                  <SubtractOne basket={this.props.basket} album={album} />
                   {this.props.auth.id ? (
                     <RemoveFromCartButton
                       albumId={album.id}

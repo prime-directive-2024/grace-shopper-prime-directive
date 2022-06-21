@@ -5,6 +5,8 @@ const {
   models: { User, Album, Cart },
 } = require('../db');
 const AlbumCart = require('../db/models/Album-Cart');
+const Artist = require('../db/models/Artist');
+const Song = require('../db/models/Song');
 const { requireToken, isAdmin } = require('./gateKeepingMiddleware');
 module.exports = router;
 
@@ -15,8 +17,17 @@ router.get('/basket/:id', requireToken, async (req, res, next) => {
     const cart = await Cart.findByPk(cartId, {
       include: {
         model: Album,
+        include: [
+          {
+            model: Song,
+          },
+          {
+            model: Artist,
+          },
+        ],
       },
     });
+
     res.json(cart.Albums);
   } catch (error) {
     next(error);
@@ -25,11 +36,10 @@ router.get('/basket/:id', requireToken, async (req, res, next) => {
 
 router.post('/add', requireToken, async (req, res, next) => {
   try {
-    console.log('this ran?');
     //receives price, quantity, userId & albumId and adds item from cart
     const price = req.body.price;
-    const qty = req.body.quantity;
-    const albumId = req.body.albumId;
+    const qty = req.body.albumCart.quantity;
+    const albumId = req.body.id;
     const userId = req.user.id;
     const cart = await Cart.findAll({ where: { userId: userId } });
     const item = await cart[0].addAlbum(albumId);
@@ -126,7 +136,6 @@ router.post('/checkout', requireToken, async (req, res, next) => {
       }
     } else if (req.body.userId === 1) {
       const user = await User.findByPk(1);
-      console.log(req.body.order);
       user.guestCheckout(req.body.order);
       res.sendStatus(200);
     } else {
@@ -141,7 +150,6 @@ router.post('/guestCheckout', async (req, res, next) => {
     //Receives userId and moves items from cart to orders then deletes all from cart.
     if (req.body.userId === 1) {
       const user = await User.findByPk(1);
-      console.log(req.body.order);
       user.guestCheckout(req.body.order);
       res.sendStatus(200);
     } else {

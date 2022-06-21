@@ -23,39 +23,16 @@ export const getAllCartItems = (cartId) => {
       const token = localStorage.getItem('token');
       if (token) {
         const cart = JSON.parse(localStorage.getItem('cart'));
-        const { data } = await axios.get(`/api/cart/basket/${cartId}`, {
+        let { data } = await axios.get(`/api/cart/basket/${cartId}`, {
           headers: { authorization: token },
         });
         const combineCarts = [];
-        if (cart.length > data.length) {
-          for (let i = 0; i < cart.length; i++) {
-            let notHere = true;
-            for (let j = 0; j < data.length; j++) {
-              if (cart[i] === data[j]) {
-                notHere = false;
-                break;
-              }
-            }
-            if (notHere) {
-              combineCarts.push(cart[i]);
-            }
-          }
-        } else {
-          for (let i = 0; i < data.length; i++) {
-            let notHere = true;
-            for (let j = 0; j < cart.length; j++) {
-              if (data[i] === cart[j]) {
-                notHere = false;
-                break;
-              }
-            }
-            if (notHere) {
-              combineCarts.push(data[i]);
-            }
-          }
+        for (let i = 0; i < cart.length; i++) {
+          cart[i];
+          data = data.filter((album) => album.id !== cart[i].id);
         }
 
-        dispatch(setCartItems(combineCarts));
+        dispatch(setCartItems([...data, ...cart]));
       } else {
         const cart = JSON.parse(localStorage.getItem('cart'));
 

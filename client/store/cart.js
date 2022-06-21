@@ -26,7 +26,36 @@ export const getAllCartItems = (cartId) => {
         const { data } = await axios.get(`/api/cart/basket/${cartId}`, {
           headers: { authorization: token },
         });
-        dispatch(setCartItems([...data, ...cart]));
+        const combineCarts = [];
+        if (cart.length > data.length) {
+          for (let i = 0; i < cart.length; i++) {
+            let notHere = true;
+            for (let j = 0; j < data.length; j++) {
+              if (cart[i] === data[j]) {
+                notHere = false;
+                break;
+              }
+            }
+            if (notHere) {
+              combineCarts.push(cart[i]);
+            }
+          }
+        } else {
+          for (let i = 0; i < data.length; i++) {
+            let notHere = true;
+            for (let j = 0; j < cart.length; j++) {
+              if (data[i] === cart[j]) {
+                notHere = false;
+                break;
+              }
+            }
+            if (notHere) {
+              combineCarts.push(data[i]);
+            }
+          }
+        }
+
+        dispatch(setCartItems(combineCarts));
       } else {
         const cart = JSON.parse(localStorage.getItem('cart'));
 
@@ -38,7 +67,7 @@ export const getAllCartItems = (cartId) => {
   };
 };
 
-export const addItemToCart = (album, reduxAlbum) => {
+export const addItemToCart = (album) => {
   return async (dispatch) => {
     try {
       const token = localStorage.getItem('token');
@@ -46,7 +75,7 @@ export const addItemToCart = (album, reduxAlbum) => {
         await axios.post(`/api/cart/add`, album, {
           headers: { authorization: token },
         });
-        dispatch(addToCart(reduxAlbum));
+        dispatch(addToCart(album));
       } else {
         let cart = JSON.parse(localStorage.getItem('cart'));
         cart.push(album);

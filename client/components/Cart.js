@@ -12,7 +12,7 @@ class Cart extends React.Component {
     if (this.props.auth.id) {
       await this.props.getCartItems(this.props.auth.carts[0].id);
     } else {
-      this.props.getCartItems(this.props.auth);
+      this.props.getCartItems();
     }
   }
 

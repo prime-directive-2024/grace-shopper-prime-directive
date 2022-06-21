@@ -18,11 +18,9 @@ class AddToCart extends React.Component {
     );
     const AlbumAlreadyInCart = extractedAlbum.length > 0;
     let cart = JSON.parse(localStorage.getItem('cart'));
-    console.log(cart);
     const extractedCartAlbum = cart.filter(
       (album) => album.id === this.props.album.id
     );
-    console.log('this ran?', !extractedCartAlbum > 0);
     const temp = extractedCartAlbum > 0;
     // const album = this.props.album;
 
@@ -37,7 +35,6 @@ class AddToCart extends React.Component {
         albumCart: { quantity: 1 },
         cartId,
       };
-      console.log(`album data for API:`, album);
       this.props.addToCart(album);
     } else if (AlbumAlreadyInCart) {
       console.log('Album Already In Cart');

@@ -31,7 +31,7 @@ export const getAllCartItems = (cartId) => {
           for (let i = 0; i < cart.length; i++) {
             let notHere = true;
             for (let j = 0; j < data.length; j++) {
-              if (cart[i] === data[j]) {
+              if (cart[i].id === data[j].id) {
                 notHere = false;
                 break;
               }
@@ -44,7 +44,7 @@ export const getAllCartItems = (cartId) => {
           for (let i = 0; i < data.length; i++) {
             let notHere = true;
             for (let j = 0; j < cart.length; j++) {
-              if (data[i] === cart[j]) {
+              if (data[i].id === cart[j].id) {
                 notHere = false;
                 break;
               }

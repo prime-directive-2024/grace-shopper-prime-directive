@@ -13,7 +13,7 @@ module.exports = router;
 router.get('/basket/:id', requireToken, async (req, res, next) => {
   try {
     //receives userId & sends back all albums inside cart
-    const cartId = req.params.id;
+    const cartId = req.user.id;
     const cart = await Cart.findByPk(cartId, {
       include: {
         model: Album,
@@ -52,10 +52,10 @@ router.post('/add', requireToken, async (req, res, next) => {
 router.put('/update', requireToken, async (req, res, next) => {
   try {
     //receives quantity, userId & albumId and updates quantity of item in cart
-    console.log('this ran?');
     const qty = req.body.quantity;
     const AlbumId = req.body.albumId;
-    const cartId = req.body.cartId;
+    // vvvv This is a tempory security measure. It currently works because every user only has 1 cart, in the future when we implement a buy now feature this will have to change.
+    const cartId = req.user.cartId;
 
     const cartItem = await AlbumCart.findAll({
       where: {
@@ -77,9 +77,9 @@ router.put('/update', requireToken, async (req, res, next) => {
 router.delete('/delete', requireToken, async (req, res, next) => {
   try {
     //receives cartId & albumId and deletes item from cart
-    console.log(req.body);
     const albumId = req.body.albumId;
-    const cartId = req.body.cartId;
+    // vvvv This is a tempory security measure. It currently works because every user only has 1 cart, in the future when we implement a buy now feature this will have to change.
+    const cartId = req.user.id;
     const cart = await Cart.findByPk(cartId);
 
     if (cart) {
@@ -96,7 +96,8 @@ router.delete('/delete', requireToken, async (req, res, next) => {
 router.delete('/delete-all', requireToken, async (req, res, next) => {
   try {
     //Receives userId and deletes entire cart
-    const cartId = req.body.cartId;
+    // vvvv This is a tempory security measure. It currently works because every user only has 1 cart, in the future when we implement a buy now feature this will have to change.
+    const cartId = req.user.id;
     const cart = await Cart.findByPk(cartId, {
       include: [
         {

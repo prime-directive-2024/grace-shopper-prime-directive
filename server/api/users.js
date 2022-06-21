@@ -17,8 +17,6 @@ router.get('/my-profile', requireToken, async (req, res, next) => {
 
 router.get('/', requireToken, isAdmin, async (req, res, next) => {
   try {
-    //You have to be logged in to get to this page
-    //You also have to be an admin to view all
     const users = await User.findAll({
       attributes: ['id', 'username'],
     });

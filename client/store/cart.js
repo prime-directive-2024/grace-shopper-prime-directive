@@ -150,10 +150,8 @@ export const updateCartItem = (album) => {
         dispatch(updateCart(album));
       } else {
         let cart = JSON.parse(localStorage.getItem('cart'));
-        console.log('state 1', cart);
         cart = cart.filter((item) => item.id !== album.id);
         cart.push(album);
-        console.log('state 2', cart);
         localStorage.setItem('cart', JSON.stringify(cart));
         dispatch(updateCart(album));
       }
@@ -180,7 +178,6 @@ const cartReducer = (state = initialState, action) => {
     case CHECKOUT:
       return [];
     case UPDATE_CART: {
-      console.log(action.item);
       const removed = state.filter((album) => album.id !== action.item.id);
       return [...removed, action.item];
     }

@@ -44,8 +44,6 @@ class AddToCart extends React.Component {
       };
 
       this.props.updateCart(album);
-
-      console.log('Album Already In Cart');
     }
   }
 

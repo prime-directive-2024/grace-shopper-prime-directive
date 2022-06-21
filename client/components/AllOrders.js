@@ -13,7 +13,7 @@ class AllOrders extends React.Component {
   //
   render() {
     const orders = this.props.state.orders || [];
-    console.log(orders[0]);
+
     let date;
     return (
       <div>

@@ -1,14 +1,14 @@
 /** @format */
 
-import axios from 'axios';
-import history from '../history';
+import axios from "axios";
+import history from "../history";
 //action types
-const GET_ALL_CART_ITEMS = 'GET_ALL_CART_ITEMS';
-const ADD_TO_CART = 'ADD_TO_CART';
-const REMOVE_FROM_CART = 'REMOVE_FROM_CART';
-const DELETE_CART = 'DELETE_CART';
-const CHECKOUT = 'CHECKOUT';
-const UPDATE_CART = 'UPDATE_CART';
+const GET_ALL_CART_ITEMS = "GET_ALL_CART_ITEMS";
+const ADD_TO_CART = "ADD_TO_CART";
+const REMOVE_FROM_CART = "REMOVE_FROM_CART";
+const DELETE_CART = "DELETE_CART";
+const CHECKOUT = "CHECKOUT";
+const UPDATE_CART = "UPDATE_CART";
 
 //action creators
 const setCartItems = (items) => ({ type: GET_ALL_CART_ITEMS, items });
@@ -23,9 +23,9 @@ const updateCart = (item) => ({ type: UPDATE_CART, item });
 export const getAllCartItems = (cartId) => {
   return async (dispatch) => {
     try {
-      const token = localStorage.getItem('token');
+      const token = localStorage.getItem("token");
       if (token) {
-        const cart = JSON.parse(localStorage.getItem('cart'));
+        const cart = JSON.parse(localStorage.getItem("cart"));
         let { data } = await axios.get(`/api/cart/basket/${cartId}`, {
           headers: { authorization: token },
         });
@@ -37,7 +37,7 @@ export const getAllCartItems = (cartId) => {
 
         dispatch(setCartItems([...data, ...cart]));
       } else {
-        const cart = JSON.parse(localStorage.getItem('cart'));
+        const cart = JSON.parse(localStorage.getItem("cart"));
 
         dispatch(setCartItems(cart));
       }
@@ -50,16 +50,16 @@ export const getAllCartItems = (cartId) => {
 export const addItemToCart = (album) => {
   return async (dispatch) => {
     try {
-      const token = localStorage.getItem('token');
+      const token = localStorage.getItem("token");
       if (token) {
         await axios.post(`/api/cart/add`, album, {
           headers: { authorization: token },
         });
         dispatch(addToCart(album));
       } else {
-        let cart = JSON.parse(localStorage.getItem('cart'));
+        let cart = JSON.parse(localStorage.getItem("cart"));
         cart.push(album);
-        localStorage.setItem('cart', JSON.stringify(cart));
+        localStorage.setItem("cart", JSON.stringify(cart));
         dispatch(addToCart(album));
       }
     } catch (error) {
@@ -71,22 +71,22 @@ export const addItemToCart = (album) => {
 export const removeFromCart = (cartId) => {
   return async (dispatch) => {
     try {
-      const token = localStorage.getItem('token');
+      const token = localStorage.getItem("token");
       if (token) {
-        let cart = JSON.parse(localStorage.getItem('cart'));
+        let cart = JSON.parse(localStorage.getItem("cart"));
         if (cart[0]) {
           cart = cart.filter((album) => album.id !== cartId.albumId);
-          localStorage.setItem('cart', JSON.stringify(cart));
+          localStorage.setItem("cart", JSON.stringify(cart));
         }
-        await axios.delete('/api/cart/delete', {
+        await axios.delete("/api/cart/delete", {
           headers: { authorization: token },
           data: cartId,
         });
         dispatch(removedFromCart(cartId.albumId));
       } else {
-        let cart = JSON.parse(localStorage.getItem('cart'));
+        let cart = JSON.parse(localStorage.getItem("cart"));
         cart = cart.filter((album) => album.id !== cartId.albumId);
-        localStorage.setItem('cart', JSON.stringify(cart));
+        localStorage.setItem("cart", JSON.stringify(cart));
         dispatch(removedFromCart(cartId.albumId));
       }
     } catch (error) {
@@ -98,15 +98,15 @@ export const removeFromCart = (cartId) => {
 export const deleteAllFromCart = (cartId) => {
   return async (dispatch) => {
     try {
-      const token = localStorage.getItem('token');
+      const token = localStorage.getItem("token");
       if (cartId.cartId) {
-        localStorage.setItem('cart', JSON.stringify([]));
-        await axios.delete('/api/cart/delete-all', {
+        localStorage.setItem("cart", JSON.stringify([]));
+        await axios.delete("/api/cart/delete-all", {
           headers: { authorization: token },
           data: cartId,
         });
       } else {
-        localStorage.setItem('cart', JSON.stringify([]));
+        localStorage.setItem("cart", JSON.stringify([]));
       }
 
       dispatch(deleteCart(cartId));
@@ -119,20 +119,20 @@ export const deleteAllFromCart = (cartId) => {
 export const checkoutCart = (userId, order) => {
   return async (dispatch) => {
     try {
-      const token = localStorage.getItem('token');
+      const token = localStorage.getItem("token");
       if (userId) {
         await axios.post(
-          '/api/cart/checkout',
+          "/api/cart/checkout",
           {},
           {
             headers: { authorization: token },
           }
         );
       } else {
-        await axios.post('/api/cart/guestCheckout', { userId: 1, order });
-        localStorage.setItem('cart', JSON.stringify([]));
+        await axios.post("/api/cart/guestCheckout", { userId: 1, order });
+        localStorage.setItem("cart", JSON.stringify([]));
       }
-      localStorage.setItem('cart', JSON.stringify([]));
+      localStorage.setItem("cart", JSON.stringify([]));
       dispatch(checkout());
     } catch (error) {
       console.error(error);
@@ -143,8 +143,12 @@ export const checkoutCart = (userId, order) => {
 export const updateCartItem = (album) => {
   return async (dispatch) => {
     try {
+      const token = localStorage.getItem("token");
+
       if (album.userId) {
-        await axios.put('/api/cart/update', album);
+        await axios.put("/api/cart/update", album, {
+          headers: { authorization: token },
+        });
       }
       dispatch(updateCart(album));
     } catch (error) {
@@ -170,7 +174,7 @@ const cartReducer = (state = initialState, action) => {
     case CHECKOUT:
       return [];
     case UPDATE_CART: {
-      const removed = state.filter((album) => album.id !== action.albumId);
+      const removed = state.filter((album) => album.id !== action.id);
       return [...removed, action.item];
     }
     default:

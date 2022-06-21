@@ -3,13 +3,16 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { getAllCartItems, addItemToCart } from '../../store/cart';
+import {
+  getAllCartItems,
+  addItemToCart,
+  updateCartItem,
+} from '../../store/cart';
 
 class AddToCart extends React.Component {
   async componentDidMount() {}
 
   async handleSubmit(propsData) {
-    console.log('Looking for auth ID:', this.props.auth.id);
     console.log('DATA FOR THE BUTTON', propsData);
     //This checks if the album is already in the cart
     const extractedAlbum = this.props.basket.filter(
@@ -19,7 +22,6 @@ class AddToCart extends React.Component {
     //Boolean that defines if Logged In
     const UserLoggedIn = this.props.auth.id;
     if (UserLoggedIn) {
-      // const album = propsData.album;
       if (!AlbumAlreadyInCart) {
         const reduxAlbum = {
           albumId: propsData.album.id,
@@ -30,28 +32,43 @@ class AddToCart extends React.Component {
         const album = {
           albumId: propsData.album.id,
           price: propsData.album.price,
-          userId: propsData.auth.id || 'Guest',
+          userId: propsData.auth.id,
           quantity: 1,
           cartId: this.props.auth.carts[0].id,
         };
         console.log(`album data for API:`, reduxAlbum);
         this.props.addToCart(album, reduxAlbum);
       } else if (AlbumAlreadyInCart) {
+        const album = {
+          userId: propsData.auth.id,
+          albumId: propsData.album.id,
+          quantity: propsData.album.quantity++,
+          cartId: this.props.auth.carts[0].id,
+        };
+        this.props.updateCart(album);
         console.log('Album Already In Cart');
       }
+      await this.props.getCartItems(this.props.auth.id);
     } else if (!UserLoggedIn) {
-      let album = this.props.album;
-      //Add to local cart
+      //GUEST cart functionality - add to local cart
       if (!AlbumAlreadyInCart) {
+        let album = this.props.album;
         album.albumCart = {};
         album.albumCart.quantity = 1;
         this.props.addToCart(this.props.album);
+      } else {
+        //---------------------------------------
+        const album = {
+          albumId: propsData.album.id,
+          price: propsData.album.price,
+          userId: propsData.auth.id,
+          quantity: propsData.album.quantity++,
+          cartId: this.props.auth.carts[0].id,
+        };
+        this.props.updateCart(album);
+        console.log('Album Already In STATE Cart');
       }
-      // else {
-      //   update album quantity
-      // }
     }
-    await this.props.getCartItems(this.props.auth.id);
   }
   render() {
     return (
@@ -70,6 +87,7 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(getAllCartItems(id));
   },
   addToCart: (album, reduxAlbum) => dispatch(addItemToCart(album, reduxAlbum)),
+  updateCart: (album) => dispatch(updateCartItem(album)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(AddToCart);

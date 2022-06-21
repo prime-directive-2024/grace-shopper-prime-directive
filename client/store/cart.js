@@ -178,8 +178,12 @@ const cartReducer = (state = initialState, action) => {
     case CHECKOUT:
       return [];
     case UPDATE_CART: {
-      const removed = state.filter((album) => album.id !== action.item.id);
-      return [...removed, action.item];
+      // const removed = state.filter((album) => album.id !== action.item.id);
+      // return [...removed, action.item];
+      const Albums = state.map((album) =>
+        album.id !== action.item.id ? album : action.item
+      );
+      return Albums;
     }
     default:
       return state;

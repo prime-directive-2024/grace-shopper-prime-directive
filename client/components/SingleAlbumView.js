@@ -114,31 +114,32 @@ const SingleAlbumView = (props) => {
         ))}
         {albumForm.editing ? <button>Add song</button> : <></>}
       </div>
-        <button className="buttonSpacing"
-          onClick={() => dispatch(deleteSingleAlbum(props.match.params.id))}
-        >
-          Delete
-        </button>
-        {albumForm.editing ? (
-          <button onClick={() => handleSubmit()}>Save Changes</button>
-        ) : (
-          <button
+      <button
+        className="buttonSpacing"
+        onClick={() => dispatch(deleteSingleAlbum(props.match.params.id))}
+      >
+        Delete
+      </button>
+      {albumForm.editing ? (
+        <button onClick={() => handleSubmit()}>Save Changes</button>
+      ) : (
+        <button
           className="buttonSpacing"
-            onClick={() =>
-              setAlbumForm({
-                id: album.id,
-                title: album.title,
-                price: album.price,
-                img: album.img_url,
-                genre: album.genre,
-                editing: !albumForm.editing,
-              })
-            }
-          >
-            Edit Album
-          </button>
-        )}
-      </div>
+          onClick={() =>
+            setAlbumForm({
+              id: album.id,
+              title: album.title,
+              price: album.price,
+              img: album.img_url,
+              genre: album.genre,
+              editing: !albumForm.editing,
+            })
+          }
+        >
+          Edit Album
+        </button>
+      )}
+    </div>
   );
 };
 

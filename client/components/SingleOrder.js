@@ -13,7 +13,6 @@ class AllOrders extends React.Component {
 
   //
   render() {
-    console.log(this.props.match.params.id);
     const order = this.props.state.singleOrder || {};
     let date;
     return (

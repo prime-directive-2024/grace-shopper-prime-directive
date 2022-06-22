@@ -353,7 +353,12 @@ async function seed() {
   users.push(guest);
   users.push(cody);
   for (let i = 0; i < userNames.length; i++) {
-    const user = await User.create({ username: userNames[i], password: '123' });
+    const email = i * 2 + '.420@gmail.com';
+    const user = await User.create({
+      username: userNames[i],
+      password: '123',
+      email: email,
+    });
     users.push(user);
   }
 

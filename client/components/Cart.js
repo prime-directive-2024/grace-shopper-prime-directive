@@ -34,7 +34,7 @@ class Cart extends React.Component {
               return (
                 <ul key={album.id}>
                   <li>Album: {album.title}</li>
-                  <li>Price: {album.price}</li>
+                  <li>Price: ${parseInt(album.price) * 0.01}</li>
                   <li>Quantity: {album.albumCart.quantity}</li>
                   <AddOne basket={this.props.basket} album={album} />
                   <SubtractOne basket={this.props.basket} album={album} />
@@ -50,7 +50,7 @@ class Cart extends React.Component {
               );
             })}
 
-            <div>Total Price {totalPrice}</div>
+            <div>Total Price ${parseInt(totalPrice) * 0.01}</div>
             <CheckOutButton userId={user.id} total={totalPrice} />
             {this.props.auth.id ? (
               <ClearCartButton cartId={this.props.basket[0].albumCart.cartId} />

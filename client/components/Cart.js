@@ -35,7 +35,7 @@ class Cart extends React.Component {
                 return (
                   <ul style={{ marginBottom: '40px' }} key={album.id}>
                     <li>Album: {album.title}</li>
-                    <li>Price: {album.price}</li>
+                    <li>Price: ${parseInt(album.price) * 0.01}</li>
                     <li>Quantity: {album.albumCart.quantity}</li>
                     <AddOne basket={this.props.basket} album={album} />
                     <SubtractOne basket={this.props.basket} album={album} />
@@ -63,6 +63,7 @@ class Cart extends React.Component {
               )}
             </div>
           </div>
+
         ) : (
           <>Add an item to your cart!</>
         )}

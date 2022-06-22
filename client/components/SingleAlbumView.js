@@ -53,8 +53,8 @@ const SingleAlbumView = (props) => {
         Title:
         {albumForm.editing ? (
           <input
-            type="text"
-            name="title"
+            type='text'
+            name='title'
             value={albumForm.title}
             onChange={handleChange}
             placeholder={albumForm.title}
@@ -68,22 +68,22 @@ const SingleAlbumView = (props) => {
         $
         {albumForm.editing ? (
           <input
-            type="text"
-            name="price"
+            type='text'
+            name='price'
             value={albumForm.price}
             onChange={handleChange}
             placeholder={albumForm.price}
           />
         ) : (
-          album.price
+          parseInt(album.price) * 0.01
         )}
       </h2>
       <h2>
         Genre:{' '}
         {albumForm.editing ? (
           <input
-            type="text"
-            name="genre"
+            type='text'
+            name='genre'
             value={albumForm.genre}
             onChange={handleChange}
             placeholder={albumForm.genre}
@@ -96,8 +96,8 @@ const SingleAlbumView = (props) => {
         <>
           <label>Enter image url here: </label>
           <input
-            type="text"
-            name="img"
+            type='text'
+            name='img'
             value={albumForm.img}
             onChange={handleChange}
             placeholder={albumForm.img}
@@ -116,7 +116,7 @@ const SingleAlbumView = (props) => {
         {albumForm.editing ? <button>Add song</button> : <></>}
       </div>
       <button
-        className="buttonSpacing"
+        className='buttonSpacing'
         onClick={() => dispatch(deleteSingleAlbum(props.match.params.id))}
       >
         Delete
@@ -125,7 +125,7 @@ const SingleAlbumView = (props) => {
         <button onClick={() => handleSubmit()}>Save Changes</button>
       ) : (
         <button
-          className="buttonSpacing"
+          className='buttonSpacing'
           onClick={() =>
             setAlbumForm({
               id: album.id,

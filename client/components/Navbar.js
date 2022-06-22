@@ -30,9 +30,14 @@ const Navbar = ({ handleClick, isLoggedIn, userName, adminStatus }) => {
               Cart
             </Link>
             {adminStatus ? (
-              <Link to='/users' className='navBar__link'>
-                Users
-              </Link>
+              <>
+                <Link to='/users' className='navBar__link'>
+                  Users
+                </Link>
+                <Link to='/new-album' className='navBar__link'>
+                  Add Album
+                </Link>
+              </>
             ) : (
               <></>
             )}

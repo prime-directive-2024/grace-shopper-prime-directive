@@ -18,7 +18,7 @@ router.get('/my-profile', requireToken, async (req, res, next) => {
 router.get('/', requireToken, isAdmin, async (req, res, next) => {
   try {
     const users = await User.findAll({
-      attributes: ['id', 'username'],
+      attributes: ['id', 'username', 'email'],
     });
     res.json(users);
   } catch (err) {
@@ -37,20 +37,16 @@ router.put('/my-profile/edit', requireToken, async (req, res, next) => {
   }
 });
 
-router.put(
-  '/singleUser/edit',
-  requireToken,
-  isAdmin,
-  async (req, res, next) => {
-    try {
-      const user = await User.findByPk(req.body.userId);
-      const updated = await user.update({
-        username: req.body.username,
-        email: req.body.email,
-      });
-      res.send(updated);
-    } catch (error) {
-      next(error);
-    }
+router.put('/edit', requireToken, isAdmin, async (req, res, next) => {
+  try {
+    console.log(req.body);
+    const user = await User.findByPk(req.body.userId);
+    const updated = await user.update({
+      username: req.body.username,
+      email: req.body.email,
+    });
+    res.send(updated);
+  } catch (error) {
+    next(error);
   }
-);
+});

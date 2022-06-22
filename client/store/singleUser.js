@@ -44,7 +44,7 @@ export const updateMember = (member) => {
   return async (dispatch) => {
     try {
       const token = window.localStorage.getItem('token');
-      const { data } = await axios.put('/api/singleUser/edit', member, {
+      const { data } = await axios.put('/api/users/edit', member, {
         headers: {
           authorization: token,
         },

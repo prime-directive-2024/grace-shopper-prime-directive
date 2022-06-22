@@ -28,7 +28,7 @@ const initialState = [];
 export default function usersReducer(state = initialState, action) {
   switch (action.type) {
     case IS_ADMIN:
-      return action.users;
+      return action.users.sort((a, b) => a.id - b.id);
     default:
       return state;
   }

@@ -14,7 +14,7 @@ const UPDATE_CART = 'UPDATE_CART';
 const setCartItems = (items) => ({ type: GET_ALL_CART_ITEMS, items });
 const addToCart = (item) => ({ type: ADD_TO_CART, item });
 const removedFromCart = (albumId) => ({ type: REMOVE_FROM_CART, albumId });
-const deleteCart = (cartId) => ({ type: DELETE_CART, cartId });
+export const deleteCart = (cartId) => ({ type: DELETE_CART, cartId });
 const checkout = () => ({ type: CHECKOUT });
 const updateCart = (item) => ({ type: UPDATE_CART, item });
 
@@ -29,12 +29,12 @@ export const getAllCartItems = (cartId) => {
         let { data } = await axios.get(`/api/cart/basket/${cartId}`, {
           headers: { authorization: token },
         });
-        for (let i = 0; i < cart.length; i++) {
-          cart[i];
-          data = data.filter((album) => album.id !== cart[i].id);
-        }
+        // for (let i = 0; i < cart.length; i++) {
+        //   cart[i];
+        //   data = data.filter((album) => album.id !== cart[i].id);
+        // }
 
-        dispatch(setCartItems([...data, ...cart]));
+        dispatch(setCartItems(data));
       } else {
         const cart = JSON.parse(localStorage.getItem('cart'));
 

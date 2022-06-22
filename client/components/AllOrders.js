@@ -19,7 +19,7 @@ class AllOrders extends React.Component {
       <div>
         {orders[0] ? (
           orders.map((order) => (
-            <div key={order.id}>
+            <div style={{ marginBottom: '20px' }} key={order.id}>
               <div>
                 <div>
                   <Link to={`/order/${order.id}`}>

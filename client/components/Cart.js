@@ -25,43 +25,48 @@ class Cart extends React.Component {
     let totalPrice = 0;
 
     return (
-      <>
+      <div>
         {albums[0] ? (
-          <>
-            <h1>{user.username ? user.username : "Guest's Cart"}'s cart</h1>
-            {albums.map((album) => {
-              totalPrice += album.price * album.albumCart.quantity;
-              return (
-                <ul key={album.id}>
-                  <li>Album: {album.title}</li>
-                  <li>Price: {album.price}</li>
-                  <li>Quantity: {album.albumCart.quantity}</li>
-                  <AddOne basket={this.props.basket} album={album} />
-                  <SubtractOne basket={this.props.basket} album={album} />
-                  {this.props.auth.id ? (
-                    <RemoveFromCartButton
-                      albumId={album.id}
-                      cartId={album.albumCart.cartId}
-                    />
-                  ) : (
-                    <RemoveFromCartButton albumId={album.id} />
-                  )}
-                </ul>
-              );
-            })}
-
-            <div>Total Price {totalPrice}</div>
-            <CheckOutButton userId={user.id} total={totalPrice} />
-            {this.props.auth.id ? (
-              <ClearCartButton cartId={this.props.basket[0].albumCart.cartId} />
-            ) : (
-              <ClearCartButton />
-            )}
-          </>
+          <div style={{ display: 'flex', flexDirection: 'row' }}>
+            <div style={{ width: '50%', order: '1' }}>
+              <h1>{user.username ? user.username : 'Guest'}'s cart</h1>
+              {albums.map((album) => {
+                totalPrice += album.price * album.albumCart.quantity;
+                return (
+                  <ul style={{ marginBottom: '40px' }} key={album.id}>
+                    <li>Album: {album.title}</li>
+                    <li>Price: {album.price}</li>
+                    <li>Quantity: {album.albumCart.quantity}</li>
+                    <AddOne basket={this.props.basket} album={album} />
+                    <SubtractOne basket={this.props.basket} album={album} />
+                    {this.props.auth.id ? (
+                      <RemoveFromCartButton
+                        albumId={album.id}
+                        cartId={album.albumCart.cartId}
+                      />
+                    ) : (
+                      <RemoveFromCartButton albumId={album.id} />
+                    )}
+                  </ul>
+                );
+              })}
+            </div>
+            <div style={{ position: 'fixed', right: '10%' }}>
+              <div style={{ marginLeft: '20px' }}>Total Price {totalPrice}</div>
+              <CheckOutButton userId={user.id} total={totalPrice} />
+              {this.props.auth.id ? (
+                <ClearCartButton
+                  cartId={this.props.basket[0].albumCart.cartId}
+                />
+              ) : (
+                <ClearCartButton />
+              )}
+            </div>
+          </div>
         ) : (
           <>Add an item to your cart!</>
         )}
-      </>
+      </div>
     );
   }
 }

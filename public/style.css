@@ -70,11 +70,10 @@ form div {
   margin: 20px;
   text-align: center;
   padding: 1%;
-  /* width: 500px;
-
-  border-style: solid;
+  /* width: 500px; */
+  border-style: dotted;
   border-width: 20px;
-  border: #181a1b; */
+  border: #181a1b;
 }
 
 /* all albums view */
@@ -106,4 +105,8 @@ form div {
 
   z-index: 10000;
   height: 100%;
+}
+
+.removeFromCartButton {
+  margin-left: 10%;
 }

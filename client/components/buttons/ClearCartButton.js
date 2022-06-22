@@ -11,6 +11,7 @@ export default function DeleteCart(props) {
   };
   return (
     <button
+      style={{ marginTop: '50px', marginLeft: '20px' }}
       onClick={() => {
         handleClear();
       }}

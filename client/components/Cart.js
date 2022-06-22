@@ -52,7 +52,9 @@ class Cart extends React.Component {
               })}
             </div>
             <div style={{ position: 'fixed', right: '10%' }}>
-              <div style={{ marginLeft: '20px' }}>Total Price {totalPrice}</div>
+              <div style={{ marginLeft: '20px' }}>
+                Total Price ${parseInt(totalPrice) * 0.01}
+              </div>
               <CheckOutButton userId={user.id} total={totalPrice} />
               {this.props.auth.id ? (
                 <ClearCartButton
@@ -63,7 +65,6 @@ class Cart extends React.Component {
               )}
             </div>
           </div>
-
         ) : (
           <>Add an item to your cart!</>
         )}

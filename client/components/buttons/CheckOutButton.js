@@ -49,7 +49,7 @@ const CheckOutButton = (props) => {
         token={handleToken}
         billingAddress
         shippingAddress
-        amount={props.total * 100}
+        amount={props.total}
         className="checkoutButton"
       />
     </div>

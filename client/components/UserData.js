@@ -36,7 +36,11 @@ export default function UserData() {
               user,
             }}
           >
-            <li>{user.username}</li>
+            <li style={{ marginBottom: '10px' }}>
+              Member ID#{user.id}
+              <br />
+              {user.username}
+            </li>
           </Link>
         ))}
       </ul>

@@ -1,7 +1,6 @@
 /** @format */
 
 import axios from 'axios';
-import history from '../history';
 //action types
 const GET_ALL_CART_ITEMS = 'GET_ALL_CART_ITEMS';
 const ADD_TO_CART = 'ADD_TO_CART';
@@ -25,14 +24,9 @@ export const getAllCartItems = (cartId) => {
     try {
       const token = localStorage.getItem('token');
       if (token) {
-        const cart = JSON.parse(localStorage.getItem('cart'));
         let { data } = await axios.get(`/api/cart/basket/${cartId}`, {
           headers: { authorization: token },
         });
-        // for (let i = 0; i < cart.length; i++) {
-        //   cart[i];
-        //   data = data.filter((album) => album.id !== cart[i].id);
-        // }
 
         dispatch(setCartItems(data));
       } else {

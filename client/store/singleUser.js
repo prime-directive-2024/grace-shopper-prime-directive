@@ -1,11 +1,15 @@
+/** @format */
+
 import axios from 'axios';
 
 //action
 const GET_USER = 'GET_USER';
 const UPDATE_MEMBER = 'UPDATE_MEMBER';
+const CLEAR_USER = 'CLEAR_USER';
 
 //creator
 const gotUser = (user) => ({ type: GET_USER, user });
+export const removeUser = (user) => ({ type: CLEAR_USER, user });
 const updateMemberState = (member) => ({ type: UPDATE_MEMBER, member });
 //thunk
 export const getUser = () => {
@@ -59,6 +63,8 @@ export const updateMember = (member) => {
 const initialState = {};
 export default function singleUser(state = initialState, action) {
   switch (action.type) {
+    case CLEAR_USER:
+      return {};
     case GET_USER:
       return action.user;
     case UPDATE_MEMBER:

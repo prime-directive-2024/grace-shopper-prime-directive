@@ -4,6 +4,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { logout } from '../store';
+import { removeUser } from '../store/singleUser';
 // import logo from '../../public/logo.png';
 
 const Navbar = ({ handleClick, isLoggedIn, userName, adminStatus }) => {
@@ -29,9 +30,14 @@ const Navbar = ({ handleClick, isLoggedIn, userName, adminStatus }) => {
               Cart
             </Link>
             {adminStatus ? (
-              <Link to='/users' className='navBar__link'>
-                Users
-              </Link>
+              <>
+                <Link to='/users' className='navBar__link'>
+                  Users
+                </Link>
+                <Link to='/new-album' className='navBar__link'>
+                  Add Album
+                </Link>
+              </>
             ) : (
               <></>
             )}
@@ -76,6 +82,7 @@ const mapState = (state) => {
 const mapDispatch = (dispatch) => {
   return {
     handleClick() {
+      dispatch(removeUser());
       dispatch(logout());
     },
   };

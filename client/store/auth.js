@@ -1,7 +1,6 @@
 /** @format */
 
 import axios from 'axios';
-import { useDispatch } from 'react-redux';
 import history from '../history';
 import { addItemToCart, deleteCart } from './cart';
 
@@ -30,10 +29,8 @@ export const me = (cart) => async (dispatch) => {
     if (cart) {
       dispatch(deleteCart());
       for (let i = 0; i < cart.length; i++) {
-        console.log(cart[i]);
         dispatch(addItemToCart(cart[i]));
       }
-      console.log(addItemToCart);
       window.localStorage.removeItem('cart');
       window.localStorage.setItem('cart', JSON.stringify([]));
     }
@@ -62,6 +59,7 @@ export const logout = () => {
   window.localStorage.removeItem(TOKEN);
   window.localStorage.removeItem('cart');
   window.localStorage.setItem('cart', JSON.stringify([]));
+
   history.push('/login');
   return {
     type: SET_AUTH,

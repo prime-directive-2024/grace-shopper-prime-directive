@@ -14,6 +14,7 @@ import AllOrders from './components/AllOrders';
 import SingleOrder from './components/SingleOrder';
 import SingleUser from './components/SingleUser';
 import SingleMemberView from './components/SingleMemberView';
+import AlbumForm from './components/AlbumForm';
 
 /**
  * COMPONENT
@@ -40,6 +41,8 @@ class Routes extends Component {
             <Route exact path="/users" component={UserData} />
             <Route path="/profile" component={SingleUser} />
             <Route exact path="/users/:userId" component={SingleMemberView} />
+            <Route path='/new-album' component={AlbumForm} />
+
           </div>
         ) : (
           <Switch>

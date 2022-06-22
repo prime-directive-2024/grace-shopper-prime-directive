@@ -93,7 +93,7 @@ router.post('/new-album', requireToken, isAdmin, async (req, res, next) => {
     });
     const album = await Album.create({
       title: req.body.title,
-      price: req.body.price,
+      price: req.body.price || 420,
       img_url:
         req.body.img_url ||
         'https://www.hidethepainharold.com/assets/references/thumb/05.jpg',

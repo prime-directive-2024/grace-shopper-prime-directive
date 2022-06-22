@@ -37,7 +37,7 @@ export default function SingleMemberView(props) {
   const emailStatus = user.email || 'no email';
   return (
     <div>
-      <h2>EDIT MEMBER</h2>
+      <h2>EDIT MEMBER ID# {user.id}</h2>
 
       <p>
         User Name:{' '}
@@ -47,12 +47,10 @@ export default function SingleMemberView(props) {
             name="username"
             value={profileForm.username}
             onChange={handleChange}
-            placeholder={profileForm.username}
+            placeholder="Enter new name here"
           />
-        ) : profileForm.username ? (
-          profileForm.username
         ) : (
-          user.username
+          ''
         )}
       </p>
       <button
@@ -73,12 +71,10 @@ export default function SingleMemberView(props) {
             name="email"
             value={profileForm.email}
             onChange={handleChange}
-            placeholder={profileForm.email}
+            placeholder="Enter new email address"
           />
-        ) : profileForm.email ? (
-          profileForm.email
         ) : (
-          emailStatus
+          ''
         )}
       </p>
       <button

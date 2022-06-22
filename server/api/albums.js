@@ -83,3 +83,31 @@ router.get('/', async (req, res, next) => {
     next(err);
   }
 });
+
+router.post('/new-album', requireToken, isAdmin, async (req, res, next) => {
+  try {
+    const artist = await Artist.findOrCreate({
+      where: {
+        name: req.body.artist || 'Artist Unknown',
+      },
+    });
+    const album = await Album.create({
+      title: req.body.title,
+      price: req.body.price,
+      img_url:
+        req.body.img_url ||
+        'https://www.hidethepainharold.com/assets/references/thumb/05.jpg',
+      genre: req.body.genre || 'Rock',
+    });
+    // album.addArtist(id);
+    console.log(artist);
+    await artist[0].addAlbum(album);
+    res.sendStatus(201);
+  } catch (err) {
+    if (err.name === 'SequelizeUniqueConstraintError') {
+      res.status(401).send('Album already exists');
+    } else {
+      next(err);
+    }
+  }
+});

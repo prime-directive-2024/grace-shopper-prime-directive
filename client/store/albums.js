@@ -22,6 +22,18 @@ export const getAllAlbums = () => {
     }
   };
 };
+export const AddAlbum = (album) => {
+  return async () => {
+    try {
+      const token = window.localStorage.getItem('token');
+      await axios.post('/api/albums/new-album', album, {
+        headers: { authorization: token },
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  };
+};
 
 const initialState = [];
 

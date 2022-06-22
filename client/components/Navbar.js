@@ -8,9 +8,9 @@ import { logout } from '../store';
 
 const Navbar = ({ handleClick, isLoggedIn, userName, adminStatus }) => {
   return (
-    <div className="navBar">
-      <Link to="/home">
-        <img src="logo.png" className="nav__logo" alt="jamazon logo" />
+    <div className='navBar'>
+      <Link to='/home'>
+        <img src='logo.png' className='nav__logo' alt='jamazon logo' />
       </Link>
       <nav>
         {isLoggedIn ? (
@@ -19,25 +19,25 @@ const Navbar = ({ handleClick, isLoggedIn, userName, adminStatus }) => {
             {/* <Link to="/home" className="navBar__link">
               Home
             </Link> */}
-            <a href="#" className="navBar__link" onClick={handleClick}>
+            <a href='#' className='navBar__link' onClick={handleClick}>
               Logout
             </a>
-            <Link to="/orders" className="navBar__link">
+            <Link to='/orders' className='navBar__link'>
               Orders
             </Link>
-            <Link to="/cart" className="navBar__link">
+            <Link to='/cart' className='navBar__link'>
               Cart
             </Link>
             {adminStatus ? (
-              <Link to="/users" className="navBar__link">
+              <Link to='/users' className='navBar__link'>
                 Users
               </Link>
             ) : (
               <></>
             )}
             <Link
-              to="/profile"
-              className="navBar__link"
+              to='/profile'
+              className='navBar__link'
             >{`${userName}'s profile`}</Link>
           </div>
         ) : (
@@ -46,13 +46,13 @@ const Navbar = ({ handleClick, isLoggedIn, userName, adminStatus }) => {
             {/* <Link to="/home" className="navBar__link">
               Home
             </Link> */}
-            <Link to="/login" className="navBar__link">
+            <Link to='/login' className='navBar__link'>
               Login
             </Link>
-            <Link to="/signup" className="navBar__link">
+            <Link to='/signup' className='navBar__link'>
               Sign Up
             </Link>
-            <Link to="/cart" className="navBar__link">
+            <Link to='/cart' className='navBar__link'>
               Cart
             </Link>
           </div>

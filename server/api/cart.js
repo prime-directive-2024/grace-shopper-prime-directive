@@ -39,8 +39,10 @@ router.post('/add', requireToken, async (req, res, next) => {
     const qty = req.body.albumCart.quantity;
     const albumId = req.body.id;
     const userId = req.user.id;
+    console.log(req.body);
     const cart = await Cart.findAll({ where: { userId: userId } });
     const item = await cart[0].addAlbum(albumId);
+    console.log(item);
     await item[0].update({ price: price, quantity: qty });
     res.sendStatus(200);
   } catch (error) {
@@ -49,18 +51,17 @@ router.post('/add', requireToken, async (req, res, next) => {
 });
 router.put('/update', requireToken, async (req, res, next) => {
   try {
+    console.log('UPDATE ROUTE', req.body);
     const qty = req.body.albumCart.quantity;
     const AlbumId = req.body.id;
     // vvvv This is a tempory security measure. It currently works because every user only has 1 cart, in the future when we implement a buy now feature this will have to change.
     const cartId = req.user.id;
-
     const cartItem = await AlbumCart.findAll({
       where: {
         cartId: cartId,
         AlbumId: AlbumId,
       },
     });
-
     if (cartItem) {
       await cartItem[0].update({ quantity: qty });
 

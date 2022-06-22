@@ -1,6 +1,7 @@
 /** @format */
 
 import axios from 'axios';
+import { useDispatch } from 'react-redux';
 import history from '../history';
 import { addItemToCart } from './cart';
 
@@ -15,7 +16,6 @@ const SET_AUTH = 'SET_AUTH';
  * ACTION CREATORS
  */
 const setAuth = (auth) => ({ type: SET_AUTH, auth });
-
 /**
  * THUNK CREATORS
  */
@@ -27,6 +27,15 @@ export const me = (cart) => async (dispatch) => {
         authorization: token,
       },
     });
+    if (cart) {
+      for (let i = 0; i < cart.length; i++) {
+        console.log(cart[i]);
+        dispatch(addItemToCart(cart[i]));
+      }
+      console.log(addItemToCart);
+      window.localStorage.removeItem('cart');
+      window.localStorage.setItem('cart', JSON.stringify([]));
+    }
 
     return dispatch(setAuth(res.data));
   }

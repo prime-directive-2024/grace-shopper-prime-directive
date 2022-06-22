@@ -1,3 +1,5 @@
+/** @format */
+
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getUser, updateUser } from '../store/singleUser';
@@ -40,8 +42,8 @@ export default function SingleUser() {
         User Name:{' '}
         {profileForm.editingUsername ? (
           <input
-            type="text"
-            name="username"
+            type='text'
+            name='username'
             value={profileForm.username}
             onChange={handleChange}
             placeholder={profileForm.username}
@@ -67,7 +69,7 @@ export default function SingleUser() {
         E-mail:{' '}
         {profileForm.editingEmail ? (
           <input
-            name="email"
+            name='email'
             value={profileForm.email}
             onChange={handleChange}
             placeholder={profileForm.email}
@@ -90,7 +92,7 @@ export default function SingleUser() {
         edit
       </button>
       <p>Account Type: {user.isAdmin ? 'Admin' : 'Customer'}</p>
-      <button onClick={handleSubmit} type="submit">
+      <button onClick={handleSubmit} type='submit'>
         Submit
       </button>
     </div>

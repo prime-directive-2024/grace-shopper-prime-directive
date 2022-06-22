@@ -1,10 +1,13 @@
+/** @format */
+
 import axios from 'axios';
 
 //action
 const GET_USER = 'GET_USER';
-
+const CLEAR_USER = 'CLEAR_USER';
 //creator
 const gotUser = (user) => ({ type: GET_USER, user });
+export const removeUser = (user) => ({ type: CLEAR_USER, user });
 
 //thunk
 export const getUser = () => {
@@ -42,6 +45,8 @@ export const updateUser = (user) => {
 const initialState = {};
 export default function singleUser(state = initialState, action) {
   switch (action.type) {
+    case CLEAR_USER:
+      return {};
     case GET_USER:
       return action.user;
     default:

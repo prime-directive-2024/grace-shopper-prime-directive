@@ -59,6 +59,7 @@ export default function SingleUser() {
           setProfileForm({
             ...profileForm,
             username: user.username,
+            email: user.email,
             editingUsername: !profileForm.editingUsername,
           })
         }
@@ -84,6 +85,7 @@ export default function SingleUser() {
         onClick={() =>
           setProfileForm({
             ...profileForm,
+            username: user.username,
             email: user.email,
             editingEmail: !profileForm.editingEmail,
           })

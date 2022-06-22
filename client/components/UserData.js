@@ -2,6 +2,8 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { isAdminCheck } from '../store/userData';
 import { useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import SingleMemberView from './SingleMemberView';
 
 export default function UserData() {
   const users = useSelector((state) => state.users || []);
@@ -27,7 +29,15 @@ export default function UserData() {
       <h1>Super Secret User Data NO HACKING ALLOWED</h1>
       <ul>
         {users.map((user) => (
-          <li key={user.id}>{user.username}</li>
+          <Link
+            key={user.id}
+            to={{
+              pathname: `/users/${user.id}`,
+              user,
+            }}
+          >
+            <li>{user.username}</li>
+          </Link>
         ))}
       </ul>
     </div>

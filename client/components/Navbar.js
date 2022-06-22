@@ -4,6 +4,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { logout } from '../store';
+import { removeUser } from '../store/singleUser';
 // import logo from '../../public/logo.png';
 
 const Navbar = ({ handleClick, isLoggedIn, userName, adminStatus }) => {
@@ -76,6 +77,7 @@ const mapState = (state) => {
 const mapDispatch = (dispatch) => {
   return {
     handleClick() {
+      dispatch(removeUser());
       dispatch(logout());
     },
   };

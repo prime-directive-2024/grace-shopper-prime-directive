@@ -354,12 +354,9 @@ async function seed() {
       const album = await Album.create({
         title: `${names[i]}'s Album`,
         price: Math.ceil((i + 1) * 2 * 100),
-        genre: genre[genreNum],
+        genre: genre[parseInt(i % 8)],
       });
-      genreNum++;
-      if (genreNum > 8) {
-        genreNum = 0;
-      }
+
       await artist.addAlbum(album);
       const numberOfSongs = 10;
       for (let j = 0; j < numberOfSongs; j++) {

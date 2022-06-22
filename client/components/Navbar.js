@@ -4,15 +4,14 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { logout } from '../store';
+// import logo from '../../public/logo.png';
 
 const Navbar = ({ handleClick, isLoggedIn, userName, adminStatus }) => {
   return (
     <div className="navBar">
-      <img
-        src="https://i.ibb.co/ns1zQht/logo.png"
-        className="nav__logo"
-        alt="jamazon logo"
-      />
+      <Link to="/home">
+        <img src="logo.png" className="nav__logo" alt="jamazon logo" />
+      </Link>
       <nav>
         {isLoggedIn ? (
           <div>

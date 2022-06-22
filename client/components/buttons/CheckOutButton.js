@@ -35,7 +35,7 @@ const CheckOutButton = (props) => {
   }
 
   return (
-    <div>
+    <div style={{ marginLeft: '20px' }}>
       {isLoading ? (
         <img
           className="loading"

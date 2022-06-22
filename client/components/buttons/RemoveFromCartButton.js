@@ -12,6 +12,7 @@ export default function RemoveFromCartButton(props) {
   };
   return (
     <button
+      className="removeFromCartButton"
       onClick={() => {
         handleDelete();
       }}

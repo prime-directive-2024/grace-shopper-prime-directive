@@ -42,8 +42,9 @@ form div {
   top: 0;
 }
 .nav__logo {
-  width: 150px;
-  margin: 0 5px;
+  width: 193px;
+  left: -20px;
+  height: 100%;
 }
 .navBar__link {
   color: antiquewhite;
@@ -71,11 +72,10 @@ form div {
   margin: 20px;
   text-align: center;
   padding: 1%;
-  /* width: 500px;
-
-  border-style: solid;
+  /* width: 500px; */
+  border-style: dotted;
   border-width: 20px;
-  border: #181a1b; */
+  border: #181a1b;
 }
 
 /* all albums view */
@@ -109,6 +109,10 @@ form div {
   height: 100%;
 }
 
+
+.removeFromCartButton {
+  margin-left: 10%;
+  
 /* filters */
 .filters-container {
   display: flex;

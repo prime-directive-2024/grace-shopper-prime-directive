@@ -9,6 +9,7 @@ import {
   getSingleAlbum,
   updateSingleAlbum,
 } from '../store/singleAlbum';
+import AddToCartButton from './buttons/AddToCartButton';
 
 const SingleAlbumView = (props) => {
   const album = useSelector((state) => state.singleAlbum || {});
@@ -139,6 +140,7 @@ const SingleAlbumView = (props) => {
           Edit Album
         </button>
       )}
+      <AddToCartButton userId={props.state} album={album} />
     </div>
   );
 };

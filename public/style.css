@@ -109,10 +109,9 @@ form div {
   height: 100%;
 }
 
-
 .removeFromCartButton {
   margin-left: 10%;
-  
+}
 /* filters */
 .filters-container {
   display: flex;

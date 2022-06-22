@@ -40,6 +40,7 @@ class AlbumView extends React.Component {
     console.log(this.state);
     this.setState({
       ...this.state,
+      currentPage: 1,
       [evt.target.name]: value,
     });
   }

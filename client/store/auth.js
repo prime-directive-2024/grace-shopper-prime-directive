@@ -3,7 +3,7 @@
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import history from '../history';
-import { addItemToCart } from './cart';
+import { addItemToCart, deleteCart } from './cart';
 
 const TOKEN = 'token';
 
@@ -28,6 +28,7 @@ export const me = (cart) => async (dispatch) => {
       },
     });
     if (cart) {
+      dispatch(deleteCart());
       for (let i = 0; i < cart.length; i++) {
         console.log(cart[i]);
         dispatch(addItemToCart(cart[i]));

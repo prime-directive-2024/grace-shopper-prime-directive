@@ -2,10 +2,11 @@ import axios from 'axios';
 
 //action
 const GET_USER = 'GET_USER';
+const UPDATE_MEMBER = 'UPDATE_MEMBER';
 
 //creator
 const gotUser = (user) => ({ type: GET_USER, user });
-
+const updateMemberState = (member) => ({ type: UPDATE_MEMBER, member });
 //thunk
 export const getUser = () => {
   return async (dispatch) => {
@@ -39,11 +40,29 @@ export const updateUser = (user) => {
   };
 };
 
+export const updateMember = (member) => {
+  return async (dispatch) => {
+    try {
+      const token = window.localStorage.getItem('token');
+      const { data } = await axios.put('/api/singleUser/edit', member, {
+        headers: {
+          authorization: token,
+        },
+      });
+      dispatch(updateMemberState(member));
+    } catch (error) {
+      console.error(error);
+    }
+  };
+};
+
 const initialState = {};
 export default function singleUser(state = initialState, action) {
   switch (action.type) {
     case GET_USER:
       return action.user;
+    case UPDATE_MEMBER:
+      return action.member;
     default:
       return state;
   }

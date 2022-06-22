@@ -36,3 +36,21 @@ router.put('/my-profile/edit', requireToken, async (req, res, next) => {
     next(error);
   }
 });
+
+router.put(
+  '/singleUser/edit',
+  requireToken,
+  isAdmin,
+  async (req, res, next) => {
+    try {
+      const user = await User.findByPk(req.body.userId);
+      const updated = await user.update({
+        username: req.body.username,
+        email: req.body.email,
+      });
+      res.send(updated);
+    } catch (error) {
+      next(error);
+    }
+  }
+);

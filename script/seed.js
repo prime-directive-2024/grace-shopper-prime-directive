@@ -202,8 +202,8 @@ const genre = [
   'Pop',
 ];
 const userNames = [
-  'GUEST',
-  'cody',
+  // 'GUEST',
+  // 'cody',
   'murphy',
   'Samuel',
   'Ethan',
@@ -342,6 +342,16 @@ async function seed() {
   console.log('db synced!');
 
   const users = [];
+  const guest = await User.create({ username: 'GUEST', password: '123' });
+
+  const cody = await User.create({
+    username: 'cody',
+    password: '123',
+    isAdmin: true,
+  });
+
+  users.push(guest);
+  users.push(cody);
   for (let i = 0; i < userNames.length; i++) {
     const user = await User.create({ username: userNames[i], password: '123' });
     users.push(user);

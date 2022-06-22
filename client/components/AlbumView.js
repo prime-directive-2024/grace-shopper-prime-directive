@@ -21,6 +21,7 @@ class AlbumView extends React.Component {
       techno: true,
       country: true,
       pop: true,
+      showFilter: false,
     };
     this.handleChange = this.handleChange.bind(this);
   }
@@ -87,64 +88,94 @@ class AlbumView extends React.Component {
     const currentAlbums = albums.slice(indexOfFirstPost, indexOfLastPost);
     return (
       <div>
-        <div>
-          <label>Rock</label>
-          <input
-            value={!this.state.rock}
-            type='checkbox'
-            name={'rock'}
-            onChange={this.handleChange}
-          />
-          <label>Jazz</label>
-          <input
-            value={!this.state.jazz}
-            type='checkbox'
-            name={'jazz'}
-            onChange={this.handleChange}
-          />
-          <label>Dubstep</label>
-          <input
-            value={!this.state.dubstep}
-            type='checkbox'
-            name={'dubstep'}
-            onChange={this.handleChange}
-          />
-          <label>EDM</label>
-          <input
-            value={!this.state.edm}
-            type='checkbox'
-            name={'edm'}
-            onChange={this.handleChange}
-          />
-          <label>Techno</label>
-          <input
-            value={!this.state.techno}
-            type='checkbox'
-            name={'techno'}
-            onChange={this.handleChange}
-          />
-          <label>Country</label>
-          <input
-            value={!this.state.country}
-            type='checkbox'
-            name={'country'}
-            onChange={this.handleChange}
-          />
-          <label>Pop</label>
-          <input
-            value={!this.state.pop}
-            type='checkbox'
-            name={'pop'}
-            onChange={this.handleChange}
-          />
-          <label>R{'&'}B</label>
-          <input
-            value={!this.state.rb}
-            type='checkbox'
-            name={'rb'}
-            onChange={this.handleChange}
-          />
-        </div>
+        <button
+          onClick={() =>
+            this.setState({
+              ...this.state,
+              showFilter: !this.state.showFilter,
+            })
+          }
+        >
+          {this.state.showFilter ? 'Filter ^' : 'Filter v'}
+        </button>
+        {this.state.showFilter ? (
+          <div className='filters-container'>
+            <div className='filters-inner-container'>
+              <label>Rock</label>
+              <input
+                value={!this.state.rock}
+                type='checkbox'
+                name={'rock'}
+                onChange={this.handleChange}
+              />
+            </div>
+            <div className='filters-inner-container'>
+              <label>Jazz</label>
+              <input
+                value={!this.state.jazz}
+                type='checkbox'
+                name={'jazz'}
+                onChange={this.handleChange}
+              />
+            </div>
+            <div className='filters-inner-container'>
+              <label>Dubstep</label>
+              <input
+                value={!this.state.dubstep}
+                type='checkbox'
+                name={'dubstep'}
+                onChange={this.handleChange}
+              />
+            </div>
+            <div className='filters-inner-container'>
+              <label>EDM</label>
+              <input
+                value={!this.state.edm}
+                type='checkbox'
+                name={'edm'}
+                onChange={this.handleChange}
+              />
+            </div>
+            <div className='filters-inner-container'>
+              <label>Techno</label>
+              <input
+                value={!this.state.techno}
+                type='checkbox'
+                name={'techno'}
+                onChange={this.handleChange}
+              />
+            </div>
+            <div className='filters-inner-container'>
+              <label>Country</label>
+              <input
+                value={!this.state.country}
+                type='checkbox'
+                name={'country'}
+                onChange={this.handleChange}
+              />
+            </div>
+            <div className='filters-inner-container'>
+              <label>Pop</label>
+              <input
+                value={!this.state.pop}
+                type='checkbox'
+                name={'pop'}
+                onChange={this.handleChange}
+              />
+            </div>
+            <div className='filters-inner-container'>
+              <label>R{'&'}B</label>
+              <input
+                value={!this.state.rb}
+                type='checkbox'
+                name={'rb'}
+                onChange={this.handleChange}
+              />
+            </div>
+          </div>
+        ) : (
+          <></>
+        )}
         <div className='allAlbums'>
           <AlbumList
             currentAlbums={currentAlbums}

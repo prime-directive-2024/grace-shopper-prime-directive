@@ -12,6 +12,7 @@ import {
 
 const SingleAlbumView = (props) => {
   const album = useSelector((state) => state.singleAlbum || {});
+  const isAdmin = useSelector((state) => state.auth.isAdmin);
   const dispatch = useDispatch();
   const [albumForm, setAlbumForm] = useState({
     id: album.id,
@@ -48,96 +49,114 @@ const SingleAlbumView = (props) => {
 
   return (
     <div>
-      <h1>
-        Title:
-        {albumForm.editing ? (
-          <input
-            type='text'
-            name='title'
-            value={albumForm.title}
-            onChange={handleChange}
-            placeholder={albumForm.title}
-          />
-        ) : (
-          album.title
-        )}
-      </h1>
+      {isAdmin ? (
+        <div>
+          <h1>
+            Title:
+            {albumForm.editing ? (
+              <input
+                type="text"
+                name="title"
+                value={albumForm.title}
+                onChange={handleChange}
+                placeholder={albumForm.title}
+              />
+            ) : (
+              album.title
+            )}
+          </h1>
 
-      <h2>
-        $
-        {albumForm.editing ? (
-          <input
-            type='text'
-            name='price'
-            value={albumForm.price}
-            onChange={handleChange}
-            placeholder={albumForm.price}
-          />
-        ) : (
-          parseInt(album.price) * 0.01
-        )}
-      </h2>
-      <h2>
-        Genre:{' '}
-        {albumForm.editing ? (
-          <input
-            type='text'
-            name='genre'
-            value={albumForm.genre}
-            onChange={handleChange}
-            placeholder={albumForm.genre}
-          />
-        ) : (
-          album.genre
-        )}
-      </h2>
-      {albumForm.editing ? (
-        <>
-          <label>Enter image url here: </label>
-          <input
-            type='text'
-            name='img'
-            value={albumForm.img}
-            onChange={handleChange}
-            placeholder={albumForm.img}
-          />
-        </>
-      ) : (
-        <img src={album.img_url} />
-      )}
-      <div>
-        {songs.map((song) => (
-          <div key={song.id}>
-            <div key={song.id}>{song.title}</div>
-            {albumForm.editing ? <button>Delete song</button> : <></>}
+          <h2>
+            $
+            {albumForm.editing ? (
+              <input
+                type="text"
+                name="price"
+                value={albumForm.price}
+                onChange={handleChange}
+                placeholder={albumForm.price}
+              />
+            ) : (
+              album.price
+            )}
+          </h2>
+          <h2>
+            Genre:{' '}
+            {albumForm.editing ? (
+              <input
+                type="text"
+                name="genre"
+                value={albumForm.genre}
+                onChange={handleChange}
+                placeholder={albumForm.genre}
+              />
+            ) : (
+              album.genre
+            )}
+          </h2>
+          {albumForm.editing ? (
+            <>
+              <label>Enter image url here: </label>
+              <input
+                type="text"
+                name="img"
+                value={albumForm.img}
+                onChange={handleChange}
+                placeholder={albumForm.img}
+              />
+            </>
+          ) : (
+            <img src={album.img_url} />
+          )}
+          <div>
+            {songs.map((song) => (
+              <div key={song.id}>
+                <div key={song.id}>{song.title}</div>
+                {albumForm.editing ? <button>Delete song</button> : <></>}
+              </div>
+            ))}
+            {albumForm.editing ? <button>Add song</button> : <></>}
           </div>
-        ))}
-        {albumForm.editing ? <button>Add song</button> : <></>}
-      </div>
-      <button
-        className='buttonSpacing'
-        onClick={() => dispatch(deleteSingleAlbum(props.match.params.id))}
-      >
-        Delete
-      </button>
-      {albumForm.editing ? (
-        <button onClick={() => handleSubmit()}>Save Changes</button>
+          <button
+            className="buttonSpacing"
+            onClick={() => dispatch(deleteSingleAlbum(props.match.params.id))}
+          >
+            Delete
+          </button>
+          {albumForm.editing ? (
+            <button onClick={() => handleSubmit()}>Save Changes</button>
+          ) : (
+            <button
+              className="buttonSpacing"
+              onClick={() =>
+                setAlbumForm({
+                  id: album.id,
+                  title: album.title,
+                  price: album.price,
+                  img: album.img_url,
+                  genre: album.genre,
+                  editing: !albumForm.editing,
+                })
+              }
+            >
+              Edit Album
+            </button>
+          )}
+        </div>
       ) : (
-        <button
-          className='buttonSpacing'
-          onClick={() =>
-            setAlbumForm({
-              id: album.id,
-              title: album.title,
-              price: album.price,
-              img: album.img_url,
-              genre: album.genre,
-              editing: !albumForm.editing,
-            })
-          }
-        >
-          Edit Album
-        </button>
+        <div>
+          <h1>Title: {album.title}</h1>
+          <h2>${album.price}</h2>
+          <h2>Genre: {album.genre}</h2>
+          <img src={album.img_url} />
+          <div>
+            {songs.map((song) => (
+              <div key={song.id}>
+                <div key={song.id}>{song.title}</div>
+              </div>
+            ))}
+          </div>
+        </div>
       )}
     </div>
   );

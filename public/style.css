@@ -41,14 +41,29 @@ form div {
   position: sticky;
   top: 0;
 }
+
 .nav__logo {
   width: 193px;
   left: -20px;
   height: 100%;
 }
 .navBar__link {
+  /* display: flex; */
+  /* flex-direction: column; */
+  padding: 20px;
+  margin: 0;
+  /* border: 1px solid lightcoral; */
+  /* background-color: lightgray; */
   color: antiquewhite;
 }
+
+.navBar__link:hover {
+  border-bottom: 6px solid rgb(201, 219, 237);
+
+  background-color: #232628;
+  padding-bottom: 15px;
+}
+
 /*  */
 .mainPage {
   margin-top: 10px;

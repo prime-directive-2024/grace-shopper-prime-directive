@@ -56,6 +56,10 @@ class Cart extends React.Component {
                 Total Price ${parseInt(totalPrice) * 0.01}
               </div>
               <CheckOutButton userId={user.id} total={totalPrice} />
+              <div style={{ marginLeft: '20px' }}>
+                Total Price ${parseInt(totalPrice) * 0.01}
+              </div>
+
               {this.props.auth.id ? (
                 <ClearCartButton
                   cartId={this.props.basket[0].albumCart.cartId}
